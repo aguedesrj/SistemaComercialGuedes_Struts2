@@ -35,6 +35,7 @@
 	<script src="../static-guedes/js/jquery/jquery.limit-1.2.source.js"></script>
 	<script src="../static-guedes/js/jquery/jquery.alphanumeric.js"></script>
 	<script src="../static-guedes/js/jquery/jquery.maskMoney.js"></script>	
+	<script src="../static-guedes/js/angular-min.js"></script>
 	<script src="../static-guedes/js/util.js"></script>
 	
 	<!-- JavaScript - jquery.jqGrid-4.5.2 -->
