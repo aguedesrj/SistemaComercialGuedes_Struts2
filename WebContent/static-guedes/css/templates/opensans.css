@@ -1,0 +1,11 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@font-face {
+	font-family: 'OpenSansCondensedLight';
+	src: url('opensans-condlight-webfont.eot?#iefix') format('embedded-opentype'), 
+		 url('opensans-condlight-webfont.woff') format('woff'),
+		 url('opensans-condlight-webfont.ttf') format('truetype'),
+		 url('opensans-condlight-webfont.svg#OpenSansCondensedLight') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}

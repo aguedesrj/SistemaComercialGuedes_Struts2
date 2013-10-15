@@ -1,0 +1,57 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+@import url(../warp/css/system.css);
+@import url(../warp/systems/joomla/css/system.css);
+@import url(system-all.css);
+
+
+/* Items (Addition)
+----------------------------------------------------------------------------------------------------*/
+	 
+	#system .items .leading .item {
+		padding-bottom: 12px;
+		margin-bottom: 18px;
+	}
+
+	#system .items > .width33 .title{
+		font-size: 22px;
+	}
+
+
+/* Item List
+----------------------------------------------------------------------------------------------------*/
+
+	#system .item-list { border-top: 1px solid #ddd; }
+	#system .item > .links a {
+	margin-right: 9px;
+	}
+
+/* Search
+----------------------------------------------------------------------------------------------------*/
+
+	#system span.highlight { background-color: #ffffaa; }
+
+
+/* Submission form
+----------------------------------------------------------------------------------------------------*/
+	#system form.submission div.submit{text-align: right; margin-right: 26px;}
+	#system form.submission fieldset > div > label:first-child{width: 160px;}
+	#system form.submission fieldset > div > textarea{width: 234px; height: 100px;}
+	#system form.submission fieldset > div {overflow: visible;}
+	#system form.submission.small fieldset > div {
+	margin: 10px 0;
+	}
+
+	#jform_spacer-lbl{display: none;}
+
+	/*filters*/
+	#system .filter{overflow: visible;}
+	#system .filter > div{
+		margin: 0 10px 10px 0;
+	}
+
+	#system .filter .jqTransformSelectWrapper {
+	 	float: none;
+	    margin-left: 70px;
+	    margin-top: -27px;
+	}
