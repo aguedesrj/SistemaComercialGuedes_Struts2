@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="../static-guedes/js/jquery/development-bundle/demos/demos.css">
 	<link rel="stylesheet" href="../static-guedes/css/ui.panel.css">
 	<link rel="stylesheet" href="../static-guedes/css/principal.css">	
-</head>
+</head> 
 <body>
 	<s:if test="hasActionMessages()">
 		<div id="divMensagemSucesso" class="ui-widget" style="width: 500px;">
