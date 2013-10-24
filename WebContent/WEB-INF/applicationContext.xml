@@ -14,6 +14,8 @@
 
 	<context:component-scan base-package="br.com.sistemacomercial.guedes"/>
 
+https://forum.hibernate.org/viewtopic.php?p=2429165
+	
 	<!-- Activates scanning of @Autowired -->
 	<context:annotation-config/>	
 	

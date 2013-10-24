@@ -1,6 +1,7 @@
 package br.com.guedes.sistemacomercial.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Component;
 @SequenceGenerator(name="SEQUENCE_PERFIL", sequenceName = "GEN_TBL_PERFIL_ID", allocationSize=1)
 public class Perfil implements Serializable {
 
-	private static final long serialVersionUID = 6645656494101056564L;
+	private static final long serialVersionUID = 7878383982954619343L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE_PERFIL")
@@ -27,6 +29,9 @@ public class Perfil implements Serializable {
 	
 	@Column(name="PER_NOME", length=80, nullable=false)
 	private String perNome;
+	
+	@Transient
+	private List<PerfilFuncionalidade> listaPerfilFuncionalidade;
 
 	public Integer getPerCodigo() {
 		return perCodigo;
@@ -42,5 +47,14 @@ public class Perfil implements Serializable {
 
 	public void setPerNome(String perNome) {
 		this.perNome = perNome;
+	}
+
+	public List<PerfilFuncionalidade> getListaPerfilFuncionalidade() {
+		return listaPerfilFuncionalidade;
+	}
+
+	public void setListaPerfilFuncionalidade(
+			List<PerfilFuncionalidade> listaPerfilFuncionalidade) {
+		this.listaPerfilFuncionalidade = listaPerfilFuncionalidade;
 	}
 }
