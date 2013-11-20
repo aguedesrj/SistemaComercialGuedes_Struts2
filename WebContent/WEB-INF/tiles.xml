@@ -47,6 +47,9 @@
    	<definition name="home.usuario" extends="template.index">
         <put-attribute name="conteudo" value="/WEB-INF/jsp/usuario/homeUsuario.jsp"/>
     </definition>
+   	<definition name="manutencao.perfil.usuario" extends="template.index">
+        <put-attribute name="conteudo" value="/WEB-INF/jsp/usuario/manutencaoPerfil.jsp"/>
+    </definition>    
     
     <!-- Produto -->
     <definition name="inicio.cadastro.produto" extends="template.index">

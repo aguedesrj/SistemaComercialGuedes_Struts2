@@ -1,25 +1,24 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<s:if test="hasActionMessages()">
-	<div id="divMensagemSucesso" class="ui-widget" style="width: 500px;">
-		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
-			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-			<s:actionmessage/></p>
-		</div>
-	</div>	
-</s:if>
-<div id="divMensagemSucesso" class="ui-state-highlight ui-corner-all" style="display: none;">
-	<div style="padding: 0.4em;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<span id="spanMsgSuccess"></span></p>
-	</div>
-</div>
-<div id="divMensagemErro" class="ui-state-highlight ui-corner-all" style="display: none;">
-	<div style="padding: 0.4em;">
-		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-		<span id="spanMsgError"></span></p>
-	</div>
-</div>
-<div id="loading" align="center" style="visibility: hidden; margin-top: 30px;">
-	<img alt="" src="../static-guedes/img/loading.gif">
+<!-- Mensagem ao Usuário. -->
+<div class="container" style="width: 500px; margin-top: 10px; height: 25px;">
+	<s:if test="hasActionMessages()">
+		<div class="alert alert-success">
+        	<s:actionmessage/>
+      	</div>		
+	</s:if>
+	<s:if test="hasActionErrors()">
+		<div class="alert alert-danger">
+        	<s:actionerror/>
+      	</div>		
+	</s:if>	
+	<div id="divMensagemSucesso" class="alert alert-success" style="display: none;">
+       	<span id="spanMsgSuccess"></span>
+     	</div>
+	<div id="divMensagemErro" class="alert alert-danger" style="display: none;">
+		<span id="spanMsgError"></span>
+   	</div>
+   	<div id="loading" align="center" style="display: none;">
+   		<img alt="" src="../resources/img/loading.gif">
+   	</div>
 </div>

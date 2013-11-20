@@ -3,6 +3,7 @@ package br.com.guedes.sistemacomercial.facade;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.guedes.sistemacomercial.dao.UsuarioDao;
 import br.com.guedes.sistemacomercial.model.Funcionalidade;
 import br.com.guedes.sistemacomercial.model.Perfil;
+import br.com.guedes.sistemacomercial.model.PerfilFuncionalidade;
 import br.com.guedes.sistemacomercial.model.Usuario;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.IntegrationException;
@@ -20,8 +22,11 @@ import br.com.guedes.sistemacomercial.util.IntegrationException;
 @Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
 public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFacade {
 
-	@Autowired(required=true)
+	@Autowired
 	private UsuarioDao usuarioDao;
+	
+	@Autowired  
+    private SessionFactory sessionFactory;	
 	
 	/*
 	 * (non-Javadoc)
@@ -35,9 +40,13 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	 * (non-Javadoc)
 	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#salvarPerfil(br.com.guedes.sistemacomercial.model.Perfil)
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = IntegrationException.class)
 	public void salvarPerfil(final Perfil perfil) throws IntegrationException {
 		try {
-			getHibernateTemplate().saveOrUpdate(perfil);
+			sessionFactory.getCurrentSession().saveOrUpdate(perfil);
+			for (PerfilFuncionalidade perfilFuncionalidade: perfil.getListaPerfilFuncionalidade()) {
+				sessionFactory.getCurrentSession().saveOrUpdate(perfilFuncionalidade);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IntegrationException("Não foi possível salvar o Perfil.");
@@ -62,6 +71,7 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	 * (non-Javadoc)
 	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#deletarPerfil(br.com.guedes.sistemacomercial.model.Perfil)
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = IntegrationException.class)
 	public void deletarPerfil(final Perfil perfil) throws BusinessException, IntegrationException {
 		try {
 			getHibernateTemplate().delete(perfil);

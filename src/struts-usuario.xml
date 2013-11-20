@@ -6,25 +6,54 @@
 <struts>
 
     <package name="Usuario" namespace="/Usuario" extends="default, json-default">
+        
 		<result-types>
     		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
     	</result-types> 
-    	<default-interceptor-ref name="stackSistemaComercial"/>
     	
-		<action name="ExibeTelaLogin" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirTelaLogin">
+		<action name="EfetuaLogin" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirTelaLogin">
             <result name="success">/login.jsp</result>
         </action>
         
         <action name="Login" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="efetuarLogin">
-            <result name="success" type="json"/>
-            <result name="error" type="json"/>
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaFuncionalidade,listaPerfil,perNome,perfisSelecionados,usuario
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaFuncionalidade,listaPerfil,perNome,perfisSelecionados,usuario
+				</param>            
+            </result>            
         </action>
 
         <action name="Home" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirTelaHome">
-        	<interceptor-ref name="stackSistemaComercial"/>
             <result name="success" type="tiles">home.usuario</result>
             <result name="error">/login.jsp</result>
         </action> 
+        
+        <action name="ManutencaoPerfil" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirManutencaoPerfil">
+            <result name="success" type="tiles">manutencao.perfil.usuario</result>
+            <result name="error">/login.jsp</result>
+        </action>
+        
+        <action name="SalvaPerfil" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="salvarPerfil">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaFuncionalidade,listaPerfil
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaFuncionalidade,listaPerfil
+				</param>            
+            </result>
+        </action>        
         
         <action name="logout" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="efetuarlogout">
             <result name="success">/login.jsp</result>

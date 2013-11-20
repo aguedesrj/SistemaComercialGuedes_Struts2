@@ -14,7 +14,9 @@
 
 	<context:component-scan base-package="br.com.sistemacomercial.guedes"/>
 
+<!-- JDBC  
 https://forum.hibernate.org/viewtopic.php?p=2429165
+-->
 	
 	<!-- Activates scanning of @Autowired -->
 	<context:annotation-config/>	
@@ -31,7 +33,8 @@ https://forum.hibernate.org/viewtopic.php?p=2429165
    	
    	<!-- Bean que implementa a classe UsuarioFacadeImpl -->  
    	<bean id="usuarioFacadeImpl" class="br.com.guedes.sistemacomercial.facade.UsuarioFacadeImpl">  
-    	<property name="usuarioDao" ref="usuarioDaoImpl" />  
+    	<property name="usuarioDao" ref="usuarioDaoImpl" />
+    	<property name="sessionFactory" ref="sessionFactory" />  
    	</bean>    		
    	
    	<!-- Bean que implementa a classe ProdutoFacadeImpl -->  

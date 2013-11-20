@@ -1,13 +1,14 @@
 package br.com.guedes.sistemacomercial.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -25,8 +26,8 @@ public class Funcionalidade implements Serializable {
 	@Column(name="FUN_DESCRICAO", length=120, nullable=false)
 	private String funDescricao;
 	
-	@Transient
-	private List<AcaoFuncionalidade> listaAcaoFuncionalidade;
+	@OneToMany(mappedBy = "funcionalidade")
+	private Set<PerfilFuncionalidade> listaPerfilFuncionalidade = new HashSet<PerfilFuncionalidade>();
 
 	public Integer getFunCodigo() {
 		return funCodigo;
@@ -44,12 +45,12 @@ public class Funcionalidade implements Serializable {
 		this.funDescricao = funDescricao;
 	}
 
-	public List<AcaoFuncionalidade> getListaAcaoFuncionalidade() {
-		return listaAcaoFuncionalidade;
+	public Set<PerfilFuncionalidade> getListaPerfilFuncionalidade() {
+		return listaPerfilFuncionalidade;
 	}
 
-	public void setListaAcaoFuncionalidade(
-			List<AcaoFuncionalidade> listaAcaoFuncionalidade) {
-		this.listaAcaoFuncionalidade = listaAcaoFuncionalidade;
+	public void setListaPerfilFuncionalidade(
+			Set<PerfilFuncionalidade> listaPerfilFuncionalidade) {
+		this.listaPerfilFuncionalidade = listaPerfilFuncionalidade;
 	}
 }
