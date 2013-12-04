@@ -16,7 +16,6 @@
             <result name="error" type="tiles">error.tiles</result>
         </action>
         
-
         <action name="InicioAlteracao" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="iniciarAlteracao">
             <result name="success" type="tiles">inicio.cadastro.produto</result>
             <result name="error" type="tiles">error.tiles</result>

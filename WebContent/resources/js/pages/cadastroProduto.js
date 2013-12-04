@@ -23,45 +23,45 @@
     
     // Botão gravar Produto.
     $("#btnGravar").button().click(function() {
-            
-            // Validar campos.
-            if (isCamposFormularioValidos()) {                
-                    $.ajax({
-                            url: 'SistemaComercialGuedes/Produto/Salva',
-                            data: $('#formProduto').serialize(),
-                            type: 'POST',
-                            cache: false,
-                            dataType: "json",
-                            beforeSend: function(){
-                                    $("#loading").css("visibility", "visible");
-                            },
-                            success: function(data, status, request){
-                                    $("#loading").css("visibility", "hidden");
-                                    if (status == "success" && data.mensagemUsuario == null) {
-                                            limparCampos();
-                                            
-                                            $("#spanMsgSuccess").show().html("Produto cadastrado com sucesso!");
-                                            runEffectMsgSuccess();
-                                            
-                                            $("#proNome").focus();
-                                            $("#tabelaValores").jqGrid("clearGridData", true);
-                                            $("#proCodigo").val("");
-                                    } else {
-                                            $("#spanMsgError").show().html(data.mensagemUsuario);
-                                            runEffectMsgError();                                                
-                                    }
-                            },
-                            error: function (request, error) {
-                                    $("#loading").css("visibility", "hidden");
-                                    $("#spanMsgError").show().html("Sistema indisponível no momento.");
-                                    runEffectMsgError();                                        
-                            }
-                    });                        
-            }
+    	// Validar campos.
+        if (isCamposFormularioValidos()) {                
+        	$.ajax({
+        		url: 'SistemaComercialGuedes/Produto/Salva',
+                data: $('#formProduto').serialize(),
+                type: 'POST',
+                cache: false,
+                dataType: "json",
+                beforeSend: function(){
+					$("#loading").css("display", "block");
+					$("#divMensagemErro").css("display", "none");
+					$("#divMensagemSucesso").css("display", "none");
+                },
+                success: function(data, status, request){
+                	$("#loading").css("display", "none");
+                    if (status == "success" && data.mensagemUsuario == null) {
+                    	limparCampos();
+                    	$("#divMensagemSucesso").css("display", "block");
+                    	$("#spanMsgSuccess").show().html("Produto cadastrado com sucesso!");
+                        $("#proNome").focus();
+                        $("#tabelaValores").jqGrid("clearGridData", true);
+                    } else {
+						$("#loading").css("display", "none");
+						$("#divMensagemErro").css("display", "block");
+						$("#spanMsgError").show().html(data.mensagemUsuario);                                               
+                    }
+                },
+                error: function (request, error) {
+					$("#loading").css("display", "none");
+					$("#divMensagemErro").css("display", "block");
+					$("#spanMsgError").show().html("Sistema indisponível no momento.");                                       
+                }
+        	});                        
+        }
     }); 
     
     // Botão inserir valores ao Produto.
     $("#btnExibirInserirValor").button().click(function() {
+    	$("#vvpValorProduto").css("border", "1px solid #cccccc");
         // Limpar campos.
         $("#vrpImpostoICMS").val("");
         $("#vrpImpostoIPI").val("");
@@ -114,64 +114,62 @@
 		}		
     });
 	
-    
-    
-//    // Tabela de Valores do Produto
-//$("#tabelaValores").jqGrid({
-//             datatype: 'xmlstring',
-//             datastr : '',
-//    height: 100,
-//    colNames:['Data Cadastro','ICMS(%)','IPI(%)','ISS(%)','Valor de Venda', 'vvpCodigo'],
-//    colModel:[
-//        {name:'vvpDataCadastro',index:'vvpDataCadastro', width:120,sortable:true, key:true, classes: 'vvpDataCadastro', align:'center'},
-//        {name:'vrpImpostoICMS',index:'vrpImpostoICMS', width:110,sortable:true, key:true, classes: 'vrpImpostoICMS'},
-//        {name:'vrpImpostoIPI',index:'vrpImpostoIPI', width:110,sortable:false, key:true, classes: 'vrpImpostoIPI'},
-//        {name:'vrpImpostoISS',index:'vrpImpostoISS', width:110,sortable:false, key:true, classes: 'vrpImpostoISS'},
-//        {name:'vvpValorProduto',index:'vvpValorProduto', width:110,sortable:true, key:true, classes: 'vvpValorProduto', align:'right'},
-//        {name:'vvpCodigo',index:'vvpCodigo', width:180,sortable:true, key:true, classes: 'vvpCodigo',hidden: true}
-//    ],
-//    multiselect: false,
-//    rowNum:10,
-//    rowList:[10,20,30],
-//    sortname: 'id'
-//});
-//
-//// remover o button de felhar tabela.
-//$(".ui-jqgrid-titlebar-close").hide();
-//
-//// verifica se está em alteração do Produto.
-//    $.ajax({
-//            url: 'SistemaComercialGuedes/Produto/BuscaListaValoresProduto',
-//            data: $('#formProduto').serialize(),
-//            type: 'POST',
-//            cache: false,
-//            dataType: "json",
-//            beforeSend: function(){
-//                    $("#loading").css("visibility", "visible");
-//            },
-//            success: function(data, status, request){
-//                    $("#loading").css("visibility", "hidden");
-//                    if (status == "success" && data.mensagemUsuario == undefined && data.listaValoresProdutoVO.length > 0) {
-//                            for (var i=0; data.listaValoresProdutoVO.length > i; i++) {
-//                                    $("#tabelaValores").addRowData(data.listaValoresProdutoVO[i].vvpCodigo, {
-//                                            vvpDataCadastro: data.listaValoresProdutoVO[i].vvpDataCadastro,
-//                                            vrpImpostoICMS : data.listaValoresProdutoVO[i].vrpImpostoICMS,
-//                                            vrpImpostoIPI : data.listaValoresProdutoVO[i].vrpImpostoIPI,
-//                                            vrpImpostoISS : data.listaValoresProdutoVO[i].vrpImpostoISS,
-//                                            vvpValorProduto: data.listaValoresProdutoVO[i].vvpValorProduto
-//                                    });                                                
-//                            }
-//                    } else {
-//                            $("#spanMsgError").show().html(data.mensagemUsuario);
-//                            runEffectMsgError();                                                
-//                    }
-//            },
-//            error: function (request, error) {
-//                    $("#loading").css("visibility", "hidden");
-//                    $("#spanMsgError").show().html("Sistema indisponível no momento.");
-//                    runEffectMsgError();                                        
-//            }
-//    });            
+    // Tabela de Valores do Produto
+	$("#tabelaValores").jqGrid({
+		datatype: 'xmlstring',
+	    datastr : '',
+	    height: 100,
+	    colNames:['Data Cadastro','ICMS(%)','IPI(%)','ISS(%)','Valor de Venda', 'vvpCodigo'],
+	    colModel:[
+	        {name:'vvpDataCadastro',index:'vvpDataCadastro', width:120,sortable:true, key:true, classes: 'vvpDataCadastro', align:'center'},
+	        {name:'vrpImpostoICMS',index:'vrpImpostoICMS', width:110,sortable:true, key:true, classes: 'vrpImpostoICMS'},
+	        {name:'vrpImpostoIPI',index:'vrpImpostoIPI', width:110,sortable:false, key:true, classes: 'vrpImpostoIPI'},
+	        {name:'vrpImpostoISS',index:'vrpImpostoISS', width:110,sortable:false, key:true, classes: 'vrpImpostoISS'},
+	        {name:'vvpValorProduto',index:'vvpValorProduto', width:110,sortable:true, key:true, classes: 'vvpValorProduto', align:'right'},
+	        {name:'vvpCodigo',index:'vvpCodigo', width:180,sortable:true, key:true, classes: 'vvpCodigo',hidden: true}
+	    ],
+	    multiselect: false,
+	    rowNum:10,
+	    rowList:[10,20,30],
+	    sortname: 'id'
+	});
+
+	// remover o button de felhar tabela.
+	$(".ui-jqgrid-titlebar-close").hide();
+
+	// verifica se está em alteração do Produto.
+    $.ajax({
+    	url: 'SistemaComercialGuedes/Produto/BuscaListaValoresProduto',
+        data: $('#formProduto').serialize(),
+        type: 'POST',
+        cache: false,
+        dataType: "json",
+        beforeSend: function(){
+        	$("#loading").css("visibility", "visible");
+        },
+        success: function(data, status, request){
+        	$("#loading").css("visibility", "hidden");
+            if (status == "success" && data.mensagemUsuario == undefined && data.listaValoresProdutoVO.length > 0) {
+            	for (var i=0; data.listaValoresProdutoVO.length > i; i++) {
+            		$("#tabelaValores").addRowData(data.listaValoresProdutoVO[i].vvpCodigo, {
+            			vvpDataCadastro: data.listaValoresProdutoVO[i].vvpDataCadastro,
+                        vrpImpostoICMS : data.listaValoresProdutoVO[i].vrpImpostoICMS,
+                        vrpImpostoIPI : data.listaValoresProdutoVO[i].vrpImpostoIPI,
+                        vrpImpostoISS : data.listaValoresProdutoVO[i].vrpImpostoISS,
+                        vvpValorProduto: data.listaValoresProdutoVO[i].vvpValorProduto
+            		});                                                
+            	}
+            } else {
+            	$("#spanMsgError").show().html(data.mensagemUsuario);
+                runEffectMsgError();                                                
+            }
+        },
+        error: function (request, error) {
+        	$("#loading").css("visibility", "hidden");
+            $("#spanMsgError").show().html("Sistema indisponível no momento.");
+            runEffectMsgError();                                        
+        }
+    });            
 });
 
 function isCamposValoresValidos() {
@@ -188,10 +186,56 @@ function isCamposValoresValidos() {
 	if (vvpValorProduto.val().trim() == "" || vvpValorProduto.val().trim() == "0.00") {
 		
 		vvpValorProduto.css("border", "1px solid #ff4500");
-		$("#divMensagemErro").css("display", "block");
-		$("#spanMsgError").show().html("O(s) campo(s) em vermelho(s) é obrigatório.");	
 		return false;
 	}
 	
 	return true;
+}
+
+function isCamposFormularioValidos() {
+	
+	var isValidos = false;
+	var proNome = $("#proNome"), 
+		proQuantidadeMinima = $("#proQuantidadeMinima"),
+		proQuantidadeMaxima = $("#proQuantidadeMaxima");
+
+	proNome.css("border", "1px solid #cccccc");
+	proQuantidadeMinima.css("border", "1px solid #cccccc");
+	proQuantidadeMaxima.css("border", "1px solid #cccccc");
+	
+	// Validar campo nome.
+	if (proNome.val().trim() == "") {
+		proNome.css("border", "1px solid #ff4500");
+		isValidos = true;
+	}
+	
+	// Validar campo quantidade minima.
+	if (proQuantidadeMinima.val().trim() == "") {
+		proQuantidadeMinima.css("border", "1px solid #ff4500");
+		isValidos = true;
+	}
+	
+	// Validar campo quantidade máxima.
+	if (proQuantidadeMaxima.val().trim() == "") {
+		proQuantidadeMaxima.css("border", "1px solid #ff4500");
+		isValidos = true;
+	}	
+	
+	if (isValidos) {
+		$("#divMensagemErro").css("display", "block");
+		$("#spanMsgError").show().html("O(s) campo(s) em vermelho(s) é obrigatório.");			
+		return false;		
+	}
+	
+	return true;	
+}
+
+function limparCampos() {
+	$("#proNome").val("");
+	$("#proCodigoBarras").val("");
+	$("#forCodigo").val("0");
+	$("#catCodigo").val("0");
+	$("#proQuantidadeMinima").val("");
+	$("#proQuantidadeMaxima").val("");
+	$("#proObs").val("");
 }

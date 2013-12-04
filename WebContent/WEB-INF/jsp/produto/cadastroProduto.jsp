@@ -10,7 +10,7 @@
 	<div class="page-header">
     	<h1>Cadastro Produto</h1>
     </div>
-	<s:form namespace="Produto" id="formProduto" name="formProduto" theme="simple">
+	<s:form namespace="Produto" id="formProduto" name="formProduto" theme="simple" cssStyle="margin-left: 15px;">
 		<s:hidden id="proCodigo" name="produto.proCodigo"></s:hidden>    
 		<div class="row" style="margin-top: 15px;">
 			<div class="col-lg-5">
@@ -50,18 +50,19 @@
 				<s:textarea name="produto.proObs" id="proObs" cols="90" theme="simple" cssClass="form-control"></s:textarea>		
 			</div>		
 		</div>
-		<div style="margin-top: 15px;">
-			<button id="btnGravar" type="button" class="btn btn-primary">Gravar</button>
-			<button id="btnExibirInserirValor" type="button" class="btn btn-primary">Inserir Valor</button>
-		</div>
 	</s:form>
-	
-	<h3>Valores do Produto</h3>
-	<div>
+	<div class="page-header">
+    	<h1>Valores do Produto</h1>
+    </div>	
+	<div class="row" style="margin-top: 15px; margin-left: 0px;">
 		<div style="width:650px; float:left;">
 			<table id="tabelaValores" cellspacing="1" cellpadding="3" class="tablehead" style="background:#CCC;"></table>
 		</div>
-	</div>							
+	</div>
+	<div class="row" style="margin-top: 15px; margin-left: 0px;">
+		<button id="btnGravar" type="button" class="btn btn-primary">Gravar</button>
+		<button id="btnExibirInserirValor" type="button" class="btn btn-primary">Inserir Valor</button>
+	</div>								
 </div>
 
 <!-- DIV do formulário Valores do Produto -->
@@ -75,7 +76,7 @@
 					<div class="page-header">
    						<h3>Valores do Produto</h3>
    					</div>
-   					<form id="formDialogValoresProduto">
+   					<form id="formDialogValoresProduto" style="margin-left: 15px;">
 						<div class="row" style="margin-top: 15px;">
 							<div class="col-lg-5">
 								<label for="vrpImpostoICMS" cssClass="control-label">ICMS(%)</label>

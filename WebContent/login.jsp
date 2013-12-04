@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>::: Sistema Comercial Guedes :::</title>
 	<link href="../resources/bootstrap/css/bootstrap.css" rel="stylesheet" />
-	<script src="../resources/js/jquery-1.9.1.js"></script>
+	<script src="../resources/js/jquery/jquery-1.9.1.js"></script>
 </head>
 <body>
 	<script src="../resources/js/pages/login.js"></script>	

@@ -14,11 +14,12 @@
 	
 	<title><tiles:insertAttribute name="title"/></title>
 	<!-- CSS -->
-	<link href="../resources/bootstrap/css/bootstrap.css" rel="stylesheet" />
-	<link href="../resources/js/jquery/css/blitzer/jquery-ui-1.10.3.custom.css" rel="stylesheet"/>
-	<link href="../resources/css/bootstrap-responsive.css" rel="stylesheet" />
-	<link href="../resources/css/tablecloth.css" rel="stylesheet" />
-	<link href="../resources/css/prettify.css" rel="stylesheet" /> 	
+	<link href="../resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link href="../resources/js/jquery/css/blitzer/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+	<link href="../resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
+	<link href="../resources/css/tablecloth.css" rel="stylesheet" type="text/css"/>
+	<link href="../resources/css/prettify.css" rel="stylesheet" type="text/css"/> 	
+	<link href="../resources/js/jquery.jqGrid-4.5.4/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>	
 	
 	<!-- JAVASCRIPT -->
 	<script src="../resources/js/jquery/jquery-1.9.1.js"></script>
@@ -34,6 +35,8 @@
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.menu.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.effect-clip.js"></script>
+	<script src="../resources/js/jquery.jqGrid-4.5.4/js/i18n/grid.locale-pt-br.js" type="text/javascript"></script>
+	<script src="../resources/js/jquery.jqGrid-4.5.4/js/jquery.jqGrid.min.js" type="text/javascript"></script>	
 	<script src="../resources/js/jquery/jquery.metadata.js"></script>
 	<script src="../resources/js/jquery/jquery.tablesorter.min.js"></script>
 	<script src="../resources/js/jquery/jquery.tablecloth.js"></script>
@@ -48,7 +51,7 @@
 </head>
 <body>
 	<div id="tilesMenu"><tiles:insertAttribute name="menu"/></div>
-	<div id="tilesMensagem"><tiles:insertAttribute name="mensagem"/></div>
+	<div id="tilesMensagem" style="padding-top: 30px;"><tiles:insertAttribute name="mensagem"/></div>
 	<div id="tilesConteudo"><tiles:insertAttribute name="conteudo"/></div>	
 	<div id="tilesRodape"><tiles:insertAttribute name="rodape"/></div>
 </body>
