@@ -37,7 +37,6 @@
 					$("#divMensagemSucesso").css("display", "none");
                 },
                 success: function(data, status, request){
-                	$("#loading").css("display", "none");
                     if (status == "success" && data.mensagemUsuario == null) {
                     	limparCampos();
                     	$("#divMensagemSucesso").css("display", "block");
@@ -50,6 +49,9 @@
 						$("#spanMsgError").show().html(data.mensagemUsuario);                                               
                     }
                 },
+    			complete : function () {
+    				$("#loading").css("display", "none");
+    			},                
                 error: function (request, error) {
 					$("#loading").css("display", "none");
 					$("#divMensagemErro").css("display", "block");

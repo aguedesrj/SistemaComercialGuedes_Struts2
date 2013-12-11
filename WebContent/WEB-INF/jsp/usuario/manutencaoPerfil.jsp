@@ -4,61 +4,59 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<script src="../static-guedes/js/jquery/development-bundle/ui/jquery.ui.selectable.js"></script>
-<script src="../static-guedes/js/pages/usuario/manutencaoPerfil.js"></script>
+<script src="../resources/js/pages/manutencaoPerfil.js"></script>
 
-<style>
-	#feedback { font-size: 1.4em; }
-	#selectable .ui-selecting { background: #FECA40; }
-	#selectable .ui-selected { background: #F39814; color: white; }
-	#selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-	#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
-</style>
-
-<div id="panelCenter_1" class="centralPanel">
-	<h3>Manutenção do Perfil Usuário</h3>
-	<div>
-		<fieldset>
-			<s:form namespace="ManutencaoPerfil" id="formManutencaoPerfil" name="formManutencaoPerfil" theme="simple">
-				<fieldset>
-					<table>
-						<tr>
-							<td><input type="button" id="btnNovoPerfil" value="Novo Perfil"></td>
-						</tr>																												
-					</table>			
-				</fieldset>
-			</s:form>		
-			<div id="divTabelaPerfis" style="padding-top: 10px; display: none;">
-				<table id="tabelaPerfis" class="scroll"></table>
-			</div>
-		</fieldset>		
-	</div>
+<div class="container">
+	<div class="page-header">
+    	<h1>Manutenção Perfil do Usuário</h1>
+    </div>
+    <div class="row" style="margin-top: 15px; margin-left: 0px;">
+		<button id="btnNovoPerfil" type="button" class="btn btn-primary">Novo Perfil</button>
+	</div>    
+	<div class="page-header">
+    	<h1>Listagem Perfil do Usuário</h1>
+    </div>
+	<div class="row" style="margin-top: 15px; margin-left: 0px;">
+		<div style="width:650px; float:left;">
+			<table id="tabelaPerfis" cellspacing="1" cellpadding="3" class="tablehead" style="background:#CCC;"></table>
+		</div>
+	</div>    	
 </div>
 
-<!-- DIV do formulário Perfis -->
-<div id="dialog-form" title="Inserir Perfil">
-	<form id="formDialogPerfil">
-		<s:hidden id="perfisSelecionados" name="perfisSelecionados"></s:hidden>
-		<fieldset>
-			<table style="width: 100%;">
-				<tr>
-					<td style="height: 45px;">
-						<label for="nomePerfil">Nome do Perfil</label>
-						<s:textfield name="perNome" id="perNome" maxlength="80" theme="simple" required="true" cssStyle="width: 250px;" cssClass="text ui-widget-content ui-corner-all"></s:textfield>
-					</td>								
-				</tr>
-				<tr>		
-					<td>
-						<label for="listaFuncionalidades">Selecione as funcionalidades</label>
-						<ol id="selectable" style="font-size: 8px;">
-							<s:iterator var="func" value="listaFuncionalidade">
-								<input type="hidden" value="<s:property value="%{funCodigo}"/>" id="funCodigo<s:property value="%{funCodigo}"/>"/>
-								<li id="<s:property value="%{funCodigo}"/>" class="ui-widget-content"><s:property value="%{funDescricao}"/></li>
-							</s:iterator>
-						</ol>
-					</td>								
-				</tr>
-			</table>		
-		</fieldset>
-	</form>
+<!-- DIV do formulário -->
+<div id="modalManutencaoPerfil" class="modal fade">
+	<div class="modal-dialog" style="width: 500px;">
+		<div class="modal-content">
+			<!-- dialog body -->
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<div class="container" style="width: 370px;">
+					<form id="formManutencaoPerfil" name="formManutencaoPerfil">
+						<s:hidden id="funcSelecionados" name="funcSelecionados"></s:hidden> 
+						<div class="row" style="margin-top: 15px;">
+							<div class="col-lg-5">
+								<label for="vrpImpostoICMS" cssClass="control-label">Nome do Perfil</label>
+								<s:textfield name="perfil.perNome" id="perNome" maxlength="80" theme="simple" required="true" cssStyle="width: 250px;" cssClass="form-control"></s:textfield>						
+							</div>						
+						</div>
+						<div class="row" style="margin-top: 15px;">
+							<div class="col-lg-5">
+								<a href='#' id='select-all'>Selecionar todos</a>
+								<a href='#' id='deselect_all'>Desmarcar todos</a>
+								<select id='selectFuncionalidades' multiple='multiple' name="selectFuncionalidades[]">
+									<s:iterator var="func" value="listaFuncionalidade">
+										<option id="<s:property value="%{funCodigo}"/>" value='<s:property value="%{funCodigo}"/>' style="font-size: 10px;"><s:property value="%{funDescricao}"/></option>
+									</s:iterator>
+								</select>							
+							</div>						
+						</div>
+					</form>					
+		         </div>
+			</div>
+			<!-- dialog buttons -->
+			<div class="modal-footer">
+				<button id="btnSalvar" type="button" class="btn btn-primary">Salvar</button>
+			</div>
+		</div>
+	</div>
 </div>

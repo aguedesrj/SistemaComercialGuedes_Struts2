@@ -15,6 +15,7 @@ import br.com.guedes.sistemacomercial.model.PerfilFuncionalidadePk;
 import br.com.guedes.sistemacomercial.model.Usuario;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.Constantes;
+import br.com.guedes.sistemacomercial.vo.PerfilVO;
 
 /**
  * Action usuário.
@@ -31,9 +32,9 @@ public class UsuarioAction extends BaseAction {
 	private Usuario usuario;
 	private String mensagemUsuario;
 	private List<Funcionalidade> listaFuncionalidade = new ArrayList<Funcionalidade>();
-	private List<Perfil> listaPerfil = new ArrayList<Perfil>();
-	private String perfisSelecionados;
-	private String perNome;
+	private List<PerfilVO> listaPerfil = new ArrayList<PerfilVO>();
+	private PerfilVO perfil = new PerfilVO();
+	private String funcSelecionados;
 	
 	@Autowired
 	private UsuarioFacade usuarioFacade;
@@ -88,13 +89,28 @@ public class UsuarioAction extends BaseAction {
     	try {
 			// lista de funcionalidades.
     		setListaFuncionalidade(usuarioFacade.listaFuncionalidade());
-    		// lista de pefils.
-    		setListaPerfil(usuarioFacade.listaPerfil());
     		return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
 		}
+    }
+    
+    public String listarPerfis() {
+    	try {
+    		// lista de pefils.
+    		List<Perfil> lista = usuarioFacade.listaPerfil();
+    		for (Perfil perfil: lista) {
+    			PerfilVO perfilVO = new PerfilVO();
+    			perfilVO.setPerCodigo(perfil.getPerCodigo());
+    			perfilVO.setPerNome(perfil.getPerNome());
+    			getListaPerfil().add(perfilVO);
+    		}
+    		return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}    	
     }
     
     public String efetuarlogout() {
@@ -112,14 +128,16 @@ public class UsuarioAction extends BaseAction {
     public String salvarPerfil() {
     	try {
 
-    		Perfil perfil = new Perfil();
+    		// validar campos.
     		
-    		// nome do Perfil.
-    		perfil.setPerNome(perNome);
+    		//
+    		Perfil perfil = new Perfil();
+    		perfil.setPerCodigo(getPerfil().getPerCodigo());
+    		perfil.setPerNome(getPerfil().getPerNome());
     		
     		// lista de funcionalidades selecionadas.
     		//Set<PerfilFuncionalidade> listaPerfilFuncionalidade = new HashSet<PerfilFuncionalidade>();
-    		String[] array = perfisSelecionados.split(";");
+    		String[] array = getFuncSelecionados().split(",");
     		for (int i = 0; array.length > i; i++) {
         		PerfilFuncionalidade perfilFuncionalidade = new PerfilFuncionalidade();
         		PerfilFuncionalidadePk perfilFuncionalidadePk = new PerfilFuncionalidadePk();
@@ -171,27 +189,27 @@ public class UsuarioAction extends BaseAction {
 		this.listaFuncionalidade = listaFuncionalidade;
 	}
 
-	public List<Perfil> getListaPerfil() {
+	public List<PerfilVO> getListaPerfil() {
 		return listaPerfil;
 	}
 
-	public void setListaPerfil(List<Perfil> listaPerfil) {
+	public void setListaPerfil(List<PerfilVO> listaPerfil) {
 		this.listaPerfil = listaPerfil;
 	}
 
-	public String getPerNome() {
-		return perNome;
+	public String getFuncSelecionados() {
+		return funcSelecionados;
 	}
 
-	public void setPerNome(String perNome) {
-		this.perNome = perNome;
+	public void setFuncSelecionados(String funcSelecionados) {
+		this.funcSelecionados = funcSelecionados;
 	}
 
-	public String getPerfisSelecionados() {
-		return perfisSelecionados;
+	public PerfilVO getPerfil() {
+		return perfil;
 	}
 
-	public void setPerfisSelecionados(String perfisSelecionados) {
-		this.perfisSelecionados = perfisSelecionados;
+	public void setPerfil(PerfilVO perfil) {
+		this.perfil = perfil;
 	}
 }

@@ -40,6 +40,21 @@
             <result name="error">/login.jsp</result>
         </action>
         
+        <action name="ListaPerfis" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="listarPerfis">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaFuncionalidade,funcSelecionados,perfil
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaFuncionalidade,funcSelecionados,perfil
+				</param>            
+            </result>
+        </action>        
+        
         <action name="SalvaPerfil" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="salvarPerfil">
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		

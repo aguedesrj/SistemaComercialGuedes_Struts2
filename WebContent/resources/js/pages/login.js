@@ -4,7 +4,7 @@
 		// valida campos.
 		if (isCamposValidos()) {
 			$.ajax({
-				url: 'SistemaComercial/Usuario/Login',
+				url: 'SistemaComercialGuedes/Usuario/Login',
 				data: $('#formLogin').serialize(),
 				type: 'POST',
 				cache: false,
