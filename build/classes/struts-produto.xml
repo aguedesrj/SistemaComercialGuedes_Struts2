@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="Produto" namespace="/Produto" extends="default, json-default">
+        
+		<result-types>
+    		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+    	</result-types>        
+
+        <action name="InicioCadastro" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="iniciarCadastro">
+            <result name="success" type="tiles">inicio.cadastro.produto</result>
+            <result name="error" type="tiles">error.tiles</result>
+        </action>
+        
+        <action name="InicioAlteracao" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="iniciarAlteracao">
+            <result name="success" type="tiles">inicio.cadastro.produto</result>
+            <result name="error" type="tiles">error.tiles</result>
+        </action>        
+        
+        <action name="IncluiValorProduto" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="incluirValorProduto">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaProdutoView,listaFornecedor,listaCategoria
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaProdutoView,listaFornecedor,listaCategoria
+				</param>            
+            </result>
+        </action>
+        
+		<action name="Salva" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="salvar">
+		    <!--<result name="success" type="redirectAction">IncluiValorProduto</result>-->
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaProdutoView,
+					listaCategoria,listaFornecedor,listaValoresProdutoVO,valoresProdutoVO
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaProdutoView,
+					listaCategoria,listaFornecedor,listaValoresProdutoVO,valoresProdutoVO
+				</param>            
+            </result>		    
+        </action>
+        
+        <action name="InicioPesquisa" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="iniciarPesquisa">
+            <result name="success" type="tiles">inicio.pesquisa.produto</result>
+            <result name="error" type="tiles">error.tiles</result>
+        </action>
+        
+        <action name="Pesquisa" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="pesquisar">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts
+				</param>            
+            </result>
+        </action>  
+        
+        <action name="BuscaListaValoresProduto" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="buscarListaValoresProduto">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaProdutoView,
+					listaCategoria,listaFornecedor,produto,valoresProdutoVO,fornecedor,categoria
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaProdutoView,
+					listaCategoria,listaFornecedor,produto,valoresProdutoVO,fornecedor,categoria				    
+				</param>            
+            </result>
+        </action>        		
+        
+    </package>	
+</struts>

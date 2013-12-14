@@ -15,6 +15,7 @@ import br.com.guedes.sistemacomercial.model.PerfilFuncionalidadePk;
 import br.com.guedes.sistemacomercial.model.Usuario;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.Constantes;
+import br.com.guedes.sistemacomercial.vo.GenericVO;
 import br.com.guedes.sistemacomercial.vo.PerfilVO;
 
 /**
@@ -31,10 +32,10 @@ public class UsuarioAction extends BaseAction {
 	
 	private Usuario usuario;
 	private String mensagemUsuario;
-	private List<Funcionalidade> listaFuncionalidade = new ArrayList<Funcionalidade>();
-	private List<PerfilVO> listaPerfil = new ArrayList<PerfilVO>();
 	private PerfilVO perfil = new PerfilVO();
 	private String funcSelecionados;
+	private List<GenericVO> listaSelecionados;
+	private List<GenericVO> listaDisponiveis;	
 	
 	@Autowired
 	private UsuarioFacade usuarioFacade;
@@ -79,39 +80,124 @@ public class UsuarioAction extends BaseAction {
     public String exibirTelaHome() {
     	
     	return SUCCESS;
-    }   
+    }  
     
     /**
      * 
      * @return String
      */
     public String exibirManutencaoPerfil() {
+
+    	return SUCCESS;
+    }   
+    
+    /**
+     * Listar todas as funcionalidades disponíveis.
+     * 
+     * @return String
+     */
+    public String listarFuncionalidades() {
     	try {
+    		setListaDisponiveis(new ArrayList<GenericVO>());
 			// lista de funcionalidades.
-    		setListaFuncionalidade(usuarioFacade.listaFuncionalidade());
+    		List<Funcionalidade> lista = usuarioFacade.listaFuncionalidade();
+    		for (Funcionalidade funcionalidade: lista) {
+    			GenericVO genericVO = new GenericVO(); 
+    			genericVO.setGenCodigo(funcionalidade.getFunCodigo());
+    			genericVO.setGenDescricao(funcionalidade.getFunDescricao());
+    			
+    			getListaDisponiveis().add(genericVO);
+    		}
     		return SUCCESS;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.fatal(e.getMessage(), e);
+			setMensagemUsuario("Não foi possível listar as Funcionalidades.");
 			return ERROR;
-		}
-    }
+		}    	
+    } 
     
     public String listarPerfis() {
     	try {
     		// lista de pefils.
     		List<Perfil> lista = usuarioFacade.listaPerfil();
+    		setListaSelecionados(new ArrayList<GenericVO>());
     		for (Perfil perfil: lista) {
-    			PerfilVO perfilVO = new PerfilVO();
-    			perfilVO.setPerCodigo(perfil.getPerCodigo());
-    			perfilVO.setPerNome(perfil.getPerNome());
-    			getListaPerfil().add(perfilVO);
+    			GenericVO genericVO = new GenericVO();
+    			genericVO.setGenCodigo(perfil.getPerCodigo());
+    			genericVO.setGenDescricao(perfil.getPerNome());
+    			getListaSelecionados().add(genericVO);
     		}
     		return SUCCESS;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.fatal(e.getMessage(), e);
+			setMensagemUsuario("Não foi possível listar os Perfis.");
 			return ERROR;
 		}    	
     }
+    
+    public String listarFuncionalidadesPorPerfil() {
+    	try {
+    		Perfil perfil = new Perfil();
+    		perfil.setPerCodigo(getPerfil().getPerCodigo());
+    		List<PerfilFuncionalidade> lista = usuarioFacade.listaFuncionalidadesPorPerfil(perfil);
+    		if (lista != null && !lista.isEmpty()) {
+    			getPerfil().setPerCodigo(lista.get(0).getPerfil().getPerCodigo());
+    			getPerfil().setPerNome(lista.get(0).getPerfil().getPerNome());
+    			setListaSelecionados(new ArrayList<GenericVO>());
+        		for (PerfilFuncionalidade perfilFuncionalidade: lista) {
+        			GenericVO funcionalidadeVO = new GenericVO();
+        			funcionalidadeVO.setGenCodigo(perfilFuncionalidade.getFuncionalidade().getFunCodigo());
+        			funcionalidadeVO.setGenDescricao(perfilFuncionalidade.getFuncionalidade().getFunDescricao());
+        			getListaSelecionados().add(funcionalidadeVO);
+        		}
+    		}
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			setMensagemUsuario("Não foi possível detalhar o Perfil.");
+			return ERROR;
+		}     	
+    }
+    
+    /**
+     * 
+     * @return String
+     */
+    public String exibirAlteracao() {
+	 	try {
+    		Perfil perfil = new Perfil();
+    		perfil.setPerCodigo(getPerfil().getPerCodigo());
+    		// obter a lista de funcionalidades selecionados.
+    		List<PerfilFuncionalidade> listaPerfilFuncionalidade = usuarioFacade.listaFuncionalidadesPorPerfil(perfil);
+    		if (listaPerfilFuncionalidade != null && !listaPerfilFuncionalidade.isEmpty()) {
+    			getPerfil().setPerCodigo(listaPerfilFuncionalidade.get(0).getPerfil().getPerCodigo());
+    			getPerfil().setPerNome(listaPerfilFuncionalidade.get(0).getPerfil().getPerNome());
+    			setListaSelecionados(new ArrayList<GenericVO>());
+        		for (PerfilFuncionalidade perfilFuncionalidade: listaPerfilFuncionalidade) {
+        			GenericVO funcionalidadeVO = new GenericVO();
+        			funcionalidadeVO.setGenCodigo(perfilFuncionalidade.getFuncionalidade().getFunCodigo());
+        			funcionalidadeVO.setGenDescricao(perfilFuncionalidade.getFuncionalidade().getFunDescricao());
+        			getListaSelecionados().add(funcionalidadeVO);
+        		}
+    		}    		
+    		// obter a lista de funcionalidades disponíveis.
+	 		setListaDisponiveis(new ArrayList<GenericVO>());
+				// lista de funcionalidades.
+	 		List<Funcionalidade> listaFuncionalidade = usuarioFacade.listaFuncionalidadesNotExistsPerfil(perfil);
+	 		for (Funcionalidade funcionalidade: listaFuncionalidade) {
+	 			GenericVO genericVO = new GenericVO(); 
+	 			genericVO.setGenCodigo(funcionalidade.getFunCodigo());
+	 			genericVO.setGenDescricao(funcionalidade.getFunDescricao());
+	 			
+	 			getListaDisponiveis().add(genericVO);
+	 		}
+	 		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			setMensagemUsuario("Não foi possível iniciar a alteração.");
+			return ERROR;
+		}
+	}
     
     public String efetuarlogout() {
     	
@@ -136,7 +222,6 @@ public class UsuarioAction extends BaseAction {
     		perfil.setPerNome(getPerfil().getPerNome());
     		
     		// lista de funcionalidades selecionadas.
-    		//Set<PerfilFuncionalidade> listaPerfilFuncionalidade = new HashSet<PerfilFuncionalidade>();
     		String[] array = getFuncSelecionados().split(",");
     		for (int i = 0; array.length > i; i++) {
         		PerfilFuncionalidade perfilFuncionalidade = new PerfilFuncionalidade();
@@ -150,8 +235,6 @@ public class UsuarioAction extends BaseAction {
         		perfilFuncionalidade.setPerfil(perfil);
         		perfilFuncionalidade.setFuncionalidade(funcionalidade);
         		
-        		//perfilFuncionalidade.setFuncionalidade(funcionalidade);
-        		//perfilFuncionalidade.setPerfil(perfil);
         		perfil.getListaPerfilFuncionalidade().add(perfilFuncionalidade);
     		}
     		
@@ -160,7 +243,8 @@ public class UsuarioAction extends BaseAction {
     		
     		return SUCCESS;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.fatal(e.getMessage(), e);
+			setMensagemUsuario("Não foi possível salvar o Perfil.");
 			return ERROR;
 		}    	
     }
@@ -181,22 +265,6 @@ public class UsuarioAction extends BaseAction {
 		this.mensagemUsuario = mensagemUsuario;
 	}
 
-	public List<Funcionalidade> getListaFuncionalidade() {
-		return listaFuncionalidade;
-	}
-
-	public void setListaFuncionalidade(List<Funcionalidade> listaFuncionalidade) {
-		this.listaFuncionalidade = listaFuncionalidade;
-	}
-
-	public List<PerfilVO> getListaPerfil() {
-		return listaPerfil;
-	}
-
-	public void setListaPerfil(List<PerfilVO> listaPerfil) {
-		this.listaPerfil = listaPerfil;
-	}
-
 	public String getFuncSelecionados() {
 		return funcSelecionados;
 	}
@@ -211,5 +279,21 @@ public class UsuarioAction extends BaseAction {
 
 	public void setPerfil(PerfilVO perfil) {
 		this.perfil = perfil;
+	}
+	
+	public List<GenericVO> getListaSelecionados() {
+		return listaSelecionados;
+	}
+
+	public void setListaSelecionados(List<GenericVO> listaSelecionados) {
+		this.listaSelecionados = listaSelecionados;
+	}
+
+	public List<GenericVO> getListaDisponiveis() {
+		return listaDisponiveis;
+	}
+
+	public void setListaDisponiveis(List<GenericVO> listaDisponiveis) {
+		this.listaDisponiveis = listaDisponiveis;
 	}
 }

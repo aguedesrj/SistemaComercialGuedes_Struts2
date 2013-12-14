@@ -94,6 +94,22 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 			throw new IntegrationException("Não foi possível listar as Funcionalidades.");
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#listaFuncionalidadesPorPerfil(br.com.guedes.sistemacomercial.model.Perfil)
+	 */
+	public List<PerfilFuncionalidade> listaFuncionalidadesPorPerfil(final Perfil perfil) throws BusinessException, IntegrationException {
+		return usuarioDao.listaFuncionalidadesPorPerfil(perfil);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#listaFuncionalidadesNotExistsPerfil(br.com.guedes.sistemacomercial.model.Perfil)
+	 */
+	public List<Funcionalidade> listaFuncionalidadesNotExistsPerfil(final Perfil perfil) throws BusinessException, IntegrationException {
+		return usuarioDao.listaFuncionalidadesNotExistsPerfil(perfil);
+	}
 
 	/**
 	 * @return the usuarioDao

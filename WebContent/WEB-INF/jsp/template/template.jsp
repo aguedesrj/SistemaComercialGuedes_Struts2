@@ -19,7 +19,8 @@
 	<link href="../resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
 	<link href="../resources/css/tablecloth.css" rel="stylesheet" type="text/css"/>
 	<link href="../resources/css/prettify.css" rel="stylesheet" type="text/css"/> 
-	<link href="../resources/css/multi-select.css" rel="stylesheet" type="text/css"/> 	
+	<link href="../resources/css/multi-select.css" rel="stylesheet" type="text/css"/>
+	<link href="../resources/css/DT_bootstrap.css" rel="stylesheet" type="text/css"/> 	
 	<link href="../resources/js/jquery.jqGrid-4.5.4/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>	
 	
 	<!-- JAVASCRIPT -->
@@ -46,7 +47,9 @@
 	<script src="../resources/js/jquery/jquery.limit-1.2.source.js"></script>
 	<script src="../resources/js/jquery/jquery.alphanumeric.js"></script>
 	<script src="../resources/js/jquery/jquery.maskMoney.js"></script>	
-	<script src="../resources/js/jquery/jquery.multi-select.js"></script>	
+	<script src="../resources/js/jquery/jquery.multi-select.js"></script>
+	<script src="../resources/js/jquery/jquery.dataTables.js"></script>
+	<script src="../resources/js/jquery/DT_bootstrap.js"></script>	
 	<script src="../resources/js/util.js"></script>	
 	<script src="../resources/bootstrap/js/bootstrap.min.js"></script>	
 	<script src="../resources/js/bootbox.js"></script>	

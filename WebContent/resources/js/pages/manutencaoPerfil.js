@@ -1,31 +1,66 @@
 ﻿$(document).ready(function() {
 	
 	var funcSelecionados = [];
-	$('#selectFuncionalidades').multiSelect();	
 	
 	// selecionar todos.
 	$('#select-all').click(function(){
-		$('#selectFuncionalidades').multiSelect('#select_all');
+		$('#selectFuncionalidades').multiSelect('select_all');
 		return false;
 	});	
 	
-	$('#deselect_all').click(function(){
-		$('#selectFuncionalidades').multiSelect('#deselect_all');
+	$('#deselect-all').click(function(){
+		$('#selectFuncionalidades').multiSelect('deselect_all');
 		return false;
 	});	
 	
     // Botão Novo Perfil.
     $("#btnNovoPerfil").button().click(function() {
-    	$("#perNome").css("border", "1px solid #cccccc");
-        // Limpar campos.
-        $("#perNome").val("");
-        // exibir modal.
-    	$("#modalManutencaoPerfil").modal({ // wire up the actual modal functionality and show the dialog
-	   		 "backdrop" : "static",
-	   		 "keyboard" : true,
-	   		 "show" : true // ensure the modal is shown immediately
-    	});
-    	$("#perNome").focus();
+    	// buscar todos as funcionalidades.
+    	$.ajax({
+    		url: 'SistemaComercialGuedes/Usuario/ListaFuncionalidades',
+    		type: 'POST',
+    		cache: false,
+    		dataType: "json",
+    		beforeSend: function(){
+    			$("#loading").css("display", "block");
+    			$("#divMensagemErro").css("display", "none");
+    			$("#divMensagemSucesso").css("display", "none");
+    		},
+    		success: function(data, status, request){ 
+    			if (status == "success" && data.mensagemUsuario == null) {
+    				// preencher lista.
+    				var options = '';
+    				for (var i = 0; data.listaDisponiveis.length > i; i++) {
+    					options += "<option id='"+data.listaDisponiveis[i].genCodigo+"' value='"+data.listaDisponiveis[i].genCodigo+"' style='font-size: 10px;'>"+data.listaDisponiveis[i].genDescricao+"</option>";
+    				}  
+    				$("#selectFuncionalidades").html("");
+    				$("#selectFuncionalidades").html(options);
+    				$('#selectFuncionalidades').multiSelect();
+    		    	$("#perNome").css("border", "1px solid #cccccc");
+    		        // Limpar campos.
+    		        $("#perNome").val("");
+    		        //$('#selectFuncionalidades').multiSelect('deselect_all');
+    		        // exibir modal.
+    		    	$("#modalManutencaoPerfil").modal({ // wire up the actual modal functionality and show the dialog
+    			   		 "backdrop" : "static",
+    			   		 "keyboard" : true,
+    			   		 "show" : true // ensure the modal is shown immediately
+    		    	});
+    			} else {
+    				$("#loading").css("display", "none");
+    				$("#divMensagemErro").css("display", "block");
+    				$("#spanMsgError").show().html(data.mensagemUsuario);  					
+    			}
+    		},
+    		complete : function () {
+    			$("#loading").css("display", "none");
+    		},
+    		error: function (request, error) {
+    			$("#loading").css("display", "none");
+    			$("#divMensagemErro").css("display", "block");
+    			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+    		}
+    	});    	
     });	
     
     // Salvar.
@@ -45,11 +80,11 @@
 				success: function(data, status, request){
 					$("#loading").css("display", "none");
 					if (status == "success" && data.mensagemUsuario == null) {
-						$("#tabelaPerfis").addRowData(0, {
-							perCodigo : data.listaPerfil.perCodigo,
-							perNome   : data.listaPerfil.perNome
-						});
-						$("#modalValoresProduto").modal('hide'); 
+						$("#modalManutencaoPerfil").modal('hide');
+						// atualiza a lista de perfis.
+						callListaPerfis();
+                    	$("#divMensagemSucesso").css("display", "block");
+                    	$("#spanMsgSuccess").show().html("Perfil cadastrado com sucesso!");						
 					} else {
 						$("#divMensagemErro").css("display", "block");
 						$("#spanMsgError").show().html(data.mensagemUsuario);						
@@ -64,6 +99,16 @@
 		}			
     });
 	
+    // Fechar modal do detalhe.
+	$("#btnFechar").button().click(function() {	
+		$("#modalDetalhe").modal('hide');
+	});
+	
+	// obter a lista de perfis.
+	callListaPerfis();
+});
+
+function callListaPerfis() {
 	$.ajax({
 		url: 'SistemaComercialGuedes/Usuario/ListaPerfis',
 		type: 'POST',
@@ -77,7 +122,7 @@
 		success: function(data, status, request){ 
 			if (status == "success" && data.mensagemUsuario == null) {
 				// atualiza lista na tabela.
-				exibirListaPerfis(data.listaPerfil);
+				exibirListaPerfis(data.listaSelecionados);
 			} else {
 				$("#loading").css("display", "none");
 				$("#divMensagemErro").css("display", "block");
@@ -92,8 +137,8 @@
 			$("#divMensagemErro").css("display", "block");
 			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
 		}
-	});		
-});
+	});	
+}
 
 function exibirListaPerfis(lista) {
 	
@@ -102,24 +147,25 @@ function exibirListaPerfis(lista) {
     // Tabela de Perfis
 	$("#tabelaPerfis").jqGrid({
 		datatype: 'local',
-	    colNames:['Nome do Perfil','Detalhes','Alterar','perCodigo'],
+	    colNames:['Nome do Perfil','','','genCodigo'],
 	    colModel:[
-	        {name:'perNome',index:'perNome', width:400,sortable:true, classes: 'perNome', align:'center'},
-            {name:'detalhar',index:'detalhar', width:60,sortable:true, classes: 'detalhar'},
-            {name:'alterar',index:'alterar', width:60,sortable:true, classes: 'alterar'},	        
-	        {name:'perCodigo',index:'perCodigo', width:180,sortable:true, key:true, classes: 'perCodigo',hidden: true}
+	        {name:'genDescricao',index:'genDescricao', width:400,sortable:true, classes: 'genDescricao', align:'center'},
+            {name:'detalhar',index:'detalhar', width:50,sortable:true, classes: 'detalhar'},
+            {name:'alterar',index:'alterar', width:50,sortable:true, classes: 'alterar'},	        
+	        {name:'genCodigo',index:'genCodigo', width:50,sortable:true, key:true, classes: 'genCodigo',hidden: true}
 	    ],
         gridComplete: function(){
             var ids = $("#tabelaPerfis").jqGrid('getDataIDs');
             for(var i=0;i < ids.length;i++){
                 var valor = ids[i];
-                btnDetalhar = "<div align='center' style='margin-top: 3px;'><img width='19px' height='16px' alt='Detalhar produto' src='../resources/img/ic_ferramenta.gif' onclick='javascript:detalhar("+valor+");'></div>";
-                btnAlterar  = "<div align='center' style='margin-top: 3px;'><img width='16px' height='16px' alt='Alterar produto'  src='../resources/img/ic_sbox_editar.gif' onclick='javascript:alterar("+valor+");'></div>";
+                btnDetalhar = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='19px' height='16px' title='Detalhar produto' alt='Detalhar produto' style='cursor: pointer' src='../resources/img/detalhe.png' onclick='javascript:detalhar("+valor+");'></div>";
+                btnAlterar  = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='16px' height='16px' title='Alterar produto' alt='Alterar produto' style='cursor: pointer' src='../resources/img/edit.png' onclick='javascript:alterar("+valor+");'></div>";
                 $("#tabelaPerfis").jqGrid('setRowData',ids[i],{alterar:btnAlterar,detalhar:btnDetalhar});
             }   
         },	    
 	    multiselect: false,
 	    rowNum:50,
+	    scroll:true,
 	    rowList:[10,20,30],
         onSelectRow: function (id) {
     		//alert(id); 		
@@ -133,12 +179,101 @@ function exibirListaPerfis(lista) {
     $("#tabelaPerfis").jqGrid('setGridParam',{datatype: 'local',data:lista}).trigger("reloadGrid"); 	
 }
 
-function detalhar(perCodigo) {
-	
+function detalhar(genCodigo) {
+	$.ajax({
+		url: 'SistemaComercialGuedes/Usuario/ListaFuncionalidadesPorPerfil?perfil.perCodigo='+genCodigo,
+		type: 'POST',
+		cache: false,
+		dataType: "json",
+		beforeSend: function(){
+			$("#loading").css("display", "block");
+			$("#divMensagemErro").css("display", "none");
+			$("#divMensagemSucesso").css("display", "none");
+		},
+		success: function(data, status, request){ 
+			if (status == "success" && data.mensagemUsuario == null) {
+				exibirModalDetalhe(data);
+			} else {
+				$("#loading").css("display", "none");
+				$("#divMensagemErro").css("display", "block");
+				$("#spanMsgError").show().html(data.mensagemUsuario);  					
+			}
+		},
+		complete : function () {
+			$("#loading").css("display", "none");
+		},
+		error: function (request, error) {
+			$("#loading").css("display", "none");
+			$("#divMensagemErro").css("display", "block");
+			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+		}
+	});	
 }
 
-function alterar(perCodigo) {
+function exibirModalDetalhe(data) {
+	// exibir nome do Perfil.
+	$("#spanPerNome").html(data.perfil.perNome);
+	
+	// exibir as funcionalidades.
+	$("#spanFuncionalidade").html("");
+	for (var i = 0; data.listaSelecionados.length > i; i++) {
+		$("#spanFuncionalidade").append(data.listaSelecionados[i].genDescricao+"<br>");
+	}
+	
+    // exibir modal.
+	$("#modalDetalhe").modal({ // wire up the actual modal functionality and show the dialog
+   		 "backdrop" : "static",
+   		 "keyboard" : true,
+   		 "show" : true // ensure the modal is shown immediately
+	});		
+}
 
+function alterar(genCodigo) {
+	$.ajax({
+		url: 'SistemaComercialGuedes/Usuario/ExibeAlteracao?perfil.perCodigo='+genCodigo,
+		type: 'POST',
+		cache: false,
+		dataType: "json",
+		beforeSend: function(){
+			$("#loading").css("display", "block");
+			$("#divMensagemErro").css("display", "none");
+			$("#divMensagemSucesso").css("display", "none");
+		},
+		success: function(data, status, request){ 
+			if (status == "success" && data.mensagemUsuario == null) {
+				// preencher lista.
+				var options = '';
+				for (var i = 0; data.listaSelecionados.length > i; i++) {
+					options += "<option selected id='"+data.listaSelecionados[i].genCodigo+"' value='"+data.listaSelecionados[i].genCodigo+"' style='font-size: 10px;'>"+data.listaSelecionados[i].genDescricao+"</option>";
+				}  
+				for (var i = 0; data.listaDisponiveis.length > i; i++) {
+					options += "<option id='"+data.listaDisponiveis[i].genCodigo+"' value='"+data.listaDisponiveis[i].genCodigo+"' style='font-size: 10px;'>"+data.listaDisponiveis[i].genDescricao+"</option>";
+				} 				
+				$("#selectFuncionalidades").html("");
+				$("#selectFuncionalidades").html(options);
+				$('#selectFuncionalidades').multiSelect();
+				
+		    	// exibir modal.
+		    	$("#modalManutencaoPerfil").modal({ // wire up the actual modal functionality and show the dialog
+			   		 "backdrop" : "static",
+			   		 "keyboard" : true,
+			   		 "show" : true // ensure the modal is shown immediately
+		    	});				
+			} else {
+				$("#loading").css("display", "none");
+				$("#divMensagemErro").css("display", "block");
+				$("#spanMsgError").show().html(data.mensagemUsuario);  					
+			}
+		},
+		complete : function () {
+			$("#loading").css("display", "none");
+		},
+		error: function (request, error) {
+			$("#loading").css("display", "none");
+			$("#divMensagemErro").css("display", "block");
+			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+		}
+	});	
 }
 
 function validarFormPerfil() {

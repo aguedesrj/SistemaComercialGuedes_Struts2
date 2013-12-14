@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.i18n.encoding" value="UTF-8"/> 
+    <constant name="struts.devMode" value="false" />
+    <constant name="struts.custom.i18n.resources" value="globalmessages"></constant>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+
+    <package name="default" namespace="/" extends="struts-default">
+        
+        <!--
+		<interceptors>  
+			<interceptor 
+			    name="interceptorOPermission" class="br.com.guedes.sistemacomercial.controller.SistemaComercialGuedesInterceptor">
+			</interceptor>  
+			<interceptor-stack name="stackSistemaComercial">  
+				<interceptor-ref name="interceptorOPermission" />
+				<interceptor-ref name="defaultStack" />  
+			</interceptor-stack>   
+		</interceptors>
+		
+		<default-interceptor-ref name="stackSistemaComercial"/>
+		-->
+		
+        <default-action-ref name="index" />
+
+        <global-results>
+            <result name="error">/error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>         
+
+    </package>
+    
+    <include file="struts-usuario.xml"/>
+    <include file="struts-produto.xml"/>
+
+</struts>

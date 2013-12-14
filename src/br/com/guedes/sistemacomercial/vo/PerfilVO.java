@@ -1,6 +1,7 @@
 package br.com.guedes.sistemacomercial.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class PerfilVO implements Serializable {
 
@@ -8,6 +9,7 @@ public class PerfilVO implements Serializable {
 	
 	private Integer perCodigo;
 	private String perNome;
+	private List<FuncionalidadeVO> listaFuncionalidades;
 	
 	public Integer getPerCodigo() {
 		return perCodigo;
@@ -23,5 +25,13 @@ public class PerfilVO implements Serializable {
 	
 	public void setPerNome(String perNome) {
 		this.perNome = perNome;
+	}
+
+	public List<FuncionalidadeVO> getListaFuncionalidades() {
+		return listaFuncionalidades;
+	}
+
+	public void setListaFuncionalidades(List<FuncionalidadeVO> listaFuncionalidades) {
+		this.listaFuncionalidades = listaFuncionalidades;
 	}
 }
