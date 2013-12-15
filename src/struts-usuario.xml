@@ -113,6 +113,21 @@
 					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis
 				</param>            
             </result>
+        </action>  
+        
+        <action name="DeletaPerfil" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="deletarPerfil">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis,perfil
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis,perfil
+				</param>            
+            </result>
         </action>        
         
         <action name="logout" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="efetuarlogout">

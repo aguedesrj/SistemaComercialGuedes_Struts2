@@ -45,7 +45,7 @@ public interface UsuarioFacade {
 	 * @throws BusinessException
 	 * @throws IntegrationException
 	 */
-	public void deletarPerfil(final Perfil perfil) throws BusinessException, IntegrationException;	
+	public void deletarPerfil(Perfil perfil) throws BusinessException, IntegrationException;	
 	
 	/**
 	 * Lista de Funcionalidades.

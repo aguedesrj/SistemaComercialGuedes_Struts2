@@ -248,6 +248,30 @@ public class UsuarioAction extends BaseAction {
 			return ERROR;
 		}    	
     }
+    
+    /**
+     * Deletar Perfil.
+     */
+    public String deletarPerfil() {
+    	try {
+
+    		Perfil perfil = new Perfil();
+    		perfil.setPerCodigo(getPerfil().getPerCodigo());
+    		
+    		// deletar perfil.
+    		usuarioFacade.deletarPerfil(perfil);
+    		setMensagemUsuario("Perfil excluído com sucesso.");
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			if (e instanceof BusinessException) {
+				setMensagemUsuario(e.getMessage());
+			} else {
+				setMensagemUsuario("Não foi possível excluir o Perfil.");
+			}
+			return ERROR;
+		}    	
+    }    
 
 	public Usuario getUsuario() {
 		return usuario;

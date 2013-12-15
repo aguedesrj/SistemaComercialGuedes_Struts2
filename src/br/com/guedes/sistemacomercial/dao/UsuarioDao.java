@@ -40,4 +40,21 @@ public interface UsuarioDao {
 	 * @throws IntegrationException
 	 */
 	public List<Funcionalidade> listaFuncionalidadesNotExistsPerfil(final Perfil perfil) throws BusinessException, IntegrationException;
+	
+	/**
+	 * Deletar todas as funcionalidades por Perfil.
+	 * 
+	 * @param perfil Perfil
+	 * @throws IntegrationException
+	 */
+	public void deletarFuncionalidadesPorPerfil(final Perfil perfil) throws IntegrationException;
+	
+	/**
+	 * Buscar perfil por ID.
+	 * 
+	 * @param perfil Perfil
+	 * @throws BusinessException
+	 * @throws IntegrationException
+	 */
+	public Perfil buscarPerfilPorId(final Perfil perfil) throws BusinessException, IntegrationException;	
 }

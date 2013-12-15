@@ -80,9 +80,9 @@
 				success: function(data, status, request){
 					$("#loading").css("display", "none");
 					if (status == "success" && data.mensagemUsuario == null) {
-						$("#modalManutencaoPerfil").modal('hide');
 						// atualiza a lista de perfis.
 						callListaPerfis();
+						$("#modalManutencaoPerfil").modal('hide');
                     	$("#divMensagemSucesso").css("display", "block");
                     	$("#spanMsgSuccess").show().html("Perfil cadastrado com sucesso!");						
 					} else {
@@ -147,11 +147,12 @@ function exibirListaPerfis(lista) {
     // Tabela de Perfis
 	$("#tabelaPerfis").jqGrid({
 		datatype: 'local',
-	    colNames:['Nome do Perfil','','','genCodigo'],
+	    colNames:['Nome do Perfil','','','','genCodigo'],
 	    colModel:[
 	        {name:'genDescricao',index:'genDescricao', width:400,sortable:true, classes: 'genDescricao', align:'center'},
             {name:'detalhar',index:'detalhar', width:50,sortable:true, classes: 'detalhar'},
-            {name:'alterar',index:'alterar', width:50,sortable:true, classes: 'alterar'},	        
+            {name:'alterar',index:'alterar', width:50,sortable:true, classes: 'alterar'},
+            {name:'deletar',index:'deletar', width:50,sortable:true, classes: 'deletar'},
 	        {name:'genCodigo',index:'genCodigo', width:50,sortable:true, key:true, classes: 'genCodigo',hidden: true}
 	    ],
         gridComplete: function(){
@@ -160,7 +161,8 @@ function exibirListaPerfis(lista) {
                 var valor = ids[i];
                 btnDetalhar = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='19px' height='16px' title='Detalhar produto' alt='Detalhar produto' style='cursor: pointer' src='../resources/img/detalhe.png' onclick='javascript:detalhar("+valor+");'></div>";
                 btnAlterar  = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='16px' height='16px' title='Alterar produto' alt='Alterar produto' style='cursor: pointer' src='../resources/img/edit.png' onclick='javascript:alterar("+valor+");'></div>";
-                $("#tabelaPerfis").jqGrid('setRowData',ids[i],{alterar:btnAlterar,detalhar:btnDetalhar});
+                btnDeletar  = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='16px' height='16px' title='Deletar produto' alt='Deletar produto' style='cursor: pointer' src='../resources/img/delete.png' onclick='javascript:deletar("+valor+");'></div>";
+                $("#tabelaPerfis").jqGrid('setRowData',ids[i],{alterar:btnAlterar,detalhar:btnDetalhar,deletar:btnDeletar});
             }   
         },	    
 	    multiselect: false,
@@ -248,19 +250,22 @@ function alterar(genCodigo) {
 				}  
 				for (var i = 0; data.listaDisponiveis.length > i; i++) {
 					options += "<option id='"+data.listaDisponiveis[i].genCodigo+"' value='"+data.listaDisponiveis[i].genCodigo+"' style='font-size: 10px;'>"+data.listaDisponiveis[i].genDescricao+"</option>";
-				} 				
-				$("#selectFuncionalidades").html("");
+				} 
+				$('#selectFuncionalidades').multiSelect('deselect_all');
 				$("#selectFuncionalidades").html(options);
-				$('#selectFuncionalidades').multiSelect();
+				$('#selectFuncionalidades').multiSelect();					
+				
+				// seta os valores.
+				$("#perCodigo").val(data.perfil.perCodigo);
+				$("#perNome").val(data.perfil.perNome);
 				
 		    	// exibir modal.
 		    	$("#modalManutencaoPerfil").modal({ // wire up the actual modal functionality and show the dialog
 			   		 "backdrop" : "static",
 			   		 "keyboard" : true,
 			   		 "show" : true // ensure the modal is shown immediately
-		    	});				
+		    	});
 			} else {
-				$("#loading").css("display", "none");
 				$("#divMensagemErro").css("display", "block");
 				$("#spanMsgError").show().html(data.mensagemUsuario);  					
 			}
@@ -272,6 +277,66 @@ function alterar(genCodigo) {
 			$("#loading").css("display", "none");
 			$("#divMensagemErro").css("display", "block");
 			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+		}
+	});	
+}
+
+function deletar(genCodigo) {
+	BootstrapDialog.show({
+		title: 'Sistema Comercial Guedes',
+        message: 'Deseja excluir o perfil?',
+        closable: false,
+        buttons: [{
+            label: 'SIM',
+            action: function(dialogRef){
+            	dialogRef.close();
+            	callDeletar(genCodigo);
+            }
+        }, {
+            label: 'NÃO',
+            action: function(dialogRef){
+                dialogRef.close();
+            }
+        }]
+    });	
+}
+
+/*
+ * 
+ */
+function callDeletar(genCodigo) {
+	$.ajax({
+		url: 'SistemaComercialGuedes/Usuario/DeletaPerfil?perfil.perCodigo='+genCodigo,
+		type: 'POST',
+		cache: false,
+		dataType: "json",
+		beforeSend: function(){
+			$("#loading").css("display", "block");
+		},
+		success: function(data, status, request){ 
+			if (status == "success") {
+				BootstrapDialog.show({
+					title: 'Sistema Comercial Guedes',
+		            message: data.mensagemUsuario
+		        });				
+				// obter a lista de perfis.
+				callListaPerfis();
+			} else {
+				BootstrapDialog.show({
+					title: 'Sistema Comercial Guedes',
+		            message: data.mensagemUsuario
+		        });						
+			}
+		},
+		complete : function () {
+			$("#loading").css("display", "none");
+		},
+		error: function (request, error) {
+			$("#loading").css("display", "none");
+			BootstrapDialog.show({
+				title: 'Sistema Comercial Guedes',
+	            message: "Sistema indisponível no momento."
+	        });				
 		}
 	});	
 }

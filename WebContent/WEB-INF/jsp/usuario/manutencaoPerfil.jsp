@@ -7,30 +7,33 @@
 <script src="../resources/js/pages/manutencaoPerfil.js"></script>
 
 <div class="container">
-	<div class="page-header">
-    	<h1>Manutenção Perfil do Usuário</h1>
-    </div>
-    <div class="row" style="margin-top: 15px; margin-left: 0px;">
-		<button id="btnNovoPerfil" type="button" class="btn btn-primary">Novo Perfil</button>
-	</div>    
-	<div class="page-header">
-    	<h1>Listagem Perfil do Usuário</h1>
-    </div>
-	<div class="row" style="margin-top: 15px; margin-left: 0px;">
-		<div style="float:left;">
-			<table width="100%" id="tabelaPerfis" class="tablehead" style="background:#CCC;"></table>
+	<div class="panel panel-default">
+    	<div class="panel-heading">
+        	<h3 class="panel-title">Manutenção Perfil do Usuário</h3>
+        </div>
+		<div class="panel-body">
+	    	<button id="btnNovoPerfil" type="button" class="btn btn-primary">Novo Perfil</button>
 		</div>
-	</div>    	
+	</div>
+	
+	<div class="panel panel-default">
+    	<div class="panel-heading">
+        	<h3 class="panel-title">Listagem Perfil do Usuário</h3>
+        </div>
+		<div class="panel-body">
+	    	<table width="100%" id="tabelaPerfis" class="tablehead" style="background:#CCC;"></table>
+		</div>
+	</div>   	
 </div>
 
 <!-- DIV do formulário -->
 <div id="modalManutencaoPerfil" class="modal fade">
-	<div class="modal-dialog" style="width: 500px;">
+	<div class="modal-dialog" style="width: 450px;">
 		<div class="modal-content">
 			<!-- dialog body -->
 			<div class="modal-body">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="container" style="width: 370px;">
+				<div class="container">
 					<form id="formManutencaoPerfil" name="formManutencaoPerfil">
 						<s:hidden id="perCodigo" name="perfil.perCodigo"></s:hidden>
 						<s:hidden id="funcSelecionados" name="funcSelecionados"></s:hidden> 
@@ -44,7 +47,7 @@
 							<div class="col-lg-5">
 								<a href='#' id='select-all'>Selecionar todos</a>
 								<a href='#' id='deselect-all'>Desmarcar todos</a>
-								<select id='selectFuncionalidades' multiple='multiple' name="selectFuncionalidades">
+								<select id='selectFuncionalidades' multiple='multiple' name="selectFuncionalidades[]">
 								</select>							
 							</div>						
 						</div>
@@ -61,24 +64,26 @@
 
 <!-- DIV do detalhamento -->
 <div id="modalDetalhe" class="modal fade">
-	<div class="modal-dialog" style="width: 500px;">
+	<div class="modal-dialog" style="width: 450px;">
 		<div class="modal-content">
 			<!-- dialog body -->
 			<div class="modal-body">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="container" style="width: 370px;">
-					<div class="row" style="margin-top: 15px;">
-						<div class="col-lg-4">
-							<label for="perNome" cssClass="control-label">Nome do Perfil</label>
-							<span id="spanPerNome"></span>
-						</div>						
-					</div>
-					<div class="row" style="margin-top: 15px;">
-						<div class="col-lg-7">
-							<label for="spanFuncionalidade" cssClass="control-label">Funcionalidades:</label>
-							<span id="spanFuncionalidade"></span>							
-						</div>						
-					</div>
+				<div class="container">
+					<table>
+						<tr>
+							<td>
+								<label for="perNome" cssClass="control-label">Nome do Perfil</label><br>
+								<span id="spanPerNome"></span>							
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="spanFuncionalidade" cssClass="control-label">Funcionalidades:</label><br>
+								<span id="spanFuncionalidade"></span>							
+							</td>
+						</tr>
+					</table>
 		         </div>
 			</div>
 			<!-- dialog buttons -->

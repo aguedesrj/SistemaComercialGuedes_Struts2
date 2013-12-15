@@ -44,6 +44,11 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	public void salvarPerfil(final Perfil perfil) throws IntegrationException {
 		try {
 			sessionFactory.getCurrentSession().saveOrUpdate(perfil);
+			List<PerfilFuncionalidade> lista = usuarioDao.listaFuncionalidadesPorPerfil(perfil);
+			for (PerfilFuncionalidade perfilFuncionalidade: lista) {
+				sessionFactory.getCurrentSession().delete(perfilFuncionalidade);
+			}
+			sessionFactory.getCurrentSession().flush();
 			for (PerfilFuncionalidade perfilFuncionalidade: perfil.getListaPerfilFuncionalidade()) {
 				sessionFactory.getCurrentSession().saveOrUpdate(perfilFuncionalidade);
 			}
@@ -69,16 +74,23 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	
 	/*
 	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#buscarPerfilPorId(br.com.guedes.sistemacomercial.model.Perfil)
+	 */
+	public Perfil buscarPerfilPorId(final Perfil perfil) throws BusinessException, IntegrationException {
+		return usuarioDao.buscarPerfilPorId(perfil);
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#deletarPerfil(br.com.guedes.sistemacomercial.model.Perfil)
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = IntegrationException.class)
-	public void deletarPerfil(final Perfil perfil) throws BusinessException, IntegrationException {
-		try {
-			getHibernateTemplate().delete(perfil);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new IntegrationException("Não foi possível deletar o Perfi.");
-		}		
+	public void deletarPerfil(Perfil perfil) throws BusinessException, IntegrationException {
+		perfil = usuarioDao.buscarPerfilPorId(perfil);
+		if (perfil == null) {
+			throw new BusinessException("Perfil não encontrado na base de dados.");
+		}
+		getHibernateTemplate().delete(perfil);	
 	}
 	
 	/*

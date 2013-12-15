@@ -74,8 +74,8 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 			LOGGER.info("Obtendo lista de funcionalidades por perfil.");
 			StringBuilder hql = new StringBuilder();
 			
-			hql.append("from Funcionalidade where not exists (select funcionalidade.funCodigo from PerfilFuncionalidade ");
-			hql.append("where funcionalidade.funCodigo = funcionalidade.funCodigo and perfil.perCodigo = " + perfil.getPerCodigo() + ")");
+			hql.append("from Funcionalidade F where not exists (select PF.funcionalidade.funCodigo from PerfilFuncionalidade PF ");
+			hql.append("where PF.funcionalidade.funCodigo = F.funCodigo and PF.perfil.perCodigo = " + perfil.getPerCodigo() + ")");
 			
 			return getHibernateTemplate().findByValueBean(hql.toString(), new Funcionalidade());
 		} catch (Exception e) {
@@ -83,4 +83,45 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 			throw new IntegrationException("Erro ao obter lista de funcionalidades que não existe no perfil.", e);
 		}
 	}	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.dao.UsuarioDao#deletarFuncionalidadesPorPerfil(br.com.guedes.sistemacomercial.model.Perfil)
+	 */
+	public void deletarFuncionalidadesPorPerfil(final Perfil perfil) throws IntegrationException {
+		try {
+			LOGGER.info("Deletando as funcionalidades por Perfil.");
+			StringBuilder hql = new StringBuilder();
+			
+			hql.append("delete from PerfilFuncionalidade PF where PF.perfil.perCodigo = " + perfil.getPerCodigo());
+			
+			getSession().createQuery(hql.toString());
+		} catch (Exception e) {
+			LOGGER.error("Erro na tentativa de deletar as funcionalidades por Perfil.", e);
+			throw new IntegrationException("Erro na tentativa de deletar as funcionalidades por Perfil.", e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.dao.UsuarioDao#buscarPerfilPorId(br.com.guedes.sistemacomercial.model.Perfil)
+	 */
+	@SuppressWarnings("unchecked")
+	public Perfil buscarPerfilPorId(final Perfil perfil) throws BusinessException, IntegrationException {
+		try {
+			LOGGER.info("Obtendo perfil por ID.");
+			StringBuilder hql = new StringBuilder();
+			
+			hql.append("from Perfil F where F.perCodigo = " + perfil.getPerCodigo());
+			
+			List<Perfil> lista = getHibernateTemplate().findByValueBean(hql.toString(), new Perfil());
+			if (lista != null && lista.size() == 1) {
+				return lista.get(0);
+			}
+			return null;
+		} catch (Exception e) {
+			LOGGER.error("Erro ao obter perfil por ID.", e);
+			throw new IntegrationException("Erro ao obter perfil por ID.", e);
+		}
+	}
 }

@@ -14,14 +14,13 @@
 	
 	<title><tiles:insertAttribute name="title"/></title>
 	<!-- CSS -->
-	<link href="../resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link href="../resources/bootstrap-3.0.3-dist/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 	<link href="../resources/js/jquery/css/blitzer/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-	<link href="../resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
 	<link href="../resources/css/tablecloth.css" rel="stylesheet" type="text/css"/>
 	<link href="../resources/css/prettify.css" rel="stylesheet" type="text/css"/> 
 	<link href="../resources/css/multi-select.css" rel="stylesheet" type="text/css"/>
-	<link href="../resources/css/DT_bootstrap.css" rel="stylesheet" type="text/css"/> 	
 	<link href="../resources/js/jquery.jqGrid-4.5.4/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>	
+	<link href="../resources/css/bootstrap-dialog.css" rel="stylesheet" type="text/css"/>
 	
 	<!-- JAVASCRIPT -->
 	<script src="../resources/js/jquery/jquery-1.9.1.js"></script>
@@ -49,9 +48,10 @@
 	<script src="../resources/js/jquery/jquery.maskMoney.js"></script>	
 	<script src="../resources/js/jquery/jquery.multi-select.js"></script>
 	<script src="../resources/js/jquery/jquery.dataTables.js"></script>
-	<script src="../resources/js/jquery/DT_bootstrap.js"></script>	
+	<script src="../resources/js/run_prettify.js"></script>	
+	<script src="../resources/js/bootstrap-dialog.js"></script>	
 	<script src="../resources/js/util.js"></script>	
-	<script src="../resources/bootstrap/js/bootstrap.min.js"></script>	
+	<script src="../resources/bootstrap-3.0.3-dist/dist/js/bootstrap.min.js"></script>	
 	<script src="../resources/js/bootbox.js"></script>	
 </head>
 <body>
