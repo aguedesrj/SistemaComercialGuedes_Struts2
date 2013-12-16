@@ -159,17 +159,9 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	
 	/*
 	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#buscarUsuarioPorId(br.com.guedes.sistemacomercial.model.Usuario)
-	 */
-	public Usuario buscarUsuarioPorId(final Usuario usuario) throws BusinessException, IntegrationException {
-		return usuarioDao.buscarUsuariosPorCriterios(usuario).get(0);
-	}
-	
-	/*
-	 * (non-Javadoc)
 	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#listaUsuarios(br.com.guedes.sistemacomercial.model.Usuario)
 	 */
-	public List<Usuario> listaUsuarios(final Usuario usuario) throws BusinessException, IntegrationException {
+	public List<Usuario> buscarUsuariosPorCriterios(final Usuario usuario) throws BusinessException, IntegrationException {
 		return usuarioDao.buscarUsuariosPorCriterios(usuario);
 	}
 	

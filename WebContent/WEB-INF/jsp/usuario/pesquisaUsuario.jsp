@@ -28,3 +28,48 @@
 		</div>
 	</div>   	
 </div>
+
+<!-- DIV do detalhamento -->
+<div id="modalDetalhe" class="modal fade">
+	<div class="modal-dialog" style="width: 450px;">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<div class="container">
+					<table>
+						<tr>
+							<td>
+								<label for="spanPerNome" cssClass="control-label">Nome</label><br>
+								<span id="spanPerNome"></span>							
+							</td>
+							<td>
+								<label for="spanUsuLogin" cssClass="control-label">Login</label><br>
+								<span id="spanUsuLogin"></span>							
+							</td>							
+						</tr>
+						<tr>
+							<td>
+								<label for="spanPesDataCadastro" cssClass="control-label">Data inclusão</label><br>
+								<span id="spanPesDataCadastro"></span>							
+							</td>
+							<td>
+								<label for="spanPesDataAlteracao" cssClass="control-label">Data alteração</label><br>
+								<span id="spanPesDataAlteracao"></span>							
+							</td>							
+						</tr>						
+						<tr>
+							<td>
+								<label for="spanPerfis" cssClass="control-label">Perfis:</label><br>
+								<span id="spanPerfis"></span>							
+							</td>
+						</tr>
+					</table>
+		         </div>
+			</div>
+			<!-- dialog buttons -->
+			<div class="modal-footer">
+				<button id="btnFechar" type="button" class="btn btn-primary">Fechar</button>
+			</div>
+		</div>
+	</div>
+</div>

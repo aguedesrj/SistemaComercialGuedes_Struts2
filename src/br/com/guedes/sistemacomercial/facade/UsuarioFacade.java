@@ -85,15 +85,6 @@ public interface UsuarioFacade {
 	public List<Funcionalidade> listaFuncionalidadesNotExistsPerfil(final Perfil perfil) throws BusinessException, IntegrationException;
 	
 	/**
-	 * Buscar usuario por ID.
-	 * 
-	 * @param usuario Usuario
-	 * @throws BusinessException
-	 * @throws IntegrationException
-	 */
-	public Usuario buscarUsuarioPorId(final Usuario usuario) throws BusinessException, IntegrationException;
-	
-	/**
 	 * Lista de Usuarios.
 	 * 
 	 * @param usuario Usuario
@@ -101,7 +92,7 @@ public interface UsuarioFacade {
 	 * @throws BusinessException
 	 * @throws IntegrationException
 	 */
-	public List<Usuario> listaUsuarios(final Usuario usuario) throws BusinessException, IntegrationException;	
+	public List<Usuario> buscarUsuariosPorCriterios(final Usuario usuario) throws BusinessException, IntegrationException;	
 	
 	/**
 	 * Deletar Usuario.

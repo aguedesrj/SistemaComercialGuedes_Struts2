@@ -168,7 +168,9 @@ public class UsuarioAction extends BaseAction {
     public String listarUsuarios() {
     	try {
     		Usuario usuario = new Usuario();
-    		List<Usuario> lista = usuarioFacade.listaUsuarios(usuario);
+    		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+    		
+    		List<Usuario> lista = usuarioFacade.buscarUsuariosPorCriterios(usuario);
     		setListaUsuarios(new ArrayList<UsuarioVO>());
     		
     		for (Usuario usuarioLista: lista) {

@@ -83,6 +83,55 @@ function carregaTabela(lista) {
     $("#tabelaUsuarios").jqGrid('setGridParam',{datatype: 'local',data:lista}).trigger("reloadGrid"); 	
 }
 
+function detalhar(usuCodigo) {
+	$.ajax({
+		url: 'SistemaComercialGuedes/Usuario/ListaFuncionalidadesPorPerfil?usuario.usuCodigo='+usuCodigo,
+		type: 'POST',
+		cache: false,
+		dataType: "json",
+		beforeSend: function(){
+			$("#loading").css("display", "block");
+			$("#divMensagemErro").css("display", "none");
+			$("#divMensagemSucesso").css("display", "none");
+		},
+		success: function(data, status, request){ 
+			$("#loading").css("display", "none");
+			if (status == "success" && data.mensagemUsuario == null) {
+				exibirModalDetalhe(data);
+			} else {
+				$("#loading").css("display", "none");
+				$("#divMensagemErro").css("display", "block");
+				$("#spanMsgError").show().html(data.mensagemUsuario);  					
+			}
+		},
+		error: function (request, error) {
+			$("#loading").css("display", "none");
+			$("#divMensagemErro").css("display", "block");
+			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+		}
+	});	
+}
+
+function exibirModalDetalhe(data) {
+	$("#spanPerNome").html(data.usuario.pesNome);
+	$("#spanUsuLogin").html(data.usuario.usuLogin);
+	$("#spanPesDataCadastro").html(data.usuario.pesDataCadastro);
+	$("#spanPesDataAlteracao").html(data.usuario.pesDataAlteracao);
+	
+	// exibir as funcionalidades.
+	$("#spanPerfis").html("");
+	for (var i = 0; data.listaSelecionados.length > i; i++) {
+		$("#spanPerfis").append(data.listaSelecionados[i].genDescricao+"<br>");
+	}
+	
+    // exibir modal.
+	$("#modalDetalhe").modal({ // wire up the actual modal functionality and show the dialog
+   		 "backdrop" : "static",
+   		 "keyboard" : true,
+   		 "show" : true // ensure the modal is shown immediately
+	});		
+}
+
 function deletar(usuCodigo) {
 	BootstrapDialog.show({
 		title: 'Sistema Comercial Guedes',

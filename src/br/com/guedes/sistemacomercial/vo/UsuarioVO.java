@@ -12,6 +12,8 @@ public class UsuarioVO implements Serializable {
 	private String usuSenha;
 	private String usuConfirmaSenha;
 	private String pesNome;
+	private String pesDataCadastro;
+	private String pesDataAlteracao;
 	
 	public Integer getUsuCodigo() {
 		return usuCodigo;
@@ -59,5 +61,21 @@ public class UsuarioVO implements Serializable {
 	
 	public void setPesNome(String pesNome) {
 		this.pesNome = pesNome;
+	}
+
+	public String getPesDataCadastro() {
+		return pesDataCadastro;
+	}
+
+	public void setPesDataCadastro(String pesDataCadastro) {
+		this.pesDataCadastro = pesDataCadastro;
+	}
+
+	public String getPesDataAlteracao() {
+		return pesDataAlteracao;
+	}
+
+	public void setPesDataAlteracao(String pesDataAlteracao) {
+		this.pesDataAlteracao = pesDataAlteracao;
 	}
 }
