@@ -1,6 +1,7 @@
 package br.com.guedes.sistemacomercial.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,14 @@ import br.com.guedes.sistemacomercial.model.Funcionalidade;
 import br.com.guedes.sistemacomercial.model.Perfil;
 import br.com.guedes.sistemacomercial.model.PerfilFuncionalidade;
 import br.com.guedes.sistemacomercial.model.PerfilFuncionalidadePk;
+import br.com.guedes.sistemacomercial.model.Pessoa;
 import br.com.guedes.sistemacomercial.model.Usuario;
+import br.com.guedes.sistemacomercial.model.UsuarioPerfil;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.Constantes;
 import br.com.guedes.sistemacomercial.vo.GenericVO;
 import br.com.guedes.sistemacomercial.vo.PerfilVO;
+import br.com.guedes.sistemacomercial.vo.UsuarioVO;
 
 /**
  * Action usuário.
@@ -30,12 +34,13 @@ public class UsuarioAction extends BaseAction {
 
 	private static final long serialVersionUID = 6197016604313350773L;
 	
-	private Usuario usuario;
 	private String mensagemUsuario;
 	private PerfilVO perfil = new PerfilVO();
-	private String funcSelecionados;
+	private String itensSelecionados;
+	private List<UsuarioVO> listaUsuarios;
 	private List<GenericVO> listaSelecionados;
-	private List<GenericVO> listaDisponiveis;	
+	private List<GenericVO> listaDisponiveis;
+	private UsuarioVO usuario = new UsuarioVO();
 	
 	@Autowired
 	private UsuarioFacade usuarioFacade;
@@ -60,6 +65,10 @@ public class UsuarioAction extends BaseAction {
 		
 		try {
 			
+			Usuario usuario = new Usuario();
+			usuario.setUsuLogin(getUsuario().getUsuLogin());
+			usuario.setUsuSenha(getUsuario().getUsuSenha());
+			
 			usuario = usuarioFacade.efetuarLogin(usuario.getUsuLogin().trim(), usuario.getUsuSenha().trim());
 			
 			// Abrir sessão.
@@ -82,6 +91,71 @@ public class UsuarioAction extends BaseAction {
     	return SUCCESS;
     }  
     
+    public String exibirPesquisarUsuario() {
+    	
+    	return SUCCESS;
+    }
+    
+    public String exibirManutencaoUsuario() {
+    	
+    	return SUCCESS;
+    }  
+    
+    /**
+     * Salvar Usuário.
+     */
+    public String salvarUsuario() {
+    	try {
+
+    		// validar campos.
+    		
+    		// dados
+    		Pessoa pessoa = new Pessoa();
+    		Usuario usuario = new Usuario();
+    		pessoa.setPesCodigo(getUsuario().getPesCodigo());
+    		pessoa.setPesNome(getUsuario().getPesNome());
+    		// verifica se está incluindo novo Usuário
+    		if (pessoa.getPesCodigo() == null) {
+    			pessoa.setPesDataCadastro(Calendar.getInstance());
+    		} else {
+    			pessoa.setPesDataAlteracao(Calendar.getInstance());
+    		}
+    		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+    		usuario.setUsuLogin(getUsuario().getUsuLogin());
+    		usuario.setUsuSenha(getUsuario().getUsuSenha());
+    		usuario.setPessoa(pessoa);
+    		// lista de perfis selecionadas.
+    		String[] array = getItensSelecionados().split(",");
+    		for (int i = 0; array.length > i; i++) {
+    			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+        		//UsuarioPerfilPk usuarioPerfilPk = new UsuarioPerfilPk();
+        		Perfil perfil = new Perfil();
+        		
+        		perfil.setPerCodigo(Integer.valueOf(array[i]));
+    			
+        		//usuarioPerfilPk.setPerfil(perfil);
+        		//usuarioPerfilPk.setUsuario(usuario);
+        		usuarioPerfil.setPerfil(perfil);
+        		usuarioPerfil.setUsuario(usuario);
+        		
+        		usuario.getListaUsuarioPerfil().add(usuarioPerfil);
+    		}
+    		
+    		// salvar.
+    		usuarioFacade.salvarUsuario(usuario);
+    		
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			if (e instanceof BusinessException) {
+				setMensagemUsuario(e.getMessage());
+			} else {
+				setMensagemUsuario("Não foi possível salvar o Usuário.");
+			}
+			return ERROR;
+		}    	
+    }    
+    
     /**
      * 
      * @return String
@@ -90,6 +164,53 @@ public class UsuarioAction extends BaseAction {
 
     	return SUCCESS;
     }   
+    
+    public String listarUsuarios() {
+    	try {
+    		Usuario usuario = new Usuario();
+    		List<Usuario> lista = usuarioFacade.listaUsuarios(usuario);
+    		setListaUsuarios(new ArrayList<UsuarioVO>());
+    		
+    		for (Usuario usuarioLista: lista) {
+    			UsuarioVO usuarioVO = new UsuarioVO();
+    			usuarioVO.setPesCodigo(usuarioLista.getPessoa().getPesCodigo());
+    			usuarioVO.setPesNome(usuarioLista.getPessoa().getPesNome());
+    			usuarioVO.setUsuCodigo(usuarioLista.getUsuCodigo());
+    			usuarioVO.setUsuLogin(usuarioLista.getUsuLogin());
+    			usuarioVO.setUsuSenha(usuarioLista.getUsuSenha());
+    			usuarioVO.setUsuConfirmaSenha(usuarioLista.getUsuSenha());
+    			
+    			getListaUsuarios().add(usuarioVO);
+    		}
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			setMensagemUsuario("Não foi possível listar os Usuários.");
+			return ERROR;
+		}    	
+    }  
+    
+    public String deletarUsuario() {
+    	try {
+
+    		Usuario usuario = new Usuario();
+    		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+    		usuario.setUsuStatus("I");
+    		
+    		// deletar.
+    		usuarioFacade.deletarUsuario(usuario);
+    		setMensagemUsuario("Usuário excluído com sucesso.");
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			if (e instanceof BusinessException) {
+				setMensagemUsuario(e.getMessage());
+			} else {
+				setMensagemUsuario("Não foi possível excluir o Usuário.");
+			}
+			return ERROR;
+		}      	
+    }
     
     /**
      * Listar todas as funcionalidades disponíveis.
@@ -222,7 +343,7 @@ public class UsuarioAction extends BaseAction {
     		perfil.setPerNome(getPerfil().getPerNome());
     		
     		// lista de funcionalidades selecionadas.
-    		String[] array = getFuncSelecionados().split(",");
+    		String[] array = getItensSelecionados().split(",");
     		for (int i = 0; array.length > i; i++) {
         		PerfilFuncionalidade perfilFuncionalidade = new PerfilFuncionalidade();
         		PerfilFuncionalidadePk perfilFuncionalidadePk = new PerfilFuncionalidadePk();
@@ -271,15 +392,7 @@ public class UsuarioAction extends BaseAction {
 			}
 			return ERROR;
 		}    	
-    }    
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    }
 
 	public String getMensagemUsuario() {
 		return mensagemUsuario;
@@ -287,14 +400,6 @@ public class UsuarioAction extends BaseAction {
 
 	public void setMensagemUsuario(String mensagemUsuario) {
 		this.mensagemUsuario = mensagemUsuario;
-	}
-
-	public String getFuncSelecionados() {
-		return funcSelecionados;
-	}
-
-	public void setFuncSelecionados(String funcSelecionados) {
-		this.funcSelecionados = funcSelecionados;
 	}
 
 	public PerfilVO getPerfil() {
@@ -319,5 +424,29 @@ public class UsuarioAction extends BaseAction {
 
 	public void setListaDisponiveis(List<GenericVO> listaDisponiveis) {
 		this.listaDisponiveis = listaDisponiveis;
+	}
+
+	public UsuarioVO getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioVO usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getItensSelecionados() {
+		return itensSelecionados;
+	}
+
+	public void setItensSelecionados(String itensSelecionados) {
+		this.itensSelecionados = itensSelecionados;
+	}
+
+	public List<UsuarioVO> getListaUsuarios() {
+		return listaUsuarios;
+	}
+
+	public void setListaUsuarios(List<UsuarioVO> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
 	}
 }

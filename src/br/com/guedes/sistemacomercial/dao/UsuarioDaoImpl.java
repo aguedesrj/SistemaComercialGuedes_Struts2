@@ -10,6 +10,7 @@ import br.com.guedes.sistemacomercial.model.Funcionalidade;
 import br.com.guedes.sistemacomercial.model.Perfil;
 import br.com.guedes.sistemacomercial.model.PerfilFuncionalidade;
 import br.com.guedes.sistemacomercial.model.Usuario;
+import br.com.guedes.sistemacomercial.model.UsuarioPerfil;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.IntegrationException;
 
@@ -43,6 +44,25 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 		}
 		
 		throw new BusinessException("Login ou senha inválidos.");
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.dao.UsuarioDao#listaPerfisPorUsuario(br.com.guedes.sistemacomercial.model.Usuario)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<UsuarioPerfil> listaPerfisPorUsuario(final Usuario usuario) throws BusinessException, IntegrationException {
+		try {
+			LOGGER.info("Obtendo lista de perfis por usuário.");
+			StringBuilder hql = new StringBuilder();
+			
+			hql.append("from UsuarioPerfil where usuario.usuCodigo = " + usuario.getUsuCodigo());
+			
+			return getHibernateTemplate().findByValueBean(hql.toString(), new UsuarioPerfil());
+		} catch (Exception e) {
+			LOGGER.error("Erro ao obter lista de perfis por usuário.", e);
+			throw new IntegrationException("Erro ao obter lista de perfis por usuário.", e);
+		}
 	}
 	
 	/*
@@ -82,7 +102,31 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 			LOGGER.error("Erro ao obter lista de funcionalidades que não existe no perfil.", e);
 			throw new IntegrationException("Erro ao obter lista de funcionalidades que não existe no perfil.", e);
 		}
-	}	
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.dao.UsuarioDao#isPerfilUsadoUsuario(br.com.guedes.sistemacomercial.model.Perfil)
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean isPerfilUsadoUsuario(final Perfil perfil) throws BusinessException, IntegrationException {
+		try {
+			LOGGER.info("Verificando se o perfil está sendo usado por algum Usuário.");
+			StringBuilder hql = new StringBuilder();
+			
+			hql.append("from Perfil P where exists (select UP.perfil.perCodigo from UsuarioPerfil UP ");
+			hql.append("where UP.perfil.perCodigo = P.perCodigo and UP.perfil.perCodigo = " + perfil.getPerCodigo() + ")");
+			
+			List<Perfil> lista = getHibernateTemplate().findByValueBean(hql.toString(), new Perfil());
+			if (lista == null || lista.isEmpty()) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			LOGGER.error("Erro ao verificar se o perfil está sendo usado por algum Usuário.", e);
+			throw new IntegrationException("Erro ao verificar se o perfil está sendo usado por algum Usuário.", e);
+		}
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -122,6 +166,31 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 		} catch (Exception e) {
 			LOGGER.error("Erro ao obter perfil por ID.", e);
 			throw new IntegrationException("Erro ao obter perfil por ID.", e);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.dao.UsuarioDao#listaUsuarios(br.com.guedes.sistemacomercial.model.Usuario)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Usuario> buscarUsuariosPorCriterios(final Usuario usuario) throws BusinessException, IntegrationException {
+		try {
+			LOGGER.info("Obtendo lista de usuários.");
+			StringBuilder hql = new StringBuilder();
+			
+			hql.append("from Usuario U where U.usuStatus = 'A' ");
+			if (usuario.getUsuCodigo() != null) {
+				hql.append(" and U.usuCodigo = " + usuario.getUsuCodigo());
+			}
+			if (usuario.getUsuLogin() != null) {
+				hql.append(" and U.usuLogin = " + usuario.getUsuLogin());
+			}			
+			
+			return getHibernateTemplate().findByValueBean(hql.toString(), new Usuario());
+		} catch (Exception e) {
+			LOGGER.error("Erro ao obter lista de usuários.", e);
+			throw new IntegrationException("Erro ao obter lista de usuários.", e);
 		}
 	}
 }

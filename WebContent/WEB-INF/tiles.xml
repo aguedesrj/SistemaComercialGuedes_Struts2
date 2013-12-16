@@ -47,6 +47,12 @@
    	<definition name="home.usuario" extends="template.index">
         <put-attribute name="conteudo" value="/WEB-INF/jsp/usuario/homeUsuario.jsp"/>
     </definition>
+   	<definition name="pesquisa.usuario" extends="template.index">
+        <put-attribute name="conteudo" value="/WEB-INF/jsp/usuario/pesquisaUsuario.jsp"/>
+    </definition>
+   	<definition name="manutencao.usuario" extends="template.index">
+        <put-attribute name="conteudo" value="/WEB-INF/jsp/usuario/manutencaoUsuario.jsp"/>
+    </definition>        
    	<definition name="manutencao.perfil.usuario" extends="template.index">
         <put-attribute name="conteudo" value="/WEB-INF/jsp/usuario/manutencaoPerfil.jsp"/>
     </definition>    

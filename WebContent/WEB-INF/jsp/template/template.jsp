@@ -56,7 +56,7 @@
 </head>
 <body>
 	<div id="tilesMenu"><tiles:insertAttribute name="menu"/></div>
-	<div id="tilesMensagem" style="padding-top: 30px;"><tiles:insertAttribute name="mensagem"/></div>
+	<div id="tilesMensagem" style="padding-top: 25px;"><tiles:insertAttribute name="mensagem"/></div>
 	<div id="tilesConteudo"><tiles:insertAttribute name="conteudo"/></div>	
 	<div id="tilesRodape"><tiles:insertAttribute name="rodape"/></div>
 </body>

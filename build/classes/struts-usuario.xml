@@ -35,6 +35,74 @@
             <result name="error">/login.jsp</result>
         </action> 
         
+        <action name="logout" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="efetuarlogout">
+            <result name="success">/login.jsp</result>
+        </action>         
+        
+        <!-- **************************** Manutenção Usuário **************************** -->
+        <action name="ExibePesquisaUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirPesquisarUsuario">
+            <result name="success" type="tiles">pesquisa.usuario</result>
+            <result name="error">/login.jsp</result>
+        </action>
+        
+        <action name="ManutencaoUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirManutencaoUsuario">
+            <result name="success" type="tiles">manutencao.usuario</result>
+            <result name="error">/login.jsp</result>
+        </action> 
+        
+        <action name="SalvaUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="salvarUsuario">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,
+					listaSelecionados,listaDisponiveis,perfil
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,
+					listaSelecionados,listaDisponiveis,perfil
+				</param>            
+            </result>
+        </action>
+        
+        <action name="ListaUsuarios" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="listarUsuarios">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil
+				</param>            
+            </result>
+        </action>        
+        
+        <action name="DeletaUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="deletarUsuario">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					listaDisponiveis,perfil,listaUsuarios
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					listaDisponiveis,perfil,listaUsuarios
+				</param>            
+            </result>
+        </action>        
+        
+        
+        <!-- **************************** Fim Manutenção Usuário **************************** -->
+        
+        <!-- **************************** Manutenção Perfil **************************** -->
         <action name="ManutencaoPerfil" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirManutencaoPerfil">
             <result name="success" type="tiles">manutencao.perfil.usuario</result>
             <result name="error">/login.jsp</result>
@@ -44,13 +112,15 @@
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,
+					funcSelecionados,perfil,usuario,listaUsuarios
 				</param>            
             </result>
             <result name="error" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,
+					funcSelecionados,perfil,usuario,listaUsuarios
 				</param>            
             </result>
         </action>
@@ -59,13 +129,15 @@
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,funcSelecionados,perfil
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					funcSelecionados,perfil,usuario,listaUsuarios
 				</param>            
             </result>
             <result name="error" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,funcSelecionados,perfil
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					funcSelecionados,perfil,usuario,listaUsuarios
 				</param>            
             </result>
         </action>
@@ -74,13 +146,15 @@
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,funcSelecionados
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,funcSelecionados,
+					usuario,listaUsuarios
 				</param>            
             </result>
             <result name="error" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,funcSelecionados
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,funcSelecionados,
+					usuario,listaUsuarios
 				</param>            
             </result>
         </action>        
@@ -89,13 +163,15 @@
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,
+					funcSelecionados,usuario,listaUsuarios
 				</param>            
             </result>
             <result name="error" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,
+					funcSelecionados,usuario,listaUsuarios
 				</param>            
             </result>
         </action>         
@@ -104,13 +180,15 @@
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					listaDisponiveis,usuario,listaUsuarios
 				</param>            
             </result>
             <result name="error" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					listaDisponiveis,usuario,listaUsuarios
 				</param>            
             </result>
         </action>  
@@ -119,20 +197,19 @@
             <result name="success" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis,perfil
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					listaDisponiveis,perfil,usuario,listaUsuarios
 				</param>            
             </result>
             <result name="error" type="json">
 				<param name="excludeNullProperties">true</param>		
 				<param name="excludeProperties">
-					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,listaDisponiveis,perfil
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaSelecionados,
+					listaDisponiveis,perfil,usuario,listaUsuarios
 				</param>            
             </result>
-        </action>        
-        
-        <action name="logout" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="efetuarlogout">
-            <result name="success">/login.jsp</result>
-        </action> 
+        </action>
+        <!-- **************************** Fim Manutenção Perfil **************************** -->
         
     </package>
 </struts>

@@ -22,6 +22,14 @@ public interface UsuarioFacade {
 	public Usuario efetuarLogin(final String login, final String senha) throws BusinessException;
 	
 	/**
+	 * Salvar Usuário.
+	 * 
+	 * @param usuario Usuario
+	 * @throws IntegrationException
+	 */
+	public void salvarUsuario(final Usuario usuario) throws IntegrationException;	
+	
+	/**
 	 * Salvar Perfil do Usuário.
 	 * 
 	 * @param perfil Perfil
@@ -74,5 +82,33 @@ public interface UsuarioFacade {
 	 * @throws BusinessException
 	 * @throws IntegrationException
 	 */
-	public List<Funcionalidade> listaFuncionalidadesNotExistsPerfil(final Perfil perfil) throws BusinessException, IntegrationException;	
+	public List<Funcionalidade> listaFuncionalidadesNotExistsPerfil(final Perfil perfil) throws BusinessException, IntegrationException;
+	
+	/**
+	 * Buscar usuario por ID.
+	 * 
+	 * @param usuario Usuario
+	 * @throws BusinessException
+	 * @throws IntegrationException
+	 */
+	public Usuario buscarUsuarioPorId(final Usuario usuario) throws BusinessException, IntegrationException;
+	
+	/**
+	 * Lista de Usuarios.
+	 * 
+	 * @param usuario Usuario
+	 * @return List<Usuario>
+	 * @throws BusinessException
+	 * @throws IntegrationException
+	 */
+	public List<Usuario> listaUsuarios(final Usuario usuario) throws BusinessException, IntegrationException;	
+	
+	/**
+	 * Deletar Usuario.
+	 * 
+	 * @param usuario Usuario
+	 * @throws BusinessException
+	 * @throws IntegrationException
+	 */
+	public void deletarUsuario(Usuario usuario) throws BusinessException, IntegrationException;	
 }

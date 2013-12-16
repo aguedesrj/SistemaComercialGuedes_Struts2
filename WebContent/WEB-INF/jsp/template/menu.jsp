@@ -20,7 +20,9 @@
             	<li class="dropdown">
 	              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuários <b class="caret"></b></a>
 	              	<ul class="dropdown-menu">
-	                	<li><a href="../Usuario/ManutencaoPerfil">Perfil</a></li>
+	                	<li><a href="../Usuario/ExibePesquisaUsuario">Pesquisar Usuário</a></li>
+	                	<li><a href="../Usuario/ManutencaoUsuario">Manutenção Usuário</a></li>
+	                	<li><a href="../Usuario/ManutencaoPerfil">Manutenção Perfil</a></li>
 	              	</ul>
             	</li>            	
 			</ul>

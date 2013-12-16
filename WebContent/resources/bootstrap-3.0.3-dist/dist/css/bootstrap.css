@@ -5296,10 +5296,10 @@ a.thumbnail.active {
 }
 
 .alert {
-  padding: 15px;
+  padding-left: 5px;
   margin-bottom: 20px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .alert h4 {
@@ -5317,7 +5317,7 @@ a.thumbnail.active {
 }
 
 .alert > p + p {
-  margin-top: 5px;
+  margin-top: 3px;
 }
 
 .alert-dismissable {

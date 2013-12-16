@@ -1,6 +1,8 @@
 package br.com.guedes.sistemacomercial.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -25,7 +28,7 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQUENCE_USUARIO")
 	@Column(name="USU_CODIGO")
-	private Integer pesCodigo;
+	private Integer usuCodigo;
 	
 	@Column(name="USU_LOGIN", length=50)
 	private String usuLogin;
@@ -33,16 +36,22 @@ public class Usuario implements Serializable {
 	@Column(name="USU_SENHA", length=20)
 	private String usuSenha;
 	
+	@Column(name="USU_STATUS", length=1)
+	private String usuStatus;	
+	
 	@OneToOne
 	@JoinColumn(name="PES_CODIGO")
 	private Pessoa pessoa;
+	
+	@OneToMany(mappedBy = "usuario")
+	private Set<UsuarioPerfil> listaUsuarioPerfil = new HashSet<UsuarioPerfil>();	
 
-	public Integer getPesCodigo() {
-		return pesCodigo;
+	public Integer getUsuCodigo() {
+		return usuCodigo;
 	}
 
-	public void setPesCodigo(Integer pesCodigo) {
-		this.pesCodigo = pesCodigo;
+	public void setUsuCodigo(Integer usuCodigo) {
+		this.usuCodigo = usuCodigo;
 	}
 
 	public String getUsuLogin() {
@@ -67,5 +76,21 @@ public class Usuario implements Serializable {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	public Set<UsuarioPerfil> getListaUsuarioPerfil() {
+		return listaUsuarioPerfil;
+	}
+
+	public void setListaUsuarioPerfil(Set<UsuarioPerfil> listaUsuarioPerfil) {
+		this.listaUsuarioPerfil = listaUsuarioPerfil;
+	}
+
+	public String getUsuStatus() {
+		return usuStatus;
+	}
+
+	public void setUsuStatus(String usuStatus) {
+		this.usuStatus = usuStatus;
 	}
 }

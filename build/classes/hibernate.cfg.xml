@@ -24,6 +24,8 @@
         <mapping class="br.com.guedes.sistemacomercial.model.TipoContato"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Pessoa"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Usuario"/>
+        <mapping class="br.com.guedes.sistemacomercial.model.UsuarioPerfil"/>
+        <mapping class="br.com.guedes.sistemacomercial.model.UsuarioPerfilPk"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Produto"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Fornecedor"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Categoria"/>

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function() {
 	
-	var funcSelecionados = [];
+	var itensSelecionados = [];
 	
 	// selecionar todos.
 	$('#select-all').click(function(){
@@ -124,7 +124,6 @@ function callListaPerfis() {
 				// atualiza lista na tabela.
 				exibirListaPerfis(data.listaSelecionados);
 			} else {
-				$("#loading").css("display", "none");
 				$("#divMensagemErro").css("display", "block");
 				$("#spanMsgError").show().html(data.mensagemUsuario);  					
 			}
@@ -133,7 +132,6 @@ function callListaPerfis() {
 			$("#loading").css("display", "none");
 		},
 		error: function (request, error) {
-			$("#loading").css("display", "none");
 			$("#divMensagemErro").css("display", "block");
 			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
 		}
@@ -313,7 +311,8 @@ function callDeletar(genCodigo) {
 		beforeSend: function(){
 			$("#loading").css("display", "block");
 		},
-		success: function(data, status, request){ 
+		success: function(data, status, request){
+			$("#loading").css("display", "none");
 			if (status == "success") {
 				BootstrapDialog.show({
 					title: 'Sistema Comercial Guedes',
@@ -328,9 +327,6 @@ function callDeletar(genCodigo) {
 		        });						
 			}
 		},
-		complete : function () {
-			$("#loading").css("display", "none");
-		},
 		error: function (request, error) {
 			$("#loading").css("display", "none");
 			BootstrapDialog.show({
@@ -343,7 +339,10 @@ function callDeletar(genCodigo) {
 
 function validarFormPerfil() {
 	
-	funcSelecionados = [];
+	$("#divMensagemErro").css("display", "none");
+	$("#divMensagemSucesso").css("display", "none");
+	
+	itensSelecionados = [];
 	var isValidos = false;
 	var perNome = $("#perNome");	
 	
@@ -357,21 +356,21 @@ function validarFormPerfil() {
 	
 	// obter as funcionalidades selecionadas.
 	$('#selectFuncionalidades :selected' ).each(function(i, selected) {
-		funcSelecionados[i] = $(selected).val();
+		itensSelecionados[i] = $(selected).val();
 	});
 	
 	// valida funcionalidades.
-	if (funcSelecionados.length == 0) {
+	if (itensSelecionados.length == 0) {
 		isValidos = true;
 	}
 	
 	if (isValidos) {
-		$("#funcSelecionados").val("");
+		$("#itensSelecionados").val("");
 		$("#divMensagemErro").css("display", "block");
 		$("#spanMsgError").show().html("O(s) campo(s) em vermelho(s) é obrigatório.");			
 		return false;		
 	} else {
-		$("#funcSelecionados").val(funcSelecionados);
+		$("#itensSelecionados").val(itensSelecionados);
 	}
 	
 	return true;	

@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<script src="../resources/js/pages/manutencaoPerfil.js"></script>
+<script src="../resources/js/pages/usuario/manutencaoPerfil.js"></script>
 
 <div class="container">
 	<div class="panel panel-default">
@@ -36,7 +36,7 @@
 				<div class="container">
 					<form id="formManutencaoPerfil" name="formManutencaoPerfil">
 						<s:hidden id="perCodigo" name="perfil.perCodigo"></s:hidden>
-						<s:hidden id="funcSelecionados" name="funcSelecionados"></s:hidden> 
+						<s:hidden id="itensSelecionados" name="itensSelecionados"></s:hidden> 
 						<div class="row" style="margin-top: 15px;">
 							<div class="col-lg-5">
 								<label for="vrpImpostoICMS" cssClass="control-label">Nome do Perfil</label>
