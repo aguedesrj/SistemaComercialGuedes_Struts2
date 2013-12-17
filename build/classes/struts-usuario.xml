@@ -116,6 +116,10 @@
             </result>
         </action>        
         
+        <action name="ExibeAlteracaoUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirAlteracaoUsuario">
+            <result name="success" type="tiles">manutencao.usuario</result>
+            <result name="error">/login.jsp</result>
+        </action>
         
         <!-- **************************** Fim Manutenção Usuário **************************** -->
         

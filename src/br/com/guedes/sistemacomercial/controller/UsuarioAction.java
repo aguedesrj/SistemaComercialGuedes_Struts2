@@ -129,16 +129,11 @@ public class UsuarioAction extends BaseAction {
     		String[] array = getItensSelecionados().split(",");
     		for (int i = 0; array.length > i; i++) {
     			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
-        		//UsuarioPerfilPk usuarioPerfilPk = new UsuarioPerfilPk();
         		Perfil perfil = new Perfil();
         		
         		perfil.setPerCodigo(Integer.valueOf(array[i]));
-    			
-        		//usuarioPerfilPk.setPerfil(perfil);
-        		//usuarioPerfilPk.setUsuario(usuario);
         		usuarioPerfil.setPerfil(perfil);
-        		usuarioPerfil.setUsuario(usuario);
-        		
+        		usuarioPerfil.setUsuario(usuario);       		
         		usuario.getListaUsuarioPerfil().add(usuarioPerfil);
     		}
     		
@@ -256,6 +251,55 @@ public class UsuarioAction extends BaseAction {
 		}
     }
     
+    public String exibirAlteracaoUsuario() {
+    	try {
+
+    		Usuario usuario = new Usuario();
+    		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+    		
+    		List<Usuario> lista = usuarioFacade.buscarUsuariosPorCriterios(usuario);
+    		if (lista != null && lista.size() == 1) {
+    			usuario = lista.get(0);
+    			getUsuario().setPesCodigo(usuario.getPessoa().getPesCodigo());
+    			getUsuario().setPesNome(usuario.getPessoa().getPesNome());
+    			getUsuario().setUsuCodigo(usuario.getUsuCodigo());
+    			getUsuario().setUsuLogin(usuario.getUsuLogin());
+    			getUsuario().setUsuSenha(usuario.getUsuSenha());
+    			getUsuario().setUsuConfirmaSenha(usuario.getUsuSenha());
+    			setListaSelecionados(new ArrayList<GenericVO>());
+    			for (UsuarioPerfil usuarioPerfil: usuario.getListaUsuarioPerfil()) {
+    				GenericVO genericVO = new GenericVO();
+        			genericVO.setGenCodigo(usuarioPerfil.getPerfil().getPerCodigo());
+        			genericVO.setGenDescricao(usuarioPerfil.getPerfil().getPerNome());
+        			getListaSelecionados().add(genericVO);
+    			}
+    		} else {
+    			setMensagemUsuario("Usuário não encontrado.");
+    		}
+    		
+    		// obter a lista de perfis disponíveis.
+	 		setListaDisponiveis(new ArrayList<GenericVO>());
+	 		List<Perfil> listaPerfil = usuarioFacade.listaPerfilsNotExistsUsuario(usuario);
+	 		for (Perfil perfil: listaPerfil) {
+	 			GenericVO genericVO = new GenericVO(); 
+	 			genericVO.setGenCodigo(perfil.getPerCodigo());
+	 			genericVO.setGenDescricao(perfil.getPerNome());
+	 			
+	 			getListaDisponiveis().add(genericVO);
+	 		}
+    		
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			if (e instanceof BusinessException) {
+				setMensagemUsuario(e.getMessage());
+			} else {
+				setMensagemUsuario("Não foi possível iniciar a alteração do Usuário.");
+			}
+			return ERROR;
+		}   	
+    }
+    
     /**
      * Listar todas as funcionalidades disponíveis.
      * 
@@ -310,10 +354,10 @@ public class UsuarioAction extends BaseAction {
     			getPerfil().setPerNome(lista.get(0).getPerfil().getPerNome());
     			setListaSelecionados(new ArrayList<GenericVO>());
         		for (PerfilFuncionalidade perfilFuncionalidade: lista) {
-        			GenericVO funcionalidadeVO = new GenericVO();
-        			funcionalidadeVO.setGenCodigo(perfilFuncionalidade.getFuncionalidade().getFunCodigo());
-        			funcionalidadeVO.setGenDescricao(perfilFuncionalidade.getFuncionalidade().getFunDescricao());
-        			getListaSelecionados().add(funcionalidadeVO);
+        			GenericVO genericVO = new GenericVO();
+        			genericVO.setGenCodigo(perfilFuncionalidade.getFuncionalidade().getFunCodigo());
+        			genericVO.setGenDescricao(perfilFuncionalidade.getFuncionalidade().getFunDescricao());
+        			getListaSelecionados().add(genericVO);
         		}
     		}
     		return SUCCESS;
@@ -339,10 +383,10 @@ public class UsuarioAction extends BaseAction {
     			getPerfil().setPerNome(listaPerfilFuncionalidade.get(0).getPerfil().getPerNome());
     			setListaSelecionados(new ArrayList<GenericVO>());
         		for (PerfilFuncionalidade perfilFuncionalidade: listaPerfilFuncionalidade) {
-        			GenericVO funcionalidadeVO = new GenericVO();
-        			funcionalidadeVO.setGenCodigo(perfilFuncionalidade.getFuncionalidade().getFunCodigo());
-        			funcionalidadeVO.setGenDescricao(perfilFuncionalidade.getFuncionalidade().getFunDescricao());
-        			getListaSelecionados().add(funcionalidadeVO);
+        			GenericVO genericVO = new GenericVO();
+        			genericVO.setGenCodigo(perfilFuncionalidade.getFuncionalidade().getFunCodigo());
+        			genericVO.setGenDescricao(perfilFuncionalidade.getFuncionalidade().getFunDescricao());
+        			getListaSelecionados().add(genericVO);
         		}
     		}    		
     		// obter a lista de funcionalidades disponíveis.

@@ -12,6 +12,7 @@
         	<h3 class="panel-title">Pesquisar Usuário</h3>
         </div>
 	    <s:form namespace="Usuario" id="formUsuario" name="formUsuario" theme="simple">
+	    	<s:hidden id="usuCodigo" name="usuario.usuCodigo"></s:hidden>
 			<div class="panel-body">
 		    	<button id="btnPesquisar" type="button" class="btn btn-primary">Pesquisar</button>
 		    	<button style="margin-left: 10px;" id="btnNovo" type="button" class="btn btn-primary">Novo</button>

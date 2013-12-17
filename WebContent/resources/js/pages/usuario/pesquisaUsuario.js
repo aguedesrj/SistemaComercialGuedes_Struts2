@@ -112,6 +112,14 @@ function detalhar(usuCodigo) {
 	});	
 }
 
+function alterar(usuCodigo) {
+	// seta o código.
+	$("#usuCodigo").val(usuCodigo);
+	
+	$("#formUsuario").attr("action", "ExibeAlteracaoUsuario");
+	$("#formUsuario").submit();	
+}
+
 function exibirModalDetalhe(data) {
 	$("#spanPerNome").html(data.usuario.pesNome);
 	$("#spanUsuLogin").html(data.usuario.usuLogin);

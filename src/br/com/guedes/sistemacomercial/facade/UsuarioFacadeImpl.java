@@ -179,6 +179,14 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 		getHibernateTemplate().saveOrUpdate(usuarioUpdate);
 		getHibernateTemplate().flush();
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#listaPerfilsNotExistsUsuario(br.com.guedes.sistemacomercial.model.Usuario)
+	 */
+	public List<Perfil> listaPerfilsNotExistsUsuario(final Usuario usuario) throws BusinessException, IntegrationException {
+		return usuarioDao.listaPerfilsNotExistsUsuario(usuario);
+	}
 
 	/**
 	 * @return the usuarioDao

@@ -87,4 +87,14 @@ public interface UsuarioDao {
 	 * @throws IntegrationException
 	 */
 	public List<Usuario> buscarUsuariosPorCriterios(final Usuario usuario) throws BusinessException, IntegrationException;
+	
+	/**
+	 * Lista os perfis que não existe no usuário informado.
+	 * 
+	 * @param usuario Usuario
+	 * @return List<Perfil>
+	 * @throws BusinessException
+	 * @throws IntegrationException
+	 */
+	public List<Perfil> listaPerfilsNotExistsUsuario(final Usuario usuario) throws BusinessException, IntegrationException;
 }

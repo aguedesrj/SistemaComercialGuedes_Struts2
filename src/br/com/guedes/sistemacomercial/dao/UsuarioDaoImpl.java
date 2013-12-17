@@ -193,4 +193,23 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 			throw new IntegrationException("Erro ao obter lista de usuários.", e);
 		}
 	}
+	
+	/*
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Perfil> listaPerfilsNotExistsUsuario(final Usuario usuario) throws BusinessException, IntegrationException {
+		try {
+			LOGGER.info("Obtendo lista de funcionalidades por perfil.");
+			StringBuilder hql = new StringBuilder();
+			
+			hql.append("from Perfil P where not exists (select UP.perfil.perCodigo from UsuarioPerfil UP ");
+			hql.append("where UP.perfil.perCodigo = P.perCodigo and UP.usuario.usuCodigo = " + usuario.getUsuCodigo() + ")");
+			
+			return getHibernateTemplate().findByValueBean(hql.toString(), new Funcionalidade());
+		} catch (Exception e) {
+			LOGGER.error("Erro ao obter lista de perfis que não existe no usuário.", e);
+			throw new IntegrationException("Erro ao obter lista de perfis que não existe no usuário.", e);
+		}
+	}
 }

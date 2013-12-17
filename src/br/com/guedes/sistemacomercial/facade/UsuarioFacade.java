@@ -102,4 +102,14 @@ public interface UsuarioFacade {
 	 * @throws IntegrationException
 	 */
 	public void deletarUsuario(Usuario usuario) throws BusinessException, IntegrationException;	
+	
+	/**
+	 * Lista os perfis que não existe no usuário informado.
+	 * 
+	 * @param usuario Usuario
+	 * @return List<Perfil>
+	 * @throws BusinessException
+	 * @throws IntegrationException
+	 */
+	public List<Perfil> listaPerfilsNotExistsUsuario(final Usuario usuario) throws BusinessException, IntegrationException;
 }
