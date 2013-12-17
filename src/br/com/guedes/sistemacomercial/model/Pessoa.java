@@ -1,7 +1,6 @@
 package br.com.guedes.sistemacomercial.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,10 +33,12 @@ public class Pessoa implements Serializable {
 	private String pesNome;	
 
 	@Column(name="PES_DATACADASTRO", nullable=false)
-	private Calendar pesDataCadastro;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime pesDataCadastro;
 	
 	@Column(name="PES_DATAALTERACAO")
-	private Calendar pesDataAlteracao;		
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime pesDataAlteracao;		
 	
 	@OneToOne
 	@JoinColumn(name="USU_CODIGO")
@@ -57,11 +60,11 @@ public class Pessoa implements Serializable {
 		this.pesNome = pesNome;
 	}
 
-	public Calendar getPesDataCadastro() {
+	public LocalDateTime getPesDataCadastro() {
 		return pesDataCadastro;
 	}
 
-	public void setPesDataCadastro(Calendar pesDataCadastro) {
+	public void setPesDataCadastro(LocalDateTime pesDataCadastro) {
 		this.pesDataCadastro = pesDataCadastro;
 	}
 
@@ -73,11 +76,11 @@ public class Pessoa implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Calendar getPesDataAlteracao() {
+	public LocalDateTime getPesDataAlteracao() {
 		return pesDataAlteracao;
 	}
 
-	public void setPesDataAlteracao(Calendar pesDataAlteracao) {
+	public void setPesDataAlteracao(LocalDateTime pesDataAlteracao) {
 		this.pesDataAlteracao = pesDataAlteracao;
 	}
 }

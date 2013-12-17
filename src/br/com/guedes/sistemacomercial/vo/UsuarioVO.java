@@ -1,6 +1,7 @@
 package br.com.guedes.sistemacomercial.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UsuarioVO implements Serializable {
 
@@ -14,6 +15,7 @@ public class UsuarioVO implements Serializable {
 	private String pesNome;
 	private String pesDataCadastro;
 	private String pesDataAlteracao;
+	private List<PerfilVO> listaPerfil;
 	
 	public Integer getUsuCodigo() {
 		return usuCodigo;
@@ -77,5 +79,13 @@ public class UsuarioVO implements Serializable {
 
 	public void setPesDataAlteracao(String pesDataAlteracao) {
 		this.pesDataAlteracao = pesDataAlteracao;
+	}
+
+	public List<PerfilVO> getListaPerfil() {
+		return listaPerfil;
+	}
+
+	public void setListaPerfil(List<PerfilVO> listaPerfil) {
+		this.listaPerfil = listaPerfil;
 	}
 }

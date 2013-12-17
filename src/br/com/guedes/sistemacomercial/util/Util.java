@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 /**
  * Classe com método staticos uteis.
  * 
@@ -16,6 +19,7 @@ public class Util {
 	
 	private static final SimpleDateFormat simpleDateFormatDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	private static final SimpleDateFormat simpleDateFormatData     = new SimpleDateFormat("dd/MM/yyyy");
+	public static final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYYY HH:mm:ss");
 
 	/**
 	 * Obter a data atual no formato dd/MM/yyyy

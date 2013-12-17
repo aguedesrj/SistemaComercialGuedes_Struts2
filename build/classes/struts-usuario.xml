@@ -80,7 +80,24 @@
 					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil
 				</param>            
             </result>
-        </action>        
+        </action>
+        
+        <action name="DetalhaUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="detalharUsuario">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil,
+					listaUsuarios
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaDisponiveis,funcSelecionados,perfil,
+					listaUsuarios
+				</param>            
+            </result>
+        </action>
         
         <action name="DeletaUsuario" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="deletarUsuario">
             <result name="success" type="json">

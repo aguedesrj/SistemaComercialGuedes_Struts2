@@ -85,7 +85,7 @@ function carregaTabela(lista) {
 
 function detalhar(usuCodigo) {
 	$.ajax({
-		url: 'SistemaComercialGuedes/Usuario/ListaFuncionalidadesPorPerfil?usuario.usuCodigo='+usuCodigo,
+		url: 'SistemaComercialGuedes/Usuario/DetalhaUsuario?usuario.usuCodigo='+usuCodigo,
 		type: 'POST',
 		cache: false,
 		dataType: "json",
@@ -118,10 +118,10 @@ function exibirModalDetalhe(data) {
 	$("#spanPesDataCadastro").html(data.usuario.pesDataCadastro);
 	$("#spanPesDataAlteracao").html(data.usuario.pesDataAlteracao);
 	
-	// exibir as funcionalidades.
+	// exibir os perfis.
 	$("#spanPerfis").html("");
-	for (var i = 0; data.listaSelecionados.length > i; i++) {
-		$("#spanPerfis").append(data.listaSelecionados[i].genDescricao+"<br>");
+	for (var i = 0; data.usuario.listaPerfil.length > i; i++) {
+		$("#spanPerfis").append(data.usuario.listaPerfil[i].perNome+"<br>");
 	}
 	
     // exibir modal.
