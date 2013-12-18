@@ -16,10 +16,51 @@
 	$('#deselect-all').click(function(){
 		$('#selectPerfis').multiSelect('deselect_all');
 		return false;
-	});		
-
-	// obter a lista de perfis.
-	callListaPerfis();
+	});	
+	
+	// se estiver alterando, buscar os perfis.
+	if ($('#usuCodigo').val() > 0) {
+		$.ajax({
+			url: 'SistemaComercialGuedes/Usuario/CarregaListaPerfisAlteracao?usuario.usuCodigo='+$('#usuCodigo').val(),
+			type: 'POST',
+			cache: false,
+			dataType: "json",
+			beforeSend: function(){
+				$("#loading").css("display", "block");
+				$("#divMensagemErro").css("display", "none");
+				$("#divMensagemSucesso").css("display", "none");
+			},
+			success: function(data, status, request){ 
+				if (status == "success" && data.mensagemUsuario == null) {
+					// preencher lista.
+					var options = '';
+					for (var i = 0; data.listaSelecionados.length > i; i++) {
+						options += "<option selected id='"+data.listaSelecionados[i].genCodigo+"' value='"+data.listaSelecionados[i].genCodigo+"' style='font-size: 10px;'>"+data.listaSelecionados[i].genDescricao+"</option>";
+					}  
+					for (var i = 0; data.listaDisponiveis.length > i; i++) {
+						options += "<option id='"+data.listaDisponiveis[i].genCodigo+"' value='"+data.listaDisponiveis[i].genCodigo+"' style='font-size: 10px;'>"+data.listaDisponiveis[i].genDescricao+"</option>";
+					} 
+					$('#selectPerfis').multiSelect('deselect_all');
+					$("#selectPerfis").html(options);
+					$('#selectPerfis').multiSelect();					
+				} else {
+					$("#divMensagemErro").css("display", "block");
+					$("#spanMsgError").show().html(data.mensagemUsuario);  					
+				}
+			},
+			complete : function () {
+				$("#loading").css("display", "none");
+			},
+			error: function (request, error) {
+				$("#loading").css("display", "none");
+				$("#divMensagemErro").css("display", "block");
+				$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+			}
+		});		
+	} else {
+		// obter a lista de perfis.
+		callListaPerfis();
+	}
 	
     // Salvar.
 	$("#btnSalvar").button().click(function() {

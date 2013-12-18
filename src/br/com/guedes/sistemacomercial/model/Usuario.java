@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="PES_CODIGO")
 	private Pessoa pessoa;
 	
-	@OneToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuario", fetch=FetchType.EAGER)
 	private Set<UsuarioPerfil> listaUsuarioPerfil = new HashSet<UsuarioPerfil>();	
 
 	public Integer getUsuCodigo() {

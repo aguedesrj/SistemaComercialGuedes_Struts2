@@ -18,8 +18,9 @@ public interface UsuarioFacade {
 	 * @param senha String
 	 * @return Usuario
 	 * @throws BusinessException
+	 * @throws IntegrationException
 	 */
-	public Usuario efetuarLogin(final String login, final String senha) throws BusinessException;
+	public Usuario efetuarLogin(final String login, final String senha) throws BusinessException, IntegrationException;
 	
 	/**
 	 * Salvar Usuário.

@@ -121,6 +121,21 @@
             <result name="error">/login.jsp</result>
         </action>
         
+        <action name="CarregaListaPerfisAlteracao" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="carregaListaPerfisAlteracao">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,perfil,listaUsuarios
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,perfil,listaUsuarios
+				</param>            
+            </result>
+        </action>        
+        
         <!-- **************************** Fim Manutenção Usuário **************************** -->
         
         <!-- **************************** Manutenção Perfil **************************** -->

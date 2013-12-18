@@ -1,9 +1,9 @@
 package br.com.guedes.sistemacomercial.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -117,9 +117,9 @@ public class UsuarioAction extends BaseAction {
     		pessoa.setPesNome(getUsuario().getPesNome());
     		// verifica se está incluindo novo Usuário
     		if (pessoa.getPesCodigo() == null) {
-    			pessoa.setPesDataCadastro(new LocalDateTime());
+    			pessoa.setPesDataCadastro(Calendar.getInstance());
     		} else {
-    			pessoa.setPesDataAlteracao(new LocalDateTime());
+    			pessoa.setPesDataAlteracao(Calendar.getInstance());
     		}
     		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
     		usuario.setUsuLogin(getUsuario().getUsuLogin());
@@ -224,8 +224,8 @@ public class UsuarioAction extends BaseAction {
     		if (lista != null && lista.size() == 1) {
     			usuario = lista.get(0);
     			getUsuario().setPesCodigo(usuario.getPessoa().getPesCodigo());
-    			getUsuario().setPesDataAlteracao(Util.dateTimeFormatter.print(usuario.getPessoa().getPesDataAlteracao()));
-    			getUsuario().setPesDataCadastro(Util.dateTimeFormatter.print(usuario.getPessoa().getPesDataCadastro()));
+    			getUsuario().setPesDataAlteracao(Util.converterCalendarParaString(usuario.getPessoa().getPesDataAlteracao()));
+    			getUsuario().setPesDataCadastro(Util.converterCalendarParaString(usuario.getPessoa().getPesDataCadastro()));
     			getUsuario().setPesNome(usuario.getPessoa().getPesNome());
     			getUsuario().setUsuCodigo(usuario.getUsuCodigo());
     			getUsuario().setUsuLogin(usuario.getUsuLogin());
@@ -266,6 +266,31 @@ public class UsuarioAction extends BaseAction {
     			getUsuario().setUsuLogin(usuario.getUsuLogin());
     			getUsuario().setUsuSenha(usuario.getUsuSenha());
     			getUsuario().setUsuConfirmaSenha(usuario.getUsuSenha());
+    		} else {
+    			setMensagemUsuario("Usuário não encontrado.");
+    		}
+    		
+    		return SUCCESS;
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			if (e instanceof BusinessException) {
+				setMensagemUsuario(e.getMessage());
+			} else {
+				setMensagemUsuario("Não foi possível iniciar a alteração do Usuário.");
+			}
+			return ERROR;
+		}   	
+    }
+    
+    public String carregaListaPerfisAlteracao() {
+    	try {
+
+    		Usuario usuario = new Usuario();
+    		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+    		
+    		List<Usuario> lista = usuarioFacade.buscarUsuariosPorCriterios(usuario);
+    		if (lista != null && lista.size() == 1) {
+    			usuario = lista.get(0);
     			setListaSelecionados(new ArrayList<GenericVO>());
     			for (UsuarioPerfil usuarioPerfil: usuario.getListaUsuarioPerfil()) {
     				GenericVO genericVO = new GenericVO();
@@ -297,7 +322,7 @@ public class UsuarioAction extends BaseAction {
 				setMensagemUsuario("Não foi possível iniciar a alteração do Usuário.");
 			}
 			return ERROR;
-		}   	
+		}     	
     }
     
     /**

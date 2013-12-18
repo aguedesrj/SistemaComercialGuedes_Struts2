@@ -37,7 +37,7 @@
 			<div class="modal-body">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<div class="container">
-					<table>
+					<table style="width: 370px; margin-top: 15px;">
 						<tr>
 							<td>
 								<label for="spanPerNome" cssClass="control-label">Nome</label><br>
@@ -59,7 +59,7 @@
 							</td>							
 						</tr>						
 						<tr>
-							<td>
+							<td colspan="2">
 								<label for="spanPerfis" cssClass="control-label">Perfis:</label><br>
 								<span id="spanPerfis"></span>							
 							</td>

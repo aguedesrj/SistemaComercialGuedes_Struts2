@@ -10,6 +10,11 @@
 		$("#formUsuario").attr("action", "ManutencaoUsuario");
 		$("#formUsuario").submit();    	
     });
+    
+    // Fechar modal do detalhe.
+	$("#btnFechar").button().click(function() {	
+		$("#modalDetalhe").modal('hide');
+	});    
 });
 
 function callListaUsuarios() {

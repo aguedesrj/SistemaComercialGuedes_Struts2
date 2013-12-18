@@ -33,7 +33,7 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	 * (non-Javadoc)
 	 * @see br.com.sistemacomercial.guedes.facade.UsuarioFacade#efetuarLogin(java.lang.String, java.lang.String)
 	 */
-	public Usuario efetuarLogin(final String login, final String senha) throws BusinessException {
+	public Usuario efetuarLogin(final String login, final String senha) throws BusinessException, IntegrationException {
 		return usuarioDao.efetuarLogin(login, senha);
 	}
 	
