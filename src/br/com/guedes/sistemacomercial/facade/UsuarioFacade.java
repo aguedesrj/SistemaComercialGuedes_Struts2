@@ -28,7 +28,7 @@ public interface UsuarioFacade {
 	 * @param usuario Usuario
 	 * @throws IntegrationException
 	 */
-	public void salvarUsuario(final Usuario usuario) throws IntegrationException;	
+	public void salvarUsuario(final Usuario usuario) throws BusinessException, IntegrationException;	
 	
 	/**
 	 * Salvar Perfil do Usuário.

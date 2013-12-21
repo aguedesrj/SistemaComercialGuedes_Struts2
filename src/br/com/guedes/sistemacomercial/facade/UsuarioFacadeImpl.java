@@ -3,6 +3,7 @@ package br.com.guedes.sistemacomercial.facade;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -22,6 +23,8 @@ import br.com.guedes.sistemacomercial.util.IntegrationException;
 @Service
 @Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
 public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFacade {
+	
+	private static final Logger LOGGER = Logger.getLogger(UsuarioFacadeImpl.class);
 
 	@Autowired
 	private UsuarioDao usuarioDao;
@@ -42,14 +45,17 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 	 * @see br.com.guedes.sistemacomercial.facade.UsuarioFacade#salvarUsuario(br.com.guedes.sistemacomercial.model.Usuario)
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = IntegrationException.class)
-	public void salvarUsuario(final Usuario usuario) throws IntegrationException {
+	public void salvarUsuario(final Usuario usuario) throws BusinessException, IntegrationException {
 		try {
 			// verifica se já existe algum Usuário com o mesmo login.
 			Usuario usuarioCond = new Usuario();
 			usuarioCond.setUsuLogin(usuario.getUsuLogin());
-			List<Usuario> lista = usuarioDao.buscarUsuariosPorCriterios(usuarioCond);
-			if (lista != null && !lista.isEmpty()) {
-				throw new BusinessException("Login já está sendo utilizado.");
+			// verifica se está sendo alterado.
+			if (usuario.getUsuCodigo() == null || usuario.getUsuCodigo() == 0) {
+				List<Usuario> lista = usuarioDao.buscarUsuariosPorCriterios(usuarioCond);
+				if (lista != null && !lista.isEmpty()) {
+					throw new BusinessException("Login já está sendo utilizado.");
+				}
 			}
 			sessionFactory.getCurrentSession().saveOrUpdate(usuario.getPessoa());
 			sessionFactory.getCurrentSession().saveOrUpdate(usuario);
@@ -61,9 +67,14 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 			for (UsuarioPerfil usuarioPerfil: usuario.getListaUsuarioPerfil()) {
 				sessionFactory.getCurrentSession().saveOrUpdate(usuarioPerfil);
 			}
+			sessionFactory.getCurrentSession().flush();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new IntegrationException("Não foi possível salvar o Usuário.");
+			LOGGER.error(e);
+			if (e instanceof BusinessException) {
+				throw new BusinessException(e.getMessage());
+			} else {
+				throw new IntegrationException("Não foi possível salvar o Usuário.");
+			}
 		}		
 	}
 	
@@ -84,7 +95,7 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 				sessionFactory.getCurrentSession().saveOrUpdate(perfilFuncionalidade);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 			throw new IntegrationException("Não foi possível salvar o Perfil.");
 		}
 	}
@@ -98,7 +109,7 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 		try {
 			return (ArrayList<Perfil>) getHibernateTemplate().find("from Perfil");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 			throw new IntegrationException("Não foi possível listar os Perfis.");
 		}
 	}
@@ -136,7 +147,7 @@ public class UsuarioFacadeImpl extends HibernateDaoSupport implements UsuarioFac
 		try {
 			return (ArrayList<Funcionalidade>) getHibernateTemplate().find("from Funcionalidade");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e);
 			throw new IntegrationException("Não foi possível listar as Funcionalidades.");
 		}
 	}

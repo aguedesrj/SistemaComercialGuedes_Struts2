@@ -40,7 +40,7 @@ public class Usuario implements Serializable {
 	@Column(name="USU_STATUS", length=1)
 	private String usuStatus;	
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="PES_CODIGO")
 	private Pessoa pessoa;
 	

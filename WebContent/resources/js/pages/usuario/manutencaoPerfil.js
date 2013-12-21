@@ -104,6 +104,11 @@
 		$("#modalDetalhe").modal('hide');
 	});
 	
+    // Botão Cancelar, fechar modal do detalhe.
+	$("#btnCancelar").button().click(function() {	
+		$("#modalDetalhe").modal('hide');
+	});	
+	
 	// obter a lista de perfis.
 	callListaPerfis();
 });

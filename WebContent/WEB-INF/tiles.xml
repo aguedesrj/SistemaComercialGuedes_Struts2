@@ -58,8 +58,8 @@
     </definition>    
     
     <!-- Produto -->
-    <definition name="inicio.cadastro.produto" extends="template.index">
-        <put-attribute name="conteudo" value="/WEB-INF/jsp/produto/cadastroProduto.jsp"/>
+    <definition name="inicio.manutencao.produto" extends="template.index">
+        <put-attribute name="conteudo" value="/WEB-INF/jsp/produto/manutencaoProduto.jsp"/>
     </definition>
     <!-- Produto - Pesquisa -->
     <definition name="inicio.pesquisa.produto" extends="template.index">

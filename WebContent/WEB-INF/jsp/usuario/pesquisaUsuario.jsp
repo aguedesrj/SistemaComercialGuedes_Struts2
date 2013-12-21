@@ -32,44 +32,46 @@
 
 <!-- DIV do detalhamento -->
 <div id="modalDetalhe" class="modal fade">
-	<div class="modal-dialog" style="width: 450px;">
+	<div class="modal-dialog" style="width: 400px;">
 		<div class="modal-content">
 			<div class="modal-body">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<div class="container">
-					<table style="width: 370px; margin-top: 15px;">
-						<tr>
-							<td>
+				<div class="panel panel-default" style="margin-top: 30px;">
+			    	<div class="panel-heading">
+			        	<h3 class="panel-title">Detalhe</h3>
+			        </div>
+   					<form id="formDialogValoresProduto" style="margin-left: 15px;">
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
 								<label for="spanPerNome" cssClass="control-label">Nome</label><br>
-								<span id="spanPerNome"></span>							
-							</td>
-							<td>
+								<span id="spanPerNome"></span>									
+							</div>
+							<div class="col-lg-6">
 								<label for="spanUsuLogin" cssClass="control-label">Login</label><br>
-								<span id="spanUsuLogin"></span>							
-							</td>							
-						</tr>
-						<tr>
-							<td>
+								<span id="spanUsuLogin"></span>									
+							</div>						
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
 								<label for="spanPesDataCadastro" cssClass="control-label">Data inclusão</label><br>
-								<span id="spanPesDataCadastro"></span>							
-							</td>
-							<td>
+								<span id="spanPesDataCadastro"></span>								
+							</div>
+							<div class="col-lg-6">
 								<label for="spanPesDataAlteracao" cssClass="control-label">Data alteração</label><br>
-								<span id="spanPesDataAlteracao"></span>							
-							</td>							
-						</tr>						
-						<tr>
-							<td colspan="2">
+								<span id="spanPesDataAlteracao"></span>								
+							</div>						
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
 								<label for="spanPerfis" cssClass="control-label">Perfis:</label><br>
 								<span id="spanPerfis"></span>							
-							</td>
-						</tr>
-					</table>
-		         </div>
-			</div>
-			<!-- dialog buttons -->
-			<div class="modal-footer">
-				<button id="btnFechar" type="button" class="btn btn-primary">Fechar</button>
+							</div>					
+						</div>						
+					</form>
+					<div class="panel-body" style="margin-top: 10px;">
+				    	<button id="btnFechar" type="button" class="btn btn-primary">Fechar</button>	    	
+					</div>									        
+			    </div>				
 			</div>
 		</div>
 	</div>

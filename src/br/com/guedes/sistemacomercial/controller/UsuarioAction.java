@@ -2,6 +2,7 @@ package br.com.guedes.sistemacomercial.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,22 +111,30 @@ public class UsuarioAction extends BaseAction {
 
     		// validar campos.
     		
-    		// dados
-    		Pessoa pessoa = new Pessoa();
-    		Usuario usuario = new Usuario();
-    		pessoa.setPesCodigo(getUsuario().getPesCodigo());
-    		pessoa.setPesNome(getUsuario().getPesNome());
-    		// verifica se está incluindo novo Usuário
-    		if (pessoa.getPesCodigo() == null) {
-    			pessoa.setPesDataCadastro(Calendar.getInstance());
+    		Usuario usuario;
+    		Pessoa pessoa;
+    		// verifica se está alterando o Usuário.
+    		if (getUsuario().getUsuCodigo() != null && getUsuario().getUsuCodigo() > 0) {
+    			// obter o objeto Usuário do banco.
+        		usuario = new Usuario();
+        		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+        		
+        		List<Usuario> lista = usuarioFacade.buscarUsuariosPorCriterios(usuario); 
+        		usuario = lista.get(0);
+        		pessoa = usuario.getPessoa();
+        		pessoa.setPesDataAlteracao(Calendar.getInstance());
     		} else {
-    			pessoa.setPesDataAlteracao(Calendar.getInstance());
+    			usuario = new Usuario();
+    			pessoa = new Pessoa();
+    			pessoa.setPesDataCadastro(Calendar.getInstance());
+    			usuario.setUsuStatus("A");
     		}
-    		usuario.setUsuCodigo(getUsuario().getUsuCodigo());
+    		pessoa.setPesNome(getUsuario().getPesNome());
     		usuario.setUsuLogin(getUsuario().getUsuLogin());
     		usuario.setUsuSenha(getUsuario().getUsuSenha());
     		usuario.setPessoa(pessoa);
     		// lista de perfis selecionadas.
+    		usuario.setListaUsuarioPerfil(new HashSet<UsuarioPerfil>());
     		String[] array = getItensSelecionados().split(",");
     		for (int i = 0; array.length > i; i++) {
     			UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
@@ -456,6 +465,7 @@ public class UsuarioAction extends BaseAction {
     		perfil.setPerNome(getPerfil().getPerNome());
     		
     		// lista de funcionalidades selecionadas.
+    		perfil.setListaPerfilFuncionalidade(new HashSet<PerfilFuncionalidade>());
     		String[] array = getItensSelecionados().split(",");
     		for (int i = 0; array.length > i; i++) {
         		PerfilFuncionalidade perfilFuncionalidade = new PerfilFuncionalidade();

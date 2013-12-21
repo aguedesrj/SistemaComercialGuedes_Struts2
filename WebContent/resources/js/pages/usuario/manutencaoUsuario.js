@@ -16,7 +16,7 @@
 	$('#deselect-all').click(function(){
 		$('#selectPerfis').multiSelect('deselect_all');
 		return false;
-	});	
+	});
 	
 	// se estiver alterando, buscar os perfis.
 	if ($('#usuCodigo').val() > 0) {

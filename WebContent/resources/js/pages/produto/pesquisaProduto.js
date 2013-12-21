@@ -16,17 +16,14 @@
 				$("#divMensagemSucesso").css("display", "none");
 			},
 			success: function(data, status, request){ 
+				$("#loading").css("display", "none");
 				if (status == "success" && data.mensagemUsuario == null) {
 					// atualiza lista na tabela.
 					atualizarTabelaProduto(data.listaProdutoView);
 				} else {
-					$("#loading").css("display", "none");
 					$("#divMensagemErro").css("display", "block");
 					$("#spanMsgError").show().html(data.mensagemUsuario);  					
 				}
-			},
-			complete : function () {
-				$("#loading").css("display", "none");
 			},
 			error: function (request, error) {
 				$("#loading").css("display", "none");
@@ -44,23 +41,24 @@ function atualizarTabelaProduto(listaProdutoView) {
 	// Tabela dos Produtos
     $("#tabelaProdutos").jqGrid({
     	datatype: 'local',
-        colNames:['Data Cadastro','Produto','Codigo Barras','Preço de Venda','Detalhes','Alterar','proCodigo'],
+        colNames:['Data Cadastro','Produto','Codigo Barras','Preço Venda','','','proCodigo'],
         colModel:[
-            {name:'proDataCadastro',index:'proDataCadastro', width:120,sortable:true, classes: 'proDataCadastro', align:'center'},
+            {name:'proDataCadastro',index:'proDataCadastro', width:150,sortable:true, classes: 'proDataCadastro', align:'center'},
             {name:'proNome',index:'proNome', width:300,sortable:true, classes: 'proNome'},
             {name:'proCodigoBarras',index:'proCodigoBarras', width:100,sortable:false, classes: 'proCodigoBarras'},
             {name:'vvpValorProduto',index:'vvpValorProduto', width:100,sortable:true, classes: 'vvpValorProduto', align:'right'},
-            {name:'detalhar',index:'detalhar', width:60,sortable:true, classes: 'detalhar'},
-            {name:'alterar',index:'alterar', width:60,sortable:true, classes: 'alterar'},            
+            {name:'detalhar',index:'detalhar', width:50,sortable:true, classes: 'detalhar'},
+            {name:'alterar',index:'alterar', width:50,sortable:true, classes: 'alterar'},            
             {name:'proCodigo',index:'proCodigo', sortable:true, key:true, classes: 'proCodigo',hidden: true}
         ],
         gridComplete: function(){
             var ids = $("#tabelaProdutos").jqGrid('getDataIDs');
             for(var i=0;i < ids.length;i++){
                 var valor = ids[i];
-                btnDetalhar = "<div align='center' style='margin-top: 3px;'><img width='19px' height='16px' alt='Detalhar produto' src='../resources/img/ic_ferramenta.gif' onclick='javascript:detalharProduto("+valor+");'></div>";
-                btnAlterar  = "<div align='center' style='margin-top: 3px;'><img width='16px' height='16px' alt='Alterar produto'  src='../resources/img/ic_sbox_editar.gif' onclick='javascript:alterarProduto("+valor+");'></div>";
-                $("#tabelaProdutos").jqGrid('setRowData',ids[i],{alterar:btnAlterar,detalhar:btnDetalhar});
+                btnDetalhar = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='19px' height='16px' title='Detalhar produto' alt='Detalhar produto' style='cursor: pointer' src='../resources/img/detalhe.png' onclick='javascript:detalhar("+valor+");'></div>";
+                btnAlterar  = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='16px' height='16px' title='Alterar produto' alt='Alterar produto' style='cursor: pointer' src='../resources/img/edit.png' onclick='javascript:alterar("+valor+");'></div>";
+                btnDeletar  = "<div align='center' style='margin-top: 3px; margin-bottom: 5px;'><img width='16px' height='16px' title='Deletar produto' alt='Deletar produto' style='cursor: pointer' src='../resources/img/delete.png' onclick='javascript:deletar("+valor+");'></div>";                
+                $("#tabelaProdutos").jqGrid('setRowData',ids[i],{alterar:btnAlterar,detalhar:btnDetalhar,deletar:btnDeletar});
             }   
         },        
         multiselect: false,
@@ -79,11 +77,11 @@ function atualizarTabelaProduto(listaProdutoView) {
     $("#tabelaProdutos").jqGrid('setGridParam',{datatype: 'local',data:listaProdutoView}).trigger("reloadGrid");    
 }
 
-function detalharProduto(proCodigo) {
+function detalhar(proCodigo) {
 	
 }
 
-function alterarProduto(proCodigo) {
+function alterar(proCodigo) {
 	$("#proCodigo").val(proCodigo);
 	$("#formProduto").attr("action", "InicioAlteracao");
 	$("#formProduto").submit();	

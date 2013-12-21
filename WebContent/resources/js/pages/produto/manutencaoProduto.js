@@ -121,13 +121,14 @@
 		datatype: 'xmlstring',
 	    datastr : '',
 	    height: 100,
-	    colNames:['Data Cadastro','ICMS(%)','IPI(%)','ISS(%)','Valor de Venda', 'vvpCodigo'],
+	    colNames:['Data Cadastro','ICMS(%)','IPI(%)','ISS(%)','Valor Venda', '', 'vvpCodigo'],
 	    colModel:[
 	        {name:'vvpDataCadastro',index:'vvpDataCadastro', width:120,sortable:true, key:true, classes: 'vvpDataCadastro', align:'center'},
 	        {name:'vrpImpostoICMS',index:'vrpImpostoICMS', width:110,sortable:true, key:true, classes: 'vrpImpostoICMS'},
 	        {name:'vrpImpostoIPI',index:'vrpImpostoIPI', width:110,sortable:false, key:true, classes: 'vrpImpostoIPI'},
 	        {name:'vrpImpostoISS',index:'vrpImpostoISS', width:110,sortable:false, key:true, classes: 'vrpImpostoISS'},
 	        {name:'vvpValorProduto',index:'vvpValorProduto', width:110,sortable:true, key:true, classes: 'vvpValorProduto', align:'right'},
+	        {name:'deletar',index:'deletar', width:50, sortable:true, classes: 'deletar'},
 	        {name:'vvpCodigo',index:'vvpCodigo', width:180,sortable:true, key:true, classes: 'vvpCodigo',hidden: true}
 	    ],
 	    multiselect: false,
