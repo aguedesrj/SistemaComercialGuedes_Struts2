@@ -26,23 +26,23 @@ public class ProdutoFacadeImpl implements ProdutoFacade {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void salvar(final Produto produto) throws IntegrationException, BusinessException {
-		produtoDao.salvar(produto);
+		//produtoDao.salvar(produto);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.facade.ProdutoFacade#pesquisar(br.com.guedes.sistemacomercial.model.Produto)
+	 * @see br.com.guedes.sistemacomercial.facade.ProdutoFacade#pesquisarProdutoPorCriterios(br.com.guedes.sistemacomercial.model.Produto)
 	 */
-	public List<VW_Produto> pesquisar(final Produto produto) throws IntegrationException {
-		return produtoDao.pesquisar(produto);
+	public List<VW_Produto> pesquisarProdutoPorCriterios(final Produto produto) throws IntegrationException {
+		return produtoDao.pesquisarProdutoPorCriterios(produto);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.facade.ProdutoFacade#obterProduto(java.lang.Integer)
+	 * @see br.com.guedes.sistemacomercial.facade.ProdutoFacade#obterProdutoPorId(java.lang.Integer)
 	 */
-	public Produto obterProduto(final Integer proCodigo) throws IntegrationException, BusinessException {
-		return produtoDao.obterProduto(proCodigo);
+	public Produto obterProdutoPorId(final Integer proCodigo) throws IntegrationException, BusinessException {
+		return produtoDao.obterProdutoPorId(proCodigo);
 	}
 
 	public ProdutoDao getProdutoDao() {

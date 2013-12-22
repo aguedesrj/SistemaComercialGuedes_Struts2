@@ -24,7 +24,7 @@ public interface ProdutoFacade {
 	 * @param produto VW_Produto
 	 * @throws IntegrationException
 	 */
-	public List<VW_Produto> pesquisar(final Produto produto) throws IntegrationException;
+	public List<VW_Produto> pesquisarProdutoPorCriterios(final Produto produto) throws IntegrationException;
 	
 	/**
 	 * Obter Produto.
@@ -33,5 +33,5 @@ public interface ProdutoFacade {
 	 * @throws IntegrationException
 	 * @throws BusinessException
 	 */
-	public Produto obterProduto(final Integer proCodigo) throws IntegrationException, BusinessException;	
+	public Produto obterProdutoPorId(final Integer proCodigo) throws IntegrationException, BusinessException;	
 }

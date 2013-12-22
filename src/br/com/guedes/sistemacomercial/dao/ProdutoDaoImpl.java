@@ -7,7 +7,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import br.com.guedes.sistemacomercial.model.Produto;
 import br.com.guedes.sistemacomercial.model.VW_Produto;
-import br.com.guedes.sistemacomercial.model.ValorVendaProduto;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.IntegrationException;
 
@@ -22,24 +21,10 @@ public class ProdutoDaoImpl extends HibernateDaoSupport implements ProdutoDao {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.dao.ProdutoDao#salvar(br.com.guedes.sistemacomercial.model.Produto)
-	 */
-	public void salvar(final Produto produto) throws IntegrationException, BusinessException {
-		try {
-			LOGGER.info("Salvando o Produto...");
-			getHibernateTemplate().saveOrUpdate(produto);
-		} catch (Exception e) {
-			LOGGER.error("Erro ao gravar Produto.", e);
-			throw new IntegrationException("Erro ao gravar Produto.", e);
-		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.dao.ProdutoDao#pesquisar(br.com.guedes.sistemacomercial.model.Produto)
+	 * @see br.com.guedes.sistemacomercial.dao.ProdutoDao#pesquisarProdutoPorCriterios(br.com.guedes.sistemacomercial.model.Produto)
 	 */
 	@SuppressWarnings("unchecked")
-	public List<VW_Produto> pesquisar(final Produto produto) throws IntegrationException {
+	public List<VW_Produto> pesquisarProdutoPorCriterios(final Produto produto) throws IntegrationException {
 		try {
 			LOGGER.info("Pesquisando Produto...");
 			StringBuilder hql = new StringBuilder();
@@ -65,10 +50,10 @@ public class ProdutoDaoImpl extends HibernateDaoSupport implements ProdutoDao {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.dao.ProdutoDao#obterProduto(java.lang.Integer)
+	 * @see br.com.guedes.sistemacomercial.dao.ProdutoDao#obterProdutoPorId(java.lang.Integer)
 	 */
 	@SuppressWarnings("unchecked")
-	public Produto obterProduto(final Integer proCodigo) throws IntegrationException, BusinessException {
+	public Produto obterProdutoPorId(final Integer proCodigo) throws IntegrationException, BusinessException {
 		try {
 			LOGGER.info("Obtendo dados do Produto...");
 			StringBuilder hql = new StringBuilder();
@@ -85,13 +70,5 @@ public class ProdutoDaoImpl extends HibernateDaoSupport implements ProdutoDao {
 			LOGGER.error("Erro ao obter Produto.", e);
 			throw new IntegrationException("Erro ao obter Produto.", e);
 		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see br.com.guedes.sistemacomercial.dao.ProdutoDao#obterValoresVendaPorProduto(java.lang.Integer)
-	 */
-	public List<ValorVendaProduto> obterValoresVendaPorProduto(final Integer proCodigo) throws IntegrationException, BusinessException {
-		return null;
 	}
 }

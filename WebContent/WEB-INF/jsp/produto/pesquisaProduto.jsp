@@ -33,3 +33,76 @@
 		</div>
 	</div>   	
 </div>
+
+<!-- DIV do detalhamento -->
+<div id="modalDetalhe" class="modal fade">
+	<div class="modal-dialog" style="width: 400px;">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<div class="panel panel-default" style="margin-top: 30px;">
+			    	<div class="panel-heading">
+			        	<h3 class="panel-title">Detalhe</h3>
+			        </div>
+   					<form id="formDialogProduto" style="margin-left: 15px;">
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
+								<label for="spanProDataCadastro" cssClass="control-label">Data de cadastro</label><br>
+								<span id="spanProDataCadastro"></span>									
+							</div>
+							<div class="col-lg-6">
+								<label for="spanProDataAlteracao" cssClass="control-label">Data de alteração</label><br>
+								<span id="spanProDataAlteracao"></span>									
+							</div>						
+						</div>   					
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
+								<label for="spanProNome" cssClass="control-label">Nome</label><br>
+								<span id="spanProNome"></span>									
+							</div>
+							<div class="col-lg-6">
+								<label for="spanProCodigoBarras" cssClass="control-label">Código de Barras</label><br>
+								<span id="spanProCodigoBarras"></span>									
+							</div>						
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
+								<label for="spanForNome" cssClass="control-label">Fornecedor</label><br>
+								<span id="spanForNome"></span>								
+							</div>
+							<div class="col-lg-6">
+								<label for="spanCatDescricao" cssClass="control-label">Categoria</label><br>
+								<span id="spanCatDescricao"></span>								
+							</div>						
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
+								<label for="spanProQuantidadeMinima" cssClass="control-label">Quantidade Mínima</label><br>
+								<span id="spanProQuantidadeMinima"></span>							
+							</div>
+							<div class="col-lg-6">
+								<label for="spanProQuantidadeMaxima" cssClass="control-label">Quantidade Máxima</label><br>
+								<span id="spanProQuantidadeMaxima"></span>								
+							</div>												
+						</div>	
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-6">
+								<label for="spanProObs" cssClass="control-label">Observações</label><br>
+								<span id="spanProObs"></span>							
+							</div>											
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-8">
+								<label for="spanValoresProduto" cssClass="control-label">Tabela com valores do Produto</label><br>
+								<span id="spanValoresProduto"></span>							
+							</div>					
+						</div>																	
+					</form>
+					<div class="panel-body" style="margin-top: 10px;">
+				    	<button id="btnFechar" type="button" class="btn btn-primary">Fechar</button>	    	
+					</div>									        
+			    </div>				
+			</div>
+		</div>
+	</div>
+</div>

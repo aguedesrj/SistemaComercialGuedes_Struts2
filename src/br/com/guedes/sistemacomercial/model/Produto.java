@@ -38,7 +38,7 @@ public class Produto implements Serializable {
 	@Column(name="PRO_NOME", length=120, nullable=false)
 	private String proNome;	
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USU_CODIGO", nullable=false)
 	private Usuario usuario;
 	
@@ -48,7 +48,7 @@ public class Produto implements Serializable {
 	@Column(name="PRO_QUANTIDADEMAXIMA")
 	private Integer proQuantidadeMaxima;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="CAT_CODIGO")
 	private Categoria categoria;
 	
@@ -172,5 +172,13 @@ public class Produto implements Serializable {
 
 	public void setProDataCadastro(Calendar proDataCadastro) {
 		this.proDataCadastro = proDataCadastro;
+	}
+
+	public Calendar getProDataAlteracao() {
+		return proDataAlteracao;
+	}
+
+	public void setProDataAlteracao(Calendar proDataAlteracao) {
+		this.proDataAlteracao = proDataAlteracao;
 	}
 }
