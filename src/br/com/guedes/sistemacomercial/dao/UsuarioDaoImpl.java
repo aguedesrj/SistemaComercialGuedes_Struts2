@@ -193,7 +193,7 @@ public class UsuarioDaoImpl extends HibernateDaoSupport implements UsuarioDao {
 				hql.append(" and U.usuCodigo = " + usuario.getUsuCodigo());
 			}
 			if (usuario.getUsuLogin() != null) {
-				hql.append(" and U.usuLogin = '" + usuario.getUsuLogin() + "'");
+				hql.append(" and upper U.usuLogin = '" + usuario.getUsuLogin().trim().toUpperCase() + "'");
 			}			
 			
 			return getHibernateTemplate().findByValueBean(hql.toString(), new Usuario());

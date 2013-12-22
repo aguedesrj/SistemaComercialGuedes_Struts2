@@ -19,10 +19,15 @@
         striped: true,
         sortable: true,
         condensed: true
-    });    
+    }); 
     
+    // Fechar modal do detalhe.
+	$("#btnCancelar").button().click(function() {	
+		$("#modalValoresProduto").modal('hide');
+	});	
+	
     // Botão gravar Produto.
-    $("#btnGravar").button().click(function() {
+    $("#btnSalvar").button().click(function() {
     	// Validar campos.
         if (isCamposFormularioValidos()) {                
         	$.ajax({
@@ -96,9 +101,9 @@
 					if (status == "success" && data.mensagemUsuario == null) {
 						$("#tabelaValores").addRowData(0, {
 							vvpDataCadastro : data.valoresProdutoVO.vvpDataCadastro,
-							vrpImpostoICMS : data.valoresProdutoVO.vrpImpostoICMS,
-							vrpImpostoIPI : data.valoresProdutoVO.vrpImpostoIPI,
-							vrpImpostoISS : data.valoresProdutoVO.vrpImpostoISS,
+							vrpImpostoICMS  : data.valoresProdutoVO.vrpImpostoICMS,
+							vrpImpostoIPI   : data.valoresProdutoVO.vrpImpostoIPI,
+							vrpImpostoISS   : data.valoresProdutoVO.vrpImpostoISS,
 							vvpValorProduto : data.valoresProdutoVO.vvpValorProduto
 						});
 						$("#modalValoresProduto").modal('hide'); 
@@ -123,11 +128,11 @@
 	    height: 100,
 	    colNames:['Data Cadastro','ICMS(%)','IPI(%)','ISS(%)','Valor Venda', '', 'vvpCodigo'],
 	    colModel:[
-	        {name:'vvpDataCadastro',index:'vvpDataCadastro', width:120,sortable:true, key:true, classes: 'vvpDataCadastro', align:'center'},
-	        {name:'vrpImpostoICMS',index:'vrpImpostoICMS', width:110,sortable:true, key:true, classes: 'vrpImpostoICMS'},
-	        {name:'vrpImpostoIPI',index:'vrpImpostoIPI', width:110,sortable:false, key:true, classes: 'vrpImpostoIPI'},
-	        {name:'vrpImpostoISS',index:'vrpImpostoISS', width:110,sortable:false, key:true, classes: 'vrpImpostoISS'},
-	        {name:'vvpValorProduto',index:'vvpValorProduto', width:110,sortable:true, key:true, classes: 'vvpValorProduto', align:'right'},
+	        {name:'vvpDataCadastro',index:'vvpDataCadastro', width:140,sortable:true, key:true, classes: 'vvpDataCadastro', align:'center'},
+	        {name:'vrpImpostoICMS',index:'vrpImpostoICMS', width:100,sortable:true, key:true, classes: 'vrpImpostoICMS'},
+	        {name:'vrpImpostoIPI',index:'vrpImpostoIPI', width:100,sortable:false, key:true, classes: 'vrpImpostoIPI'},
+	        {name:'vrpImpostoISS',index:'vrpImpostoISS', width:100,sortable:false, key:true, classes: 'vrpImpostoISS'},
+	        {name:'vvpValorProduto',index:'vvpValorProduto', width:120,sortable:true, key:true, classes: 'vvpValorProduto', align:'right'},
 	        {name:'deletar',index:'deletar', width:50, sortable:true, classes: 'deletar'},
 	        {name:'vvpCodigo',index:'vvpCodigo', width:180,sortable:true, key:true, classes: 'vvpCodigo',hidden: true}
 	    ],
@@ -141,38 +146,39 @@
 	$(".ui-jqgrid-titlebar-close").hide();
 
 	// verifica se está em alteração do Produto.
-    $.ajax({
-    	url: 'SistemaComercialGuedes/Produto/BuscaListaValoresProduto',
-        data: $('#formProduto').serialize(),
-        type: 'POST',
-        cache: false,
-        dataType: "json",
-        beforeSend: function(){
-        	$("#loading").css("visibility", "visible");
-        },
-        success: function(data, status, request){
-        	$("#loading").css("visibility", "hidden");
-            if (status == "success" && data.mensagemUsuario == undefined && data.listaValoresProdutoVO.length > 0) {
-            	for (var i=0; data.listaValoresProdutoVO.length > i; i++) {
-            		$("#tabelaValores").addRowData(data.listaValoresProdutoVO[i].vvpCodigo, {
-            			vvpDataCadastro: data.listaValoresProdutoVO[i].vvpDataCadastro,
-                        vrpImpostoICMS : data.listaValoresProdutoVO[i].vrpImpostoICMS,
-                        vrpImpostoIPI : data.listaValoresProdutoVO[i].vrpImpostoIPI,
-                        vrpImpostoISS : data.listaValoresProdutoVO[i].vrpImpostoISS,
-                        vvpValorProduto: data.listaValoresProdutoVO[i].vvpValorProduto
-            		});                                                
-            	}
-            } else {
-            	$("#spanMsgError").show().html(data.mensagemUsuario);
-                runEffectMsgError();                                                
-            }
-        },
-        error: function (request, error) {
-        	$("#loading").css("visibility", "hidden");
-            $("#spanMsgError").show().html("Sistema indisponível no momento.");
-            runEffectMsgError();                                        
-        }
-    });            
+	if ($("#proCodigo").val() != null && $("#proCodigo").val() > 0) {
+	    $.ajax({
+	    	url: 'SistemaComercialGuedes/Produto/BuscaListaValoresProduto',
+	        data: $('#formProduto').serialize(),
+	        type: 'POST',
+	        cache: false,
+	        dataType: "json",
+	        beforeSend: function(){
+	        	$("#loading").css("visibility", "visible");
+	        },
+	        success: function(data, status, request){
+	        	$("#loading").css("visibility", "hidden");
+	            if (status == "success" && data.mensagemUsuario == undefined && data.listaValoresProdutoVO.length > 0) {
+	            	for (var i=0; data.listaValoresProdutoVO.length > i; i++) {
+	            		$("#tabelaValores").addRowData(data.listaValoresProdutoVO[i].vvpCodigo, {
+	            			vvpDataCadastro: data.listaValoresProdutoVO[i].vvpDataCadastro,
+	                        vrpImpostoICMS : data.listaValoresProdutoVO[i].vrpImpostoICMS,
+	                        vrpImpostoIPI : data.listaValoresProdutoVO[i].vrpImpostoIPI,
+	                        vrpImpostoISS : data.listaValoresProdutoVO[i].vrpImpostoISS,
+	                        vvpValorProduto: data.listaValoresProdutoVO[i].vvpValorProduto
+	            		});                                                
+	            	}
+	            } else {
+	                                                
+	            }
+	        },
+	        error: function (request, error) {
+				$("#loading").css("display", "none");
+				$("#divMensagemErro").css("display", "block");
+				$("#spanMsgError").show().html("Não foi possível carregar os valores.");	                                      
+	        }
+	    });		
+	}
 });
 
 function isCamposValoresValidos() {
@@ -236,8 +242,8 @@ function isCamposFormularioValidos() {
 function limparCampos() {
 	$("#proNome").val("");
 	$("#proCodigoBarras").val("");
-	$("#forCodigo").val("0");
-	$("#catCodigo").val("0");
+	$("#fornecedor").val("0");
+	$("#categoria").val("0");
 	$("#proQuantidadeMinima").val("");
 	$("#proQuantidadeMaxima").val("");
 	$("#proObs").val("");

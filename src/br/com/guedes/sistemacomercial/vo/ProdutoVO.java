@@ -16,8 +16,8 @@ public class ProdutoVO implements Serializable {
 	private Integer proQuantidadeMinima;
 	private Integer proQuantidadeMaxima;
 	private String proObs;
-	private String catDescricao;
-	private String forNome;
+	private GenericVO categoria = new GenericVO();
+	private GenericVO fornecedor = new GenericVO();
 	private List<ValoresProdutoVO> listaValoresProduto;
 	
 	public Integer getProCodigo() {
@@ -92,20 +92,20 @@ public class ProdutoVO implements Serializable {
 		this.proObs = proObs;
 	}
 
-	public String getCatDescricao() {
-		return catDescricao;
+	public GenericVO getCategoria() {
+		return categoria;
 	}
 
-	public void setCatDescricao(String catDescricao) {
-		this.catDescricao = catDescricao;
+	public void setCategoria(GenericVO categoria) {
+		this.categoria = categoria;
 	}
 
-	public String getForNome() {
-		return forNome;
+	public GenericVO getFornecedor() {
+		return fornecedor;
 	}
 
-	public void setForNome(String forNome) {
-		this.forNome = forNome;
+	public void setFornecedor(GenericVO fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 	public List<ValoresProdutoVO> getListaValoresProduto() {

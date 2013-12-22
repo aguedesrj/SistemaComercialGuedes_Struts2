@@ -12,6 +12,7 @@
         	<h3 class="panel-title">Pesquisar Produto</h3>
         </div>
 	    <s:form namespace="Produto" id="formProduto" name="formProduto" theme="simple" cssStyle="margin-left: 15px; margin-top: 15px;">
+	    	<s:hidden id="proCodigo" name="produto.proCodigo"></s:hidden>
 	    	<div class="row">
 				<div class="col-lg-5">
 					<s:label for="proNome" cssClass="control-label">Nome do Produto</s:label>

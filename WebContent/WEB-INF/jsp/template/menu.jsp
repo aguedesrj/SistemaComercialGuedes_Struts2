@@ -12,7 +12,7 @@
             	<li class="dropdown">
 	              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Produto <b class="caret"></b></a>
 	              	<ul class="dropdown-menu">
-	                	<li><a href="../Produto/InicioCadastro">Cadastrar</a></li>
+	                	<li><a href="../Produto/InicioManutencao">Cadastrar</a></li>
 	                	<li><a href="../Produto/InicioPesquisa">Pesquisar</a></li>
 	              	</ul>
             	</li>

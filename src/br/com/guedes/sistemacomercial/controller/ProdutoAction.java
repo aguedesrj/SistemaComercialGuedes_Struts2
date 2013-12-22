@@ -1,6 +1,7 @@
 package br.com.guedes.sistemacomercial.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -12,13 +13,15 @@ import br.com.guedes.sistemacomercial.facade.CategoriaFacade;
 import br.com.guedes.sistemacomercial.facade.ProdutoFacade;
 import br.com.guedes.sistemacomercial.facade.UsuarioFacade;
 import br.com.guedes.sistemacomercial.model.Categoria;
-import br.com.guedes.sistemacomercial.model.Fornecedor;
 import br.com.guedes.sistemacomercial.model.Produto;
+import br.com.guedes.sistemacomercial.model.Usuario;
 import br.com.guedes.sistemacomercial.model.VW_Produto;
 import br.com.guedes.sistemacomercial.model.ValorVendaProduto;
+import br.com.guedes.sistemacomercial.util.BusinessException;
+import br.com.guedes.sistemacomercial.util.Constantes;
 import br.com.guedes.sistemacomercial.util.Util;
+import br.com.guedes.sistemacomercial.vo.GenericVO;
 import br.com.guedes.sistemacomercial.vo.ProdutoVO;
-import br.com.guedes.sistemacomercial.vo.ProdutoVWVO;
 import br.com.guedes.sistemacomercial.vo.ValoresProdutoVO;
 
 /**
@@ -32,26 +35,16 @@ import br.com.guedes.sistemacomercial.vo.ValoresProdutoVO;
 public class ProdutoAction extends BaseAction {
 
 	private static final long serialVersionUID = 4544489506705367837L;
-	//private static final String SESSION_LISTA_VALOR_PRODUTO  = "SESSION_LISTA_VALOR_PRODUTO";
-	//private static final String SESSION_IS_ALTERACAO_PRODUTO = "SESSION_IS_ALTERACAO_PRODUTO";
+	private static final String SESSION_LISTA_VALOR_PRODUTO  = "SESSION_LISTA_VALOR_PRODUTO";
 	private static final Logger LOGGER = Logger.getLogger(ProdutoAction.class);
 
 	private String mensagemUsuario;
 	private ProdutoVO produto = new ProdutoVO();
-	private List<ProdutoVO> listaProduto;
-	
-	
-	
-	
-	
-	//private Produto produto;
-	private Fornecedor fornecedor;
-	private Categoria categoria;
-	private List<Categoria> listaCategoria = new ArrayList<Categoria>();
-	private List<Fornecedor> listaFornecedor = new ArrayList<Fornecedor>();
-	private List<ValoresProdutoVO> listaValoresProdutoVO = new ArrayList<ValoresProdutoVO>();
 	private ValoresProdutoVO valoresProdutoVO = new ValoresProdutoVO();
-	private List<ProdutoVWVO> listaProdutoView = new ArrayList<ProdutoVWVO>();
+	private List<ProdutoVO> listaProduto;
+	private List<GenericVO> listaCategoria;
+	private List<GenericVO> listaFornecedor;
+	private List<ValoresProdutoVO> listaValoresProdutoVO;
 	
 	@Autowired
 	private UsuarioFacade usuarioFacade;
@@ -109,26 +102,8 @@ public class ProdutoAction extends BaseAction {
     			setMensagemUsuario("Produto não encontrado.");
     			return ERROR;
     		} else {
-    			getProduto().setProDataCadastro(Util.converterCalendarParaString(produto.getProDataCadastro()));
-    			getProduto().setProDataAlteracao(Util.converterCalendarParaString(produto.getProDataAlteracao()));
-    			getProduto().setProNome(produto.getProNome());
-    			getProduto().setProCodigoBarras(produto.getProCodigoBarras());
-    			//getProduto().setForNome(produto.getProCodigoBarras());
-    			if (produto.getCategoria() != null) {
-    				getProduto().setCatDescricao(produto.getCategoria().getCatDescricao());
-    			}
-    			getProduto().setProQuantidadeMinima(produto.getProQuantidadeMinima());
-    			getProduto().setProQuantidadeMaxima(produto.getProQuantidadeMaxima());
-    			getProduto().setProObs(produto.getProObs());
-    			getProduto().setListaValoresProduto(new ArrayList<ValoresProdutoVO>());
-    			for (ValorVendaProduto valorVendaProduto: produto.getListaValorVendaProduto()) {
-    				ValoresProdutoVO valoresProdutoVO = new ValoresProdutoVO();
-    				
-    				//valoresProdutoVO.setVrpImpostoICMS(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
-    				valoresProdutoVO.setVvpValorProduto(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
-    				valoresProdutoVO.setVvpDataCadastro(Util.converterCalendarParaString(valorVendaProduto.getVvpDataCadastro()));
-    				getProduto().getListaValoresProduto().add(valoresProdutoVO);
-    			}
+    			// seta dados do Produto.
+    			preencherProduto(produto);
     		}
     		return SUCCESS;
 			
@@ -139,167 +114,208 @@ public class ProdutoAction extends BaseAction {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return String
+	 */
+    public String iniciarManutencao() {
+    	
+    	try {
+    		// remove da session a lista de valores do produto.
+    		this.getRequest().getSession().removeAttribute(SESSION_LISTA_VALOR_PRODUTO);
+    		
+    		// seta as lista de Categoria e Fornecedor.
+    		preencherListaCategoriaFornecedor();
+    		
+    		return SUCCESS;
+		} catch (Exception e) {
+			addActionError("Erro ao iniciar manutenção do Produto.");
+			return ERROR;
+		}
+    }
+    
+	@SuppressWarnings("unchecked")
+	public String incluirValorProduto() {
+		try {
+  		
+	  		setListaValoresProdutoVO((List<ValoresProdutoVO>) this.getRequest().getSession().getAttribute(SESSION_LISTA_VALOR_PRODUTO));
+	  		if (getListaValoresProdutoVO() == null) {
+	  			setListaValoresProdutoVO(new ArrayList<ValoresProdutoVO>());
+	  		}
+	  		
+	  		getValoresProdutoVO().setVvpDataCadastro(Util.obterDataHoraAtual());
+	  		getListaValoresProdutoVO().add(getValoresProdutoVO());
+	  		
+	  		this.getRequest().getSession().setAttribute(SESSION_LISTA_VALOR_PRODUTO, getListaValoresProdutoVO());
+	  		
+	  		return SUCCESS;
+  		
+		} catch (Exception e) {
+			
+			LOGGER.error("Erro ao incluir valor ao Produto.", e);
+			setMensagemUsuario("Erro ao incluir valor ao Produto.");
+			return ERROR;
+		}
+	}    
 	
-	
-	
-	
-	
-	
-	
-//	/**
-//	 * 
-//	 * @return String
-//	 */
-//    public String iniciarCadastro() {
-//    	
-//    	try {
-//    		// remove da session a lista de valores do produto.
-//    		this.getRequest().getSession().removeAttribute(SESSION_LISTA_VALOR_PRODUTO);
-//    		
-//    		// obter lista de categorias.
-//    		setListaCategoria(categoriaFacade.listaCategoria());
-//    		
-//    		return SUCCESS;
-//			
-//		} catch (Exception e) {
-//			
-//			addActionError("Erro ao iniciar cadastro do Produto.");
-//			return ERROR;
-//		}
-//    }
+	@SuppressWarnings("unchecked")
+	public String salvar() {
+  	
+		try {
+			// validação dos dados.
+			
+			// seta os dados.
+			Produto produto = new Produto();
+			produto.setProCodigo(getProduto().getProCodigo());
+			if (produto.getProCodigo() != null && produto.getProCodigo() > 0) {
+				produto = produtoFacade.obterProdutoPorId(produto.getProCodigo());
+				produto.setProDataAlteracao(Calendar.getInstance());
+			} else {
+				produto.setProDataCadastro(Calendar.getInstance());
+			}
+			produto.setProNome(getProduto().getProNome().trim());
+			produto.setProQuantidadeMinima(getProduto().getProQuantidadeMinima());
+			produto.setProQuantidadeMaxima(getProduto().getProQuantidadeMaxima());
+	  		if (getProduto().getCategoria() != null && getProduto().getCategoria().getGenCodigo() > 0) {
+	  			produto.setCategoria(new Categoria());
+	  			produto.getCategoria().setCatCodigo(getProduto().getCategoria().getGenCodigo());
+	  		}			
+//	  		if (getProduto().getFornecedor() != null && getProduto().getFornecedor().getGenCodigo() > 0) {
+//	  			produto.setfCategoria(new Categoria());
+//	  			produto.getCategoria().setCatCodigo(getProduto().getCategoria().getGenCodigo());
+//	  		}	
+	  		produto.setProObs(getProduto().getProObs().trim());
+	  		produto.setProCodigoBarras(getProduto().getProCodigoBarras().trim());
+	  		setListaValoresProdutoVO((List<ValoresProdutoVO>) this.getRequest().getSession().getAttribute(SESSION_LISTA_VALOR_PRODUTO));
+	  		if (getListaValoresProdutoVO() != null && getListaValoresProdutoVO().size() > 0) {
+	  			produto.setListaValorVendaProduto(new ArrayList<ValorVendaProduto>());
+	  			for (ValoresProdutoVO valoresProdutoVO: getListaValoresProdutoVO()) {
+	  				ValorVendaProduto valorVendaProduto = new ValorVendaProduto();
+	  				valorVendaProduto.setProduto(produto);
+	  				valorVendaProduto.setVvpCodigo(valoresProdutoVO.getVvpCodigo());
+	  				valorVendaProduto.setVvpDataCadastro(Util.converterStringParaCalendar(valoresProdutoVO.getVvpDataCadastro()));
+	  				valorVendaProduto.setVvpValorProduto(Util.converterDecimalStringParaBigDecimal(valoresProdutoVO.getVvpValorProduto()));
+	  				
+	  				produto.getListaValorVendaProduto().add(valorVendaProduto);
+	  			}
+	  		}
+	  		produto.setUsuario((Usuario) this.getRequest().getSession().getAttribute(Constantes.KEY_USUARIO_SESSION));
+	  		
+	  		// salvar.
+	  		produtoFacade.salvar(produto);
+	  		
+	  		// remove da session a lista de valores do produto.
+	  		this.getRequest().getSession().removeAttribute(SESSION_LISTA_VALOR_PRODUTO);
+	  		
+	  		return SUCCESS;
+			
+		} catch (Exception e) {
+			LOG.fatal(e.getMessage(), e);
+			if (e instanceof BusinessException) {
+				setMensagemUsuario(e.getMessage());
+			} else {
+				setMensagemUsuario("Erro ao gravar o Produto.");
+			}
+			return ERROR;
+		}
+	}	
     
 	/**
 	 * 
 	 * @return String
 	 */
-//    public String iniciarAlteracao() {
-//    	
-//    	try {
-//    		// remove da session a lista de valores do produto.
-//    		this.getRequest().getSession().removeAttribute(SESSION_LISTA_VALOR_PRODUTO);
-//    		
-//    		// obter o Produto.
-//    		setProduto(produtoFacade.obterProdutoPorId(getProduto().getProCodigo()));
-//    		
-//    		setCategoria(produto.getCategoria());
-//    		//setFornecedor(produto.getCategoria());
-//    		
-//    		// obter lista de categorias.
-//    		setListaCategoria(categoriaFacade.listaCategoria());
-//    		
-//    		// lista de valores do Produto.
-//    		preencherValoresProdutoParaAlterar();
-//    		
-//    		// seta a lista de valores na session.
-//    		this.getRequest().getSession().setAttribute(SESSION_LISTA_VALOR_PRODUTO, getListaValoresProdutoVO());
-//    		this.getRequest().getSession().setAttribute(SESSION_IS_ALTERACAO_PRODUTO, SESSION_IS_ALTERACAO_PRODUTO);
-//    		
-//    		return SUCCESS;
-//			
-//		} catch (Exception e) {
-//			
-//			addActionError("Erro ao iniciar alteração do Produto.");
-//			return ERROR;
-//		}
-//    }  
+	public String iniciarAlteracao() {
+    	
+    	try {
+    		// remove da session a lista de valores do produto.
+    		this.getRequest().getSession().removeAttribute(SESSION_LISTA_VALOR_PRODUTO);
+    		
+    		Produto produto = produtoFacade.obterProdutoPorId(getProduto().getProCodigo());
+    		if (produto == null) {
+    			setMensagemUsuario("Produto não encontrado.");
+    			return ERROR;
+    		}
+    		
+			// seta dados do Produto.
+			preencherProduto(produto);
+			
+    		// seta a lista de valores na session.
+    		this.getRequest().getSession().setAttribute(SESSION_LISTA_VALOR_PRODUTO, getProduto().getListaValoresProduto());
+    		
+    		// seta as lista de Categoria e Fornecedor.
+    		preencherListaCategoriaFornecedor();
+    		
+    		return SUCCESS;
+			
+		} catch (Exception e) {
+			
+			addActionError("Erro ao iniciar alteração do Produto.");
+			return ERROR;
+		}
+    }  
+	
+	private void preencherProduto(Produto produto) throws Exception {
+		getProduto().setProDataCadastro(Util.converterCalendarParaString(produto.getProDataCadastro()));
+		getProduto().setProDataAlteracao(Util.converterCalendarParaString(produto.getProDataAlteracao()));
+		getProduto().setProNome(produto.getProNome());
+		getProduto().setProCodigoBarras(produto.getProCodigoBarras());
+		//getProduto().setForNome(produto.getProCodigoBarras());
+		if (produto.getCategoria() != null) {
+			getProduto().setCategoria(new GenericVO());
+			getProduto().getCategoria().setGenCodigo(produto.getCategoria().getCatCodigo());
+			getProduto().getCategoria().setGenDescricao(produto.getCategoria().getCatDescricao());
+		}
+		getProduto().setProQuantidadeMinima(produto.getProQuantidadeMinima());
+		getProduto().setProQuantidadeMaxima(produto.getProQuantidadeMaxima());
+		getProduto().setProObs(produto.getProObs());
+		getProduto().setListaValoresProduto(new ArrayList<ValoresProdutoVO>());
+		for (ValorVendaProduto valorVendaProduto: produto.getListaValorVendaProduto()) {
+			ValoresProdutoVO valoresProdutoVO = new ValoresProdutoVO();
+			
+			//valoresProdutoVO.setVrpImpostoICMS(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
+			valoresProdutoVO.setVvpValorProduto(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
+			valoresProdutoVO.setVvpDataCadastro(Util.converterCalendarParaString(valorVendaProduto.getVvpDataCadastro()));
+			getProduto().getListaValoresProduto().add(valoresProdutoVO);
+		}
+	}
+	
+	private void preencherListaCategoriaFornecedor() throws Exception {
+		// obter lista de Categorias.
+		setListaCategoria(new ArrayList<GenericVO>());
+		List<Categoria> listaCategorias = categoriaFacade.listaCategoria();
+		if (listaCategorias != null) {
+			for (Categoria categoria: listaCategorias) {
+				GenericVO genericVO = new GenericVO();
+				genericVO.setGenCodigo(categoria.getCatCodigo());
+				genericVO.setGenDescricao(categoria.getCatDescricao());
+				getListaCategoria().add(genericVO);
+			}
+		}
+		// obter lista de Fornecedores.
+		setListaFornecedor(new ArrayList<GenericVO>());
+	}
     
-//    @SuppressWarnings("unchecked")
-//	public String buscarListaValoresProduto() {
-//    	
-//    	try {
-//    		
-//    		// buscar da session a lista de valores do Produto.
-//    		setListaValoresProdutoVO((List<ValoresProdutoVO>) this.getRequest().getSession().getAttribute(SESSION_LISTA_VALOR_PRODUTO));
-//    		
-//    		return SUCCESS;
-//			
-//		} catch (Exception e) {
-//			
-//			addActionError("Erro ao iniciar alteração do Produto.");
-//			return ERROR;
-//		}
-//    }     
+    @SuppressWarnings("unchecked")
+	public String buscarListaValoresProduto() {
+    	
+    	try {
+    		
+    		// buscar da session a lista de valores do Produto.
+    		setListaValoresProdutoVO((List<ValoresProdutoVO>) this.getRequest().getSession().getAttribute(SESSION_LISTA_VALOR_PRODUTO));
+    		
+    		return SUCCESS;
+			
+		} catch (Exception e) {
+			
+			setMensagemUsuario("Erro ao carregar a lista de valores para alteração do Produto.");
+			return ERROR;
+		}
+    }     
     
-//    @SuppressWarnings("unchecked")
-//	public String salvar() {
-//    	
-//    	try {
-//    		
-//    		setListaValoresProdutoVO((List<ValoresProdutoVO>) this.getRequest().getSession().getAttribute(SESSION_LISTA_VALOR_PRODUTO));
-//    		
-////    		if (getFornecedor() != null && getFornecedor().getPessoa().getPesCodigo() != 0) {
-////    			produto.setFornecedor(getFornecedor());
-////    		}
-//    		
-//    		if (getCategoria() != null && getCategoria().getCatCodigo() != 0) {
-//    			produto.setCategoria(getCategoria());
-//    		}    		
-//    		
-//    		produto.setProDataCadastro(Calendar.getInstance());
-//    		
-//    		produto.setUsuario((Usuario) this.getRequest().getSession().getAttribute(Constantes.KEY_USUARIO_SESSION));
-//    		
-//    		// valida campos.
-//    		
-//    		// obter os valores do Produto na session.
-//    		preencherValoresProdutoParaSalvar();
-//    		
-//    		// verifica se está alterando o Produto.
-//    		if (this.getRequest().getSession().getAttribute(SESSION_IS_ALTERACAO_PRODUTO) == null) {
-//    			getProduto().setProCodigo(null);
-//    		}
-//    		
-//    		// salvar.
-//    		produtoFacade.salvar(getProduto());
-//    		
-//    		// remove da session a lista de valores do produto.
-//    		this.getRequest().getSession().removeAttribute(SESSION_LISTA_VALOR_PRODUTO);
-//    		this.getRequest().getSession().removeAttribute(SESSION_IS_ALTERACAO_PRODUTO);
-//    		
-//    		return SUCCESS;
-//			
-//		} catch (Exception e) {
-//			
-//			LOGGER.error("Erro ao gravar o Produto.", e);
-//			setMensagemUsuario("Erro ao gravar o Produto.");
-//			return ERROR;
-//		}
-//    }    
     
-//    @SuppressWarnings("unchecked")
-//	public String incluirValorProduto() {
-//    	
-//    	try {
-//    		
-//    		setListaValoresProdutoVO((List<ValoresProdutoVO>) this.getRequest().getSession().getAttribute(SESSION_LISTA_VALOR_PRODUTO));
-//    		if (getListaValoresProdutoVO() == null) {
-//    			setListaValoresProdutoVO(new ArrayList<ValoresProdutoVO>());
-//    		}
-//    		
-//    		getValoresProdutoVO().setVvpDataCadastro(Util.obterDataHoraAtual());
-//    		getListaValoresProdutoVO().add(getValoresProdutoVO());
-//    		
-//    		this.getRequest().getSession().setAttribute(SESSION_LISTA_VALOR_PRODUTO, getListaValoresProdutoVO());
-//    		
-//    		return SUCCESS;
-//    		
-//		} catch (Exception e) {
-//			
-//			LOGGER.error("Erro ao incluir valor ao Produto.", e);
-//			setMensagemUsuario("Erro ao incluir valor ao Produto.");
-//			return ERROR;
-//		}
-//    }
     
-//	/**
-//	 * 
-//	 * @return String
-//	 */
-//    public String iniciarPesquisa() {
-//    	
-//    	setProduto(null);
-//    	return SUCCESS;
-//    }    
+
+  
     
    
     
@@ -336,19 +352,19 @@ public class ProdutoAction extends BaseAction {
 		this.mensagemUsuario = mensagemUsuario;
 	}
 
-	public List<Categoria> getListaCategoria() {
+	public List<GenericVO> getListaCategoria() {
 		return listaCategoria;
 	}
 
-	public void setListaCategoria(List<Categoria> listaCategoria) {
+	public void setListaCategoria(List<GenericVO> listaCategoria) {
 		this.listaCategoria = listaCategoria;
 	}
 
-	public List<Fornecedor> getListaFornecedor() {
+	public List<GenericVO> getListaFornecedor() {
 		return listaFornecedor;
 	}
 
-	public void setListaFornecedor(List<Fornecedor> listaFornecedor) {
+	public void setListaFornecedor(List<GenericVO> listaFornecedor) {
 		this.listaFornecedor = listaFornecedor;
 	}
 
@@ -367,30 +383,6 @@ public class ProdutoAction extends BaseAction {
 
 	public void setValoresProdutoVO(ValoresProdutoVO valoresProdutoVO) {
 		this.valoresProdutoVO = valoresProdutoVO;
-	}
-
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
-
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-
-	public List<ProdutoVWVO> getListaProdutoView() {
-		return listaProdutoView;
-	}
-
-	public void setListaProdutoView(List<ProdutoVWVO> listaProdutoView) {
-		this.listaProdutoView = listaProdutoView;
 	}
 
 	public ProdutoVO getProduto() {

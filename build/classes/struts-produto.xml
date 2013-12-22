@@ -11,7 +11,7 @@
     		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
     	</result-types>        
 
-        <action name="InicioCadastro" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="iniciarCadastro">
+        <action name="InicioManutencao" class="br.com.guedes.sistemacomercial.controller.ProdutoAction" method="iniciarManutencao">
             <result name="success" type="tiles">inicio.manutencao.produto</result>
             <result name="error" type="tiles">error.tiles</result>
         </action>

@@ -27,11 +27,11 @@
 			<div class="row" style="margin-top: 10px;">
 				<div class="col-lg-6">
 					<s:label for="forCodigo" cssClass="control-label">Fornecedor</s:label>
-					<s:select name="fornecedor.pessoa.pesCodigo" list="listaFornecedor" id="forCodigo" headerKey="0" headerValue=":: Selecione Fornecedor ::" theme="simple" listValue="pesNome" listKey="pesCodigo" cssStyle="width: 350px;" cssClass="form-control"></s:select>
+					<s:select name="produto.fornecedor.genCodigo" list="listaFornecedor" id="fornecedor" headerKey="0" headerValue=":: Selecione Fornecedor ::" theme="simple" listValue="genDescricao" listKey="genCodigo" cssStyle="width: 350px;" cssClass="form-control"></s:select>
 				</div>
 				<div class="col-lg-6">
 					<s:label for="catCodigo" cssClass="control-label">Categoria</s:label>
-					<s:select name="categoria.catCodigo" list="listaCategoria" id="catCodigo" headerKey="0" headerValue=":: Selecione Categoria ::" theme="simple" listValue="catDescricao" listKey="catCodigo" cssStyle="width: 350px;" cssClass="form-control"></s:select>	
+					<s:select name="produto.categoria.genCodigo" list="listaCategoria" id="categoria" headerKey="0" headerValue=":: Selecione Categoria ::" theme="simple" listValue="genDescricao" listKey="genCodigo" cssStyle="width: 350px;" cssClass="form-control"></s:select>	
 				</div>
 			</div>
 			<div class="row" style="margin-top: 10px;">

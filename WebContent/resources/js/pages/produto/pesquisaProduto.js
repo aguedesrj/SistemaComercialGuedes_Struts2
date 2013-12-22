@@ -6,6 +6,12 @@
 	$("#btnFechar").button().click(function() {	
 		$("#modalDetalhe").modal('hide');
 	});	
+	
+    // Botão novo produto.
+    $("#btnNovo").button().click(function() {
+		$("#formProduto").attr("action", "InicioManutencao");
+		$("#formProduto").submit();    	
+    });	
     
 	// Botão pesquisa Produto.
 	$("#btnPesquisar").button().click(function() {
@@ -117,7 +123,12 @@ function exibirModalDetalhe(data) {
 	$("#spanProNome").html(data.produto.proNome);
 	$("#spanProCodigoBarras").html(data.produto.proCodigoBarras);
 	$("#spanForNome").html(data.produto.forNome);
-	$("#spanCatDescricao").html(data.produto.catDescricao);
+	if (data.produto.fornecedor != undefined) {
+		$("#spanForNome").html(data.produto.fornecedor.genDescricao);
+	}	
+	if (data.produto.categoria != undefined) {
+		$("#spanCatDescricao").html(data.produto.categoria.genDescricao);
+	}
 	$("#spanProQuantidadeMinima").html(data.produto.proQuantidadeMinima);
 	$("#spanProQuantidadeMaxima").html(data.produto.proQuantidadeMaxima);
 	$("#spanProObs").html(data.produto.proObs);

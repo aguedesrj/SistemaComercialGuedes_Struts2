@@ -38,7 +38,7 @@ public class ProdutoDaoImpl extends HibernateDaoSupport implements ProdutoDao {
 			
 			// Nome
 			if (produto.getProNome() != null) {
-				hql.append(" and upper(proNome) like upper('%" + produto.getProNome() + "%')");
+				hql.append(" and upper(proNome) like upper('%" + produto.getProNome().trim() + "%')");
 			}
 			
 			return getHibernateTemplate().findByValueBean(hql.toString(), produto);
