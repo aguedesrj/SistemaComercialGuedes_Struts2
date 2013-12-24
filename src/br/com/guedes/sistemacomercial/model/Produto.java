@@ -38,7 +38,7 @@ public class Produto implements Serializable {
 	@Column(name="PRO_NOME", length=120, nullable=false)
 	private String proNome;	
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="USU_CODIGO", nullable=false)
 	private Usuario usuario;
 	

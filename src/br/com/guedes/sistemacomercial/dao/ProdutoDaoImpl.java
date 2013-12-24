@@ -60,8 +60,7 @@ public class ProdutoDaoImpl extends HibernateDaoSupport implements ProdutoDao {
 			
 			hql.append("from Produto where proCodigo = " + proCodigo);
 			
-			Produto produto = new Produto();
-			List<Produto> listaProduto = getHibernateTemplate().findByValueBean(hql.toString(), produto);
+			List<Produto> listaProduto = getHibernateTemplate().findByValueBean(hql.toString(), new Produto());
 			if (listaProduto != null && !listaProduto.isEmpty()) {
 				return listaProduto.get(0);
 			}

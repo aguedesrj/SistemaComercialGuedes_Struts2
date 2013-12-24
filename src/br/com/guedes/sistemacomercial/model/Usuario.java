@@ -16,9 +16,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("session")
 @Entity
 @Table(name="TBL_USUARIO")
 @SequenceGenerator(name="SEQUENCE_USUARIO", sequenceName = "GEN_TBL_USUARIO_ID", allocationSize=1)

@@ -1,0 +1,61 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">  
+
+	<beans:bean id="concurrencyFilter"
+        class="org.springframework.security.web.session.ConcurrentSessionFilter">
+        <beans:property name="sessionRegistry" ref="sessionRegistry" />
+        <beans:property name="expiredUrl" value="/session-expired.htm" />
+    </beans:bean>
+ 
+    <beans:bean id="sas"
+        class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <beans:constructor-arg name="sessionRegistry"
+            ref="sessionRegistry" />
+        <beans:property name="maximumSessions" value="1" />
+    </beans:bean>    
+    
+	<http auto-config='true'>
+	    <!-- página pública -->
+	    <intercept-url pattern="/Usuario/EfetuaLogin" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+	    <intercept-url pattern="/Usuario/Login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+	    <!-- todas as urls privadas -->
+    	<intercept-url pattern="/**" access="ROLE_USER" />
+    	<!-- se não tiver sessão vai para a tela de login.  -->
+    	<form-login login-page="/Usuario/EfetuaLogin" authentication-failure-url="/Usuario/EfetuaLogin?login_error=1" always-use-default-target="true"/>
+  	</http>
+  	
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+	
+	<beans:bean id="authProvider" class="br.com.guedes.sistemacomercial.controller.UsuarioAction">
+        <aop:scoped-proxy proxy-target-class="false" />
+    </beans:bean>
+    
+	<beans:bean id="usuarioSession" class="br.com.guedes.sistemacomercial.model.Usuario" scope="session">
+        <aop:scoped-proxy proxy-target-class="false" />
+    </beans:bean>
+    
+    <authentication-manager>
+        <authentication-provider ref="authProvider" />
+    </authentication-manager>
+  	
+    <!--  
+	<authentication-manager>
+		<authentication-provider>
+	        <password-encoder hash="md5"/>
+	        <user-service>
+	            <user name="rod" password="a564de63c2d0da68cf47586ee05984d7" authorities="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER" />
+	            <user name="dianne" password="65d15fe9156f9c4bbffd98085992a44e" authorities="ROLE_USER,ROLE_TELLER" />
+	            <user name="scott" password="2b58af6dddbd072ed27ffc86725d7d3a" authorities="ROLE_USER" />
+	            <user name="peter" password="22b5c9accc6e1ba628cedc63a72d57f8" authorities="ROLE_USER" />
+	        </user-service>
+	    </authentication-provider>
+    </authentication-manager>
+    -->
+    
+</beans:beans>

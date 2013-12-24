@@ -112,7 +112,7 @@ function detalhar(usuCodigo) {
 		error: function (request, error) {
 			$("#loading").css("display", "none");
 			$("#divMensagemErro").css("display", "block");
-			$("#spanMsgError").show().html("Sistema indisponível no momento.");  
+			$("#spanMsgError").show().html("Sistema indisponível no momento.");  			
 		}
 	});	
 }

@@ -34,7 +34,7 @@
 
         <global-exception-mappings>
             <exception-mapping exception="java.lang.Exception" result="error"/>
-        </global-exception-mappings>         
+        </global-exception-mappings>               
 
     </package>
     

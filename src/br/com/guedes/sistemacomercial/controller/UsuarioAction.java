@@ -7,6 +7,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import br.com.guedes.sistemacomercial.facade.UsuarioFacade;
@@ -32,7 +37,7 @@ import br.com.guedes.sistemacomercial.vo.UsuarioVO;
  */
 @Controller
 @Scope("request")
-public class UsuarioAction extends BaseAction {
+public class UsuarioAction extends BaseAction implements AuthenticationProvider {
 
 	private static final long serialVersionUID = 6197016604313350773L;
 	
@@ -46,6 +51,18 @@ public class UsuarioAction extends BaseAction {
 	
 	@Autowired
 	private UsuarioFacade usuarioFacade;
+	
+    @Override
+    public Authentication authenticate(Authentication arg0) throws AuthenticationException {
+        // TODO Auto-generated method stub
+        return null;
+    }	
+    
+    @Override
+    public boolean supports(Class<?> arg0) {
+        // TODO Auto-generated method stub
+        return false;
+    }   
 	
 	/**
 	 * Exibir tela de login.
@@ -72,6 +89,12 @@ public class UsuarioAction extends BaseAction {
 			usuario.setUsuSenha(getUsuario().getUsuSenha());
 			
 			usuario = usuarioFacade.efetuarLogin(usuario.getUsuLogin().trim(), usuario.getUsuSenha().trim());
+			
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(usuario, null);
+			token.setDetails(usuario);
+			
+			SecurityContextHolder.createEmptyContext();
+	        SecurityContextHolder.getContext().setAuthentication(token);
 			
 			// Abrir sessão.
 			this.getRequest().getSession().setAttribute(Constantes.KEY_USUARIO_SESSION, usuario);
