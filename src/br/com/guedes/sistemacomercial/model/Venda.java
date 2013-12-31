@@ -3,15 +3,21 @@ package br.com.guedes.sistemacomercial.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -51,6 +57,12 @@ public class Venda implements Serializable {
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="MVX_CODIGO", nullable=false)
 	private MovimentoCaixa movimentoCaixa;
+	
+	@OneToMany(mappedBy="venda", targetEntity=ItensVenda.class, fetch = FetchType.EAGER)
+	@JoinColumn(name="VEN_CODIGO", insertable=true, updatable=true)
+	@Cascade(CascadeType.ALL)	
+	@Fetch(FetchMode.SUBSELECT)
+	private List<ItensVenda> listaItensVenda;	
 
 	public Integer getVenCodigo() {
 		return venCodigo;
@@ -122,5 +134,13 @@ public class Venda implements Serializable {
 
 	public void setMovimentoCaixa(MovimentoCaixa movimentoCaixa) {
 		this.movimentoCaixa = movimentoCaixa;
-	}	
+	}
+
+	public List<ItensVenda> getListaItensVenda() {
+		return listaItensVenda;
+	}
+
+	public void setListaItensVenda(List<ItensVenda> listaItensVenda) {
+		this.listaItensVenda = listaItensVenda;
+	}
 }

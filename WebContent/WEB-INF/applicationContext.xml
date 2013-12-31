@@ -12,12 +12,8 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<context:component-scan base-package="br.com.sistemacomercial.guedes"/>
-
-<!-- JDBC  
-https://forum.hibernate.org/viewtopic.php?p=2429165
--->
-	
+    <context:component-scan base-package="br.com.sistemacomercial.guedes"/>
+    
 	<!-- Activates scanning of @Autowired -->
 	<context:annotation-config/>	
 	

@@ -33,6 +33,9 @@ public class VW_Produto implements Serializable {
 	
 	@Column(name="VVP_VALORPRODUTO", nullable=false)
 	private BigDecimal vvpValorProduto;
+	
+	@Column(name="VVP_VALORPRODUTO_FORMATADO")
+	private String vvpValorProdutoFormatado;	
 
 	public Integer getProCodigo() {
 		return proCodigo;
@@ -72,5 +75,13 @@ public class VW_Produto implements Serializable {
 
 	public void setVvpValorProduto(BigDecimal vvpValorProduto) {
 		this.vvpValorProduto = vvpValorProduto;
-	}	
+	}
+
+	public String getVvpValorProdutoFormatado() {
+		return vvpValorProdutoFormatado;
+	}
+
+	public void setVvpValorProdutoFormatado(String vvpValorProdutoFormatado) {
+		this.vvpValorProdutoFormatado = vvpValorProdutoFormatado;
+	}
 }

@@ -272,6 +272,7 @@ public class ProdutoAction extends BaseAction {
 		for (ValorVendaProduto valorVendaProduto: produto.getListaValorVendaProduto()) {
 			ValoresProdutoVO valoresProdutoVO = new ValoresProdutoVO();
 			
+			valoresProdutoVO.setVvpCodigo(valorVendaProduto.getVvpCodigo());
 			//valoresProdutoVO.setVrpImpostoICMS(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
 			valoresProdutoVO.setVvpValorProduto(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
 			valoresProdutoVO.setVvpDataCadastro(Util.converterCalendarParaString(valorVendaProduto.getVvpDataCadastro()));

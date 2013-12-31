@@ -24,6 +24,7 @@
 	
 	<!-- JAVASCRIPT -->
 	<script src="../resources/js/jquery/jquery-1.9.1.js"></script>
+	<script src="../resources/js/Highcharts-3.0.7/js/highcharts.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.core.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.widget.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.mouse.js"></script>
