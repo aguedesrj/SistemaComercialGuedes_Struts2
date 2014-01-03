@@ -79,7 +79,7 @@ public class ProdutoAction extends BaseAction {
     				produtoVO.setProCodigo(vwProduto.getProCodigo());
     				produtoVO.setProNome(vwProduto.getProNome());
     				produtoVO.setProCodigoBarras(vwProduto.getProCodigoBarras());
-    				produtoVO.setProDataCadastro(Util.converterCalendarParaString(vwProduto.getProDataCadastro()));
+    				produtoVO.setProDataCadastro(Util.converterCalendarParaString(vwProduto.getProDataCadastro(), Util.simpleDateFormatDataHora));
     				produtoVO.setVvpValorProduto(Util.converterBigDecimalParaStringDecimal(vwProduto.getVvpValorProduto()));
     				
     				getListaProduto().add(produtoVO);
@@ -143,7 +143,7 @@ public class ProdutoAction extends BaseAction {
 	  			setListaValoresProdutoVO(new ArrayList<ValoresProdutoVO>());
 	  		}
 	  		
-	  		getValoresProdutoVO().setVvpDataCadastro(Util.obterDataHoraAtual());
+	  		getValoresProdutoVO().setVvpDataCadastro(Util.obterDataAtual(Util.simpleDateFormatDataHora));
 	  		getListaValoresProdutoVO().add(getValoresProdutoVO());
 	  		
 	  		this.getRequest().getSession().setAttribute(SESSION_LISTA_VALOR_PRODUTO, getListaValoresProdutoVO());
@@ -255,8 +255,8 @@ public class ProdutoAction extends BaseAction {
     }  
 	
 	private void preencherProduto(Produto produto) throws Exception {
-		getProduto().setProDataCadastro(Util.converterCalendarParaString(produto.getProDataCadastro()));
-		getProduto().setProDataAlteracao(Util.converterCalendarParaString(produto.getProDataAlteracao()));
+		getProduto().setProDataCadastro(Util.converterCalendarParaString(produto.getProDataCadastro(), Util.simpleDateFormatDataHora));
+		getProduto().setProDataAlteracao(Util.converterCalendarParaString(produto.getProDataAlteracao(), Util.simpleDateFormatDataHora));
 		getProduto().setProNome(produto.getProNome());
 		getProduto().setProCodigoBarras(produto.getProCodigoBarras());
 		//getProduto().setForNome(produto.getProCodigoBarras());
@@ -275,7 +275,7 @@ public class ProdutoAction extends BaseAction {
 			valoresProdutoVO.setVvpCodigo(valorVendaProduto.getVvpCodigo());
 			//valoresProdutoVO.setVrpImpostoICMS(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
 			valoresProdutoVO.setVvpValorProduto(Util.converterBigDecimalParaStringDecimal(valorVendaProduto.getVvpValorProduto()));
-			valoresProdutoVO.setVvpDataCadastro(Util.converterCalendarParaString(valorVendaProduto.getVvpDataCadastro()));
+			valoresProdutoVO.setVvpDataCadastro(Util.converterCalendarParaString(valorVendaProduto.getVvpDataCadastro(), Util.simpleDateFormatDataHora));
 			getProduto().getListaValoresProduto().add(valoresProdutoVO);
 		}
 	}

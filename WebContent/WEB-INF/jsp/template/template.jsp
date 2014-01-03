@@ -36,6 +36,7 @@
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.effect.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.menu.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.datepicker.js"></script>
+	<script src="../resources/js/jquery/development-bundle/ui/minified/i18n/jquery.ui.datepicker-pt-BR.min.js"></script>
 	<script src="../resources/js/jquery/development-bundle/ui/jquery.ui.effect-clip.js"></script>
 	<script src="../resources/js/jquery.jqGrid-4.5.4/js/i18n/grid.locale-pt-br.js" type="text/javascript"></script>
 	<script src="../resources/js/jquery.jqGrid-4.5.4/js/jquery.jqGrid.min.js" type="text/javascript"></script>	

@@ -32,6 +32,7 @@
 
         <action name="Home" class="br.com.guedes.sistemacomercial.controller.UsuarioAction" method="exibirTelaHome">
             <result name="success" type="tiles">home.usuario</result>
+            <result name="input" type="redirectAction">../Venda/InicioPequisaGraficoHome</result>
             <result name="error">/login.jsp</result>
         </action> 
         

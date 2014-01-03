@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="Venda" namespace="/Venda" extends="default, json-default">
+        
+		<result-types>
+    		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+    	</result-types>        
+
+        <action name="InicioPequisaGraficoHome" class="br.com.guedes.sistemacomercial.controller.VendaAction" method="iniciarPequisaGraficoHome">
+            <result name="success" type="tiles">inicio.pesquisa.grafico.home.venda</result>
+            <result name="error" type="tiles">error.tiles</result>
+        </action>
+        
+        <action name="ExecutaPesquisaGraficoPorPeriodo" class="br.com.guedes.sistemacomercial.controller.VendaAction" method="executarPesquisaGraficoPorPeriodo">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts
+				</param>            
+            </result>
+        </action>		
+        
+    </package>	
+</struts>

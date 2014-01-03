@@ -14,25 +14,16 @@ import java.util.Date;
  */
 public class Util {
 	
-	private static final SimpleDateFormat simpleDateFormatDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	private static final SimpleDateFormat simpleDateFormatData     = new SimpleDateFormat("dd/MM/yyyy");
+	public static final SimpleDateFormat simpleDateFormatDataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	public static final SimpleDateFormat simpleDateFormatData     = new SimpleDateFormat("dd/MM/yyyy");
 
 	/**
 	 * Obter a data atual no formato dd/MM/yyyy
 	 * 
 	 * @return String
 	 */
-	public static String obterDataAtual() {
-		return simpleDateFormatData.format(new Date());
-	}
-	
-	/**
-	 * Obter a data atual no formato dd/MM/yyyy HH:mm:ss
-	 * 
-	 * @return String
-	 */
-	public static String obterDataHoraAtual() {
-		return simpleDateFormatDataHora.format(new Date());
+	public static String obterDataAtual(final SimpleDateFormat format) {
+		return format.format(new Date());
 	}	
 	
 	/**
@@ -81,9 +72,9 @@ public class Util {
 	 * @param data Calendar
 	 * @return String
 	 */
-	public static String converterCalendarParaString(final Calendar data) {
+	public static String converterCalendarParaString(final Calendar data, final SimpleDateFormat format) {
 		if (data != null) {
-			return simpleDateFormatDataHora.format(data.getTime());
+			return format.format(data.getTime());
 		}
 		return "";
 	}	

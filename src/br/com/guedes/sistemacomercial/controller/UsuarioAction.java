@@ -113,7 +113,9 @@ public class UsuarioAction extends BaseAction implements AuthenticationProvider 
     
     public String exibirTelaHome() {
     	
-    	return SUCCESS;
+    	// TODO - verifica se tem permissão de exibir gráfico de vendas.
+    	//return SUCCESS;
+    	return INPUT;
     }  
     
     public String exibirPesquisarUsuario() {
@@ -256,8 +258,8 @@ public class UsuarioAction extends BaseAction implements AuthenticationProvider 
     		if (lista != null && lista.size() == 1) {
     			usuario = lista.get(0);
     			getUsuario().setPesCodigo(usuario.getPessoa().getPesCodigo());
-    			getUsuario().setPesDataAlteracao(Util.converterCalendarParaString(usuario.getPessoa().getPesDataAlteracao()));
-    			getUsuario().setPesDataCadastro(Util.converterCalendarParaString(usuario.getPessoa().getPesDataCadastro()));
+    			getUsuario().setPesDataAlteracao(Util.converterCalendarParaString(usuario.getPessoa().getPesDataAlteracao(), Util.simpleDateFormatDataHora));
+    			getUsuario().setPesDataCadastro(Util.converterCalendarParaString(usuario.getPessoa().getPesDataCadastro(), Util.simpleDateFormatDataHora));
     			getUsuario().setPesNome(usuario.getPessoa().getPesNome());
     			getUsuario().setUsuCodigo(usuario.getUsuCodigo());
     			getUsuario().setUsuLogin(usuario.getUsuLogin());

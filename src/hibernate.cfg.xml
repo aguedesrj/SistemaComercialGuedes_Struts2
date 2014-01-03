@@ -30,11 +30,14 @@
         <mapping class="br.com.guedes.sistemacomercial.model.Fornecedor"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Categoria"/>
         <mapping class="br.com.guedes.sistemacomercial.model.ValorVendaProduto"/>
-        <mapping class="br.com.guedes.sistemacomercial.model.VW_Produto"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Loja"/>
         <mapping class="br.com.guedes.sistemacomercial.model.FormaPagamento"/>
         <mapping class="br.com.guedes.sistemacomercial.model.MovimentoCaixa"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Venda"/>
         <mapping class="br.com.guedes.sistemacomercial.model.ItensVenda"/>
+        <!-- views -->
+        <mapping class="br.com.guedes.sistemacomercial.model.VW_Produto"/>
+        <mapping class="br.com.guedes.sistemacomercial.model.VW_Venda"/>
+        <mapping class="br.com.guedes.sistemacomercial.model.VW_ItensVenda"/>
     </session-factory>
 </hibernate-configuration>

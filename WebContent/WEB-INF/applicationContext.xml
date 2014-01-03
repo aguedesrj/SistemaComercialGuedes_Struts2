@@ -12,8 +12,6 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:component-scan base-package="br.com.sistemacomercial.guedes"/>
-    
 	<!-- Activates scanning of @Autowired -->
 	<context:annotation-config/>	
 	
@@ -36,7 +34,12 @@
    	<!-- Bean que implementa a classe ProdutoFacadeImpl -->  
    	<bean id="produtoFacadeImpl" class="br.com.guedes.sistemacomercial.facade.ProdutoFacadeImpl">  
     	<property name="produtoDao" ref="produtoDaoImpl" />  
-   	</bean>    	
+   	</bean>  
+   	
+   	<!-- Bean que implementa a classe VendaFacadeImpl -->  
+   	<bean id="vendaFacadeImpl" class="br.com.guedes.sistemacomercial.facade.VendaFacadeImpl">  
+    	<property name="vendaDao" ref="vendaDaoImpl" />  
+   	</bean>   		
    	
    	<!-- Implementacao da interface ContatoDaoImpl -->  
    	<bean id="contatoDaoImpl"  
@@ -56,7 +59,12 @@
    	<!-- Implementacao da interface CategoriaDaoImpl -->  
    	<bean id="categoriaDaoImpl"  
       class="br.com.guedes.sistemacomercial.dao.CategoriaDaoImpl"  
-      parent="baseSessionFactory"/>    				
+      parent="baseSessionFactory"/>
+   	
+   	<!-- Implementacao da interface VendaDaoImpl -->  
+   	<bean id="vendaDaoImpl"  
+      class="br.com.guedes.sistemacomercial.dao.VendaDaoImpl"  
+      parent="baseSessionFactory"/>   					
       
    	<!-- Bean abstrato para evitar repetição de código -->  
    	<bean id="baseSessionFactory" abstract="true">  

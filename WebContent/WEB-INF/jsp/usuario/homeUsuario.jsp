@@ -4,6 +4,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div class="container">
-	Home
-</div>
+<script src="../resources/js/pages/usuario/homeUsuario.js"></script>
+
+Home

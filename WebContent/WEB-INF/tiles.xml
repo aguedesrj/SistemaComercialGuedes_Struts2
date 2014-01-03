@@ -66,6 +66,11 @@
         <put-attribute name="conteudo" value="/WEB-INF/jsp/produto/pesquisaProduto.jsp"/>
     </definition>   
     
+    <!-- Venda -->
+    <definition name="inicio.pesquisa.grafico.home.venda" extends="template.index">
+        <put-attribute name="conteudo" value="/WEB-INF/jsp/venda/pesquisaGraficoHomeVenda.jsp"/>
+    </definition>    
+    
     <!-- Estoque -->
 
 </tiles-definitions>

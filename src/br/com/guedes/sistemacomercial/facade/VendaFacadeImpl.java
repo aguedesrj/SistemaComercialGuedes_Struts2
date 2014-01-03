@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.guedes.sistemacomercial.dao.VendaDao;
+import br.com.guedes.sistemacomercial.model.ItensVenda;
+import br.com.guedes.sistemacomercial.model.VW_Venda;
 import br.com.guedes.sistemacomercial.model.Venda;
 import br.com.guedes.sistemacomercial.util.BusinessException;
 import br.com.guedes.sistemacomercial.util.IntegrationException;
@@ -26,8 +28,21 @@ public class VendaFacadeImpl implements VendaFacade {
 	@Autowired  
     private SessionFactory sessionFactory;	
 	
-	public List<Venda> pesquisarVendaPorCriterios(final Venda venda) throws BusinessException, IntegrationException {
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.facade.VendaFacade#pesquisarVendaPorCriterios(br.com.guedes.sistemacomercial.model.Venda)
+	 */
+	public List<VW_Venda> pesquisarVendaPorCriterios(final Venda venda) throws BusinessException, IntegrationException {
 		return getVendaDao().pesquisarVendaPorCriterios(venda);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.guedes.sistemacomercial.facade.VendaFacade#obterVendasPorPeriodo(java.lang.String, java.lang.String)
+	 */
+	public List<ItensVenda> obterVendasPorPeriodo(final String dataInicio, final String dataFim) throws BusinessException, IntegrationException {
+		LOGGER.info("Obtendo vendas por período.");
+		return getVendaDao().obterVendasPorPeriodo(dataInicio, dataFim);
 	}
 
 	public VendaDao getVendaDao() {
