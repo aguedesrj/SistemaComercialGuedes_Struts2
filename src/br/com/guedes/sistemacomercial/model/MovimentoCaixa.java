@@ -39,8 +39,8 @@ public class MovimentoCaixa implements Serializable {
 	private Usuario usuario;
 	
 	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="LOJ_CODIGO", nullable=false)
-	private Loja loja;
+	@JoinColumn(name="CAI_CODIGO", nullable=false)
+	private Caixa caixa;
 
 	public Integer getMvxCodigo() {
 		return mvxCodigo;
@@ -82,11 +82,11 @@ public class MovimentoCaixa implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Loja getLoja() {
-		return loja;
+	public Caixa getCaixa() {
+		return caixa;
 	}
 
-	public void setLoja(Loja loja) {
-		this.loja = loja;
-	}	
+	public void setCaixa(Caixa caixa) {
+		this.caixa = caixa;
+	}
 }

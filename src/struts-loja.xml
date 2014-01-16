@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="Loja" namespace="/Loja" extends="default, json-default">
+        
+		<result-types>
+    		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+    	</result-types>        
+
+        <action name="ManutencaoLoja" class="br.com.guedes.sistemacomercial.controller.LojaAction" method="manutencaoLoja">
+            <result name="success" type="tiles">manutencao.loja</result>
+            <result name="error" type="tiles">error.tiles</result>
+        </action>
+        
+        <action name="Salva" class="br.com.guedes.sistemacomercial.controller.LojaAction" method="salvar">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,caixa,listaCaixas
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,caixa,listaCaixas
+				</param>            
+            </result>
+        </action>
+        
+        <action name="IncluiCaixa" class="br.com.guedes.sistemacomercial.controller.LojaAction" method="incluirCaixa">
+            <result name="success" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaCaixas,loja
+				</param>            
+            </result>
+            <result name="error" type="json">
+				<param name="excludeNullProperties">true</param>		
+				<param name="excludeProperties">
+					request,fieldErrors,errors,actionErrors,actionMessages,	errorMessages,locale,texts,listaCaixas,loja
+				</param>            
+            </result>
+        </action>        		
+        
+    </package>	
+</struts>

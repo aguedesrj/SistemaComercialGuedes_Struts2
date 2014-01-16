@@ -57,7 +57,7 @@ public class VendaAction extends BaseAction {
     		for (ItensVenda itensVenda: listaItensVenda) {
     			VendaVO vendaVO = new VendaVO();
     			vendaVO.setItvQuantidade(itensVenda.getItvQuantidade());
-    			vendaVO.setVenDataFim(Util.converterCalendarParaString(itensVenda.getVenda().getVenDataFim(), Util.simpleDateFormatDataHora));
+    			vendaVO.setVenDataFim(Util.converterCalendarParaString(itensVenda.getVenda().getVenDataFim(), Util.simpleDateFormatData));
     			
     			getListaVendas().add(vendaVO);
     		}

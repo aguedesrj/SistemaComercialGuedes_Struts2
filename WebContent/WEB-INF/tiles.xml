@@ -69,7 +69,12 @@
     <!-- Venda -->
     <definition name="inicio.pesquisa.grafico.home.venda" extends="template.index">
         <put-attribute name="conteudo" value="/WEB-INF/jsp/venda/pesquisaGraficoHomeVenda.jsp"/>
-    </definition>    
+    </definition>   
+    
+    <!-- Loja -->
+    <definition name="manutencao.loja" extends="template.index">
+        <put-attribute name="conteudo" value="/WEB-INF/jsp/loja/manutencaoLoja.jsp"/>
+    </definition>     
     
     <!-- Estoque -->
 

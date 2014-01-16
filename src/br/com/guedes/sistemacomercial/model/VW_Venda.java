@@ -45,6 +45,9 @@ public class VW_Venda implements Serializable {
 	
 	@Column(name="VEN_DATAFIM")
 	private Calendar venDataFim;
+
+	@Column(name="VEN_CPFCLIENTE")
+	private String venCpfCliente;
 	
 	@Column(name="MVX_CODIGO")
 	private Integer mvxCodigo;
@@ -138,5 +141,13 @@ public class VW_Venda implements Serializable {
 
 	public void setVenStatus(String venStatus) {
 		this.venStatus = venStatus;
-	}	
+	}
+
+	public String getVenCpfCliente() {
+		return venCpfCliente;
+	}
+
+	public void setVenCpfCliente(String venCpfCliente) {
+		this.venCpfCliente = venCpfCliente;
+	}
 }

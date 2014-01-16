@@ -45,6 +45,9 @@ public class Venda implements Serializable {
 	
 	@Column(name="VEN_STATUS")
 	private Calendar venStatus;	
+	
+	@Column(name="VEN_CPFCLIENTE")
+	private String venCpfCliente;	
 
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="USU_CODIGO", nullable=false)
@@ -142,5 +145,13 @@ public class Venda implements Serializable {
 
 	public void setListaItensVenda(List<ItensVenda> listaItensVenda) {
 		this.listaItensVenda = listaItensVenda;
+	}
+
+	public String getVenCpfCliente() {
+		return venCpfCliente;
+	}
+
+	public void setVenCpfCliente(String venCpfCliente) {
+		this.venCpfCliente = venCpfCliente;
 	}
 }

@@ -41,5 +41,6 @@
     <include file="struts-usuario.xml"/>
     <include file="struts-produto.xml"/>
     <include file="struts-venda.xml"/>
+    <include file="struts-loja.xml"/>
 
 </struts>

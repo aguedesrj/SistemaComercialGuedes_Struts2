@@ -1,11 +1,16 @@
 package br.com.guedes.sistemacomercial.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Component;
 
@@ -22,7 +27,14 @@ public class Loja implements Serializable {
 	
 	@Column(name="LOJ_NOME", length=100, nullable=false)
 	private String lojNome;
-
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="USU_CODIGO", nullable=false)
+	private Usuario usuario;
+	
+	@Transient
+	private List<Caixa> listaCaixa;
+	
 	public Integer getLojCodigo() {
 		return lojCodigo;
 	}
@@ -37,5 +49,21 @@ public class Loja implements Serializable {
 
 	public void setLojNome(String lojNome) {
 		this.lojNome = lojNome;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Caixa> getListaCaixa() {
+		return listaCaixa;
+	}
+
+	public void setListaCaixa(List<Caixa> listaCaixa) {
+		this.listaCaixa = listaCaixa;
 	}
 }

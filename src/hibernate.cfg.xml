@@ -35,6 +35,7 @@
         <mapping class="br.com.guedes.sistemacomercial.model.MovimentoCaixa"/>
         <mapping class="br.com.guedes.sistemacomercial.model.Venda"/>
         <mapping class="br.com.guedes.sistemacomercial.model.ItensVenda"/>
+        <mapping class="br.com.guedes.sistemacomercial.model.Caixa"/>
         <!-- views -->
         <mapping class="br.com.guedes.sistemacomercial.model.VW_Produto"/>
         <mapping class="br.com.guedes.sistemacomercial.model.VW_Venda"/>
